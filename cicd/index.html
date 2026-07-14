@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CI/CD 自动化部署流水线</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <link rel="stylesheet" href="../assets/css/style.css" />
+    <style>
+        /* ===== 流程图样式 ===== */
+        .pipeline-flow {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            padding: 1rem 0;
+        }
+
+        .pipeline-step {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 0.5rem 1rem;
+            background: #f5f7fb;
+            border-radius: 10px;
+            border-left: 4px solid #4f6ef7;
+            transition: background 0.2s;
+        }
+
+        .pipeline-step:hover {
+            background: #eef2f7;
+        }
+
+        .pipeline-step .num {
+            font-weight: 700;
+            color: #4f6ef7;
+            font-size: 0.85rem;
+            min-width: 32px;
+            text-align: right;
+        }
+
+        .pipeline-step .icon {
+            color: #4f6ef7;
+            font-size: 1.1rem;
+            min-width: 28px;
+            text-align: center;
+        }
+
+        .pipeline-step .desc {
+            color: #1a1a2e;
+            font-size: 0.95rem;
+        }
+
+        .pipeline-step .badge-step {
+            font-size: 0.65rem;
+            padding: 0.1rem 0.6rem;
+            border-radius: 12px;
+            background: #e6f0fa;
+            color: #2a5a8a;
+            margin-left: auto;
+            white-space: nowrap;
+        }
+
+        /* 阶段分组 */
+        .phase-group {
+            margin: 1.5rem 0 0.5rem 0;
+            padding: 0.5rem 1rem;
+            background: #eef2f7;
+            border-radius: 10px;
+            font-weight: 600;
+            color: #1a1a2e;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .phase-group i {
+            color: #4f6ef7;
+        }
+
+        /* 架构图 ASCII */
+        .ascii-arch {
+            background: #f5f7fb;
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            border: 1px solid #e8ecf0;
+            overflow-x: auto;
+            margin: 1rem 0;
+        }
+
+        .ascii-arch pre {
+            color: #1a1a2e;
+            font-size: 0.8rem;
+            text-align: left;
+            font-family: 'JetBrains Mono', 'Fira Code', monospace;
+            line-height: 1.8;
+            margin: 0;
+        }
+
+        .ascii-arch .highlight-blue {
+            color: #4f6ef7;
+            font-weight: 600;
+        }
+
+        .ascii-arch .highlight-green {
+            color: #1a8a5a;
+            font-weight: 600;
+        }
+
+        .ascii-arch .highlight-gray {
+            color: #6a7a8e;
+        }
+
+        /* 响应式 */
+        @media (max-width: 680px) {
+            .pipeline-step {
+                flex-wrap: wrap;
+                padding: 0.4rem 0.8rem;
+                gap: 6px;
+            }
+            .pipeline-step .badge-step {
+                margin-left: 0;
+                font-size: 0.6rem;
+            }
+            .pipeline-step .num {
+                min-width: 24px;
+                font-size: 0.75rem;
+            }
+            .pipeline-step .desc {
+                font-size: 0.85rem;
+                flex: 1;
+            }
+            .ascii-arch pre {
+                font-size: 0.6rem;
+                line-height: 1.6;
+            }
+            .phase-group {
+                font-size: 0.9rem;
+                padding: 0.4rem 0.8rem;
+            }
+        }
+
+        /* 统计标签 */
+        .stats-row {
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            margin: 1rem 0;
+        }
+
+        .stats-row .stat-item {
+            background: #f5f7fb;
+            border-radius: 12px;
+            padding: 0.8rem 1.5rem;
+            border: 1px solid #e8ecf0;
+            text-align: center;
+            flex: 1;
+            min-width: 120px;
+        }
+
+        .stats-row .stat-item .number {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #4f6ef7;
+        }
+
+        .stats-row .stat-item .label {
+            font-size: 0.85rem;
+            color: #5a6a7e;
+            margin-top: 2px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <!-- ===== HEADER ===== -->
+    <header class="header">
+        <div class="header-left">
+            <h1>⚡ CI/CD 自动化部署</h1>
+            <div class="sub">
+                <span><i class="fas fa-code-branch"></i> 流水线编排</span>
+                <span><i class="fas fa-docker"></i> Docker + Rancher</span>
+                <span><i class="fas fa-rocket"></i> 端到端自动化</span>
+            </div>
+        </div>
+        <div class="header-right">
+            <a href="../index.html" title="返回首页"><i class="fas fa-home"></i></a>
+            <a href="#" title="GitHub"><i class="fab fa-github"></i></a>
+        </div>
+    </header>
+
+    <!-- ===== 返回链接 ===== -->
+    <a href="../index.html" class="back-link"><i class="fas fa-arrow-left"></i> 返回项目列表</a>
+
+    <!-- ===== 项目概述 ===== -->
+    <section class="card">
+        <div class="card-title">
+            <i class="fas fa-project-diagram"></i> 项目概述
+            <span class="badge">端到端自动化</span>
+        </div>
+        <p style="color: #2a2a3e; font-size: 1.05rem;">
+            从代码提交到服务上线的<strong>全自动化 CI/CD 流水线</strong>，
+            涵盖代码编译、Docker 镜像构建与推送、Rancher 容器编排部署。
+            支持多环境（开发/测试/生产）隔离，实现一键发布、快速回滚。
+        </p>
+
+        <div class="stats-row">
+            <div class="stat-item">
+                <div class="number">8</div>
+                <div class="label">核心阶段</div>
+            </div>
+            <div class="stat-item">
+                <div class="number">⚡</div>
+                <div class="label">全自动触发</div>
+            </div>
+            <div class="stat-item">
+                <div class="number">🐳</div>
+                <div class="label">Docker + Rancher</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== 端到端流程图 ===== -->
+    <section class="card">
+        <div class="card-title">
+            <i class="fas fa-stream"></i> 端到端流水线
+            <span class="badge">8 步 · 全自动</span>
+        </div>
+
+        <!-- 阶段1：代码提交 -->
+        <div class="phase-group">
+            <i class="fas fa-code"></i> ① 代码提交阶段
+        </div>
+        <div class="pipeline-flow">
+            <div class="pipeline-step">
+                <span class="num">1</span>
+                <span class="icon"><i class="fas fa-code"></i></span>
+                <span class="desc">程序员提交代码到 Git 仓库</span>
+                <span class="badge-step">触发</span>
+            </div>
+            <div class="pipeline-step">
+                <span class="num">2</span>
+                <span class="icon"><i class="fas fa-bolt"></i></span>
+                <span class="desc">Webhook 自动触发 CI/CD 流水线</span>
+                <span class="badge-step">自动</span>
+            </div>
+        </div>
+
+        <!-- 阶段2：编译构建 -->
+        <div class="phase-group">
+            <i class="fas fa-hammer"></i> ② 编译构建阶段
+        </div>
+        <div class="pipeline-flow">
+            <div class="pipeline-step">
+                <span class="num">3</span>
+                <span class="icon"><i class="fas fa-download"></i></span>
+                <span class="desc">拉取最新代码</span>
+                <span class="badge-step">Git</span>
+            </div>
+            <div class="pipeline-step">
+                <span class="num">4</span>
+                <span class="icon"><i class="fas fa-cogs"></i></span>
+                <span class="desc">编译构建（Maven / Gradle）</span>
+                <span class="badge-step">Build</span>
+            </div>
+        </div>
+
+        <!-- 阶段3：镜像构建与推送 -->
+        <div class="phase-group">
+            <i class="fas fa-docker"></i> ③ 镜像构建与推送
+        </div>
+        <div class="pipeline-flow">
+            <div class="pipeline-step">
+                <span class="num">5</span>
+                <span class="icon"><i class="fab fa-docker"></i></span>
+                <span class="desc">构建 Docker 镜像</span>
+                <span class="badge-step">Dockerfile</span>
+            </div>
+            <div class="pipeline-step">
+                <span class="num">6</span>
+                <span class="icon"><i class="fas fa-upload"></i></span>
+                <span class="desc">推送 Docker 镜像到镜像仓库</span>
+                <span class="badge-step">Registry</span>
+            </div>
+        </div>
+
+        <!-- 阶段4：部署上线 -->
+        <div class="phase-group">
+            <i class="fas fa-rocket"></i> ④ 部署上线阶段
+        </div>
+        <div class="pipeline-flow">
+            <div class="pipeline-step">
+                <span class="num">7</span>
+                <span class="icon"><i class="fas fa-play"></i></span>
+                <span class="desc">触发 Rancher 部署</span>
+                <span class="badge-step">Orchestration</span>
+            </div>
+            <div class="pipeline-step">
+                <span class="num">8</span>
+                <span class="icon"><i class="fas fa-check-circle" style="color:#1a8a5a;"></i></span>
+                <span class="desc">部署服务 · 拉取镜像 · 容器启动</span>
+                <span class="badge-step" style="background:#e6f7ed;color:#1a8a5a;">✅ 完成</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== 架构图 ===== -->
+	<section class="card">
+		<div class="card-title">
+			<i class="fas fa-sitemap"></i> 系统架构图
+			<span class="badge">Git → Docker → Rancher</span>
+		</div>
+		<div style="
+			background: #f5f7fb;
+			border-radius: 12px;
+			padding: 1rem;
+			border: 1px solid #e8ecf0;
+			text-align: center;
+			overflow: hidden;
+		">
+			<img 
+				src="../assets/images/cicd-arch.png" 
+				alt="CI/CD 系统架构图" 
+				style="
+					max-width: 100%;
+					height: auto;
+					border-radius: 8px;
+					display: block;
+				"
+			/>
+			<p style="
+				margin-top: 0.8rem;
+				font-size: 0.85rem;
+				color: #8a9aaa;
+			">
+				<i class="fas fa-info-circle"></i> 
+				CI/CD 端到端自动化部署架构
+			</p>
+		</div>
+	</section>
+
+    <!-- ===== 核心能力 ===== -->
+    <section class="card">
+        <div class="card-title">
+            <i class="fas fa-star"></i> 核心能力
+            <span class="badge">企业级</span>
+        </div>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
+
+            <div style="background:#f5f7fb; border-radius:12px; padding:1rem; border:1px solid #e8ecf0;">
+                <h4 style="color:#4f6ef7; margin:0 0 0.3rem 0;"><i class="fas fa-bolt"></i> 全自动触发</h4>
+                <p style="color:#3a3a4e; font-size:0.9rem; margin:0;">Git Webhook 自动触发流水线，无需人工干预</p>
+            </div>
+
+            <div style="background:#f5f7fb; border-radius:12px; padding:1rem; border:1px solid #e8ecf0;">
+                <h4 style="color:#4f6ef7; margin:0 0 0.3rem 0;"><i class="fab fa-docker"></i> 容器化交付</h4>
+                <p style="color:#3a3a4e; font-size:0.9rem; margin:0;">Docker 镜像标准化交付，环境一致性有保障</p>
+            </div>
+
+            <div style="background:#f5f7fb; border-radius:12px; padding:1rem; border:1px solid #e8ecf0;">
+                <h4 style="color:#4f6ef7; margin:0 0 0.3rem 0;"><i class="fas fa-sync"></i> 快速回滚</h4>
+                <p style="color:#3a3a4e; font-size:0.9rem; margin:0;">Rancher 一键回滚到上一版本，故障恢复分钟级</p>
+            </div>
+
+            <div style="background:#f5f7fb; border-radius:12px; padding:1rem; border:1px solid #e8ecf0;">
+                <h4 style="color:#4f6ef7; margin:0 0 0.3rem 0;"><i class="fas fa-shield-alt"></i> 多环境隔离</h4>
+                <p style="color:#3a3a4e; font-size:0.9rem; margin:0;">开发/测试/生产环境独立部署，互不干扰</p>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="footer">
+        <p>
+            <i class="fas fa-code"></i> CI/CD 自动化部署流水线 &nbsp;|&nbsp;
+            <i class="fab fa-github"></i> <a href="#">GitHub</a> &nbsp;·&nbsp;
+            <i class="fas fa-envelope"></i> <a href="#">me@example.com</a>
+        </p>
+        <p style="margin-top:6px; font-size:0.8rem; color:#8a9aaa;">
+            Git · Webhook · Docker · Rancher · 端到端自动化
+        </p>
+    </footer>
+
+</div>
+
+</body>
+</html>

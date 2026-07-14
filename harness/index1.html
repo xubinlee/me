@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI 工程化实践 · Harness Engineering</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <link rel="stylesheet" href="../assets/css/style.css" />
+    <style>
+        /* ===== 文档内容样式（与浅色主题融合） ===== */
+        .doc-content {
+            padding: 1.5rem 2rem 2rem 2rem;
+            color: #1a1a2e;
+            font-size: 0.95rem;
+            line-height: 1.8;
+            background: #ffffff;
+            border-radius: 0 0 16px 16px;
+        }
+
+        .doc-content h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #1a1a2e;
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.5px;
+        }
+
+        .doc-content h1 .subtitle {
+            font-size: 1rem;
+            font-weight: 400;
+            color: #5a6a7e;
+            display: block;
+            margin-top: 4px;
+            letter-spacing: 0;
+        }
+
+        .doc-content h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #1a1a2e;
+            margin-top: 2rem;
+            margin-bottom: 0.8rem;
+            border-bottom: 2px solid #eef0f4;
+            padding-bottom: 0.4rem;
+        }
+
+        .doc-content h3 {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: #2a3a5e;
+            margin-top: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .doc-content h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #4f6ef7;
+            margin-top: 1.2rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .doc-content p {
+            margin-bottom: 0.8rem;
+            color: #2a2a3e;
+        }
+
+        .doc-content ul,
+        .doc-content ol {
+            padding-left: 1.8rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .doc-content li {
+            margin-bottom: 0.3rem;
+            color: #2a2a3e;
+        }
+
+        .doc-content strong {
+            color: #1a1a2e;
+            font-weight: 600;
+        }
+
+        /* 示例框 */
+        .doc-content .example-box {
+            background: #f5f7fb;
+            border-left: 4px solid #4f6ef7;
+            padding: 1rem 1.2rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+        }
+
+        .doc-content .example-box .label {
+            font-weight: 600;
+            color: #4f6ef7;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .doc-content .example-box .content {
+            margin-top: 4px;
+        }
+
+        /* Few-shot 示例列表 */
+        .doc-content .fewshot-list {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .doc-content .fewshot-list li {
+            padding: 0.3rem 0 0.3rem 1.8rem;
+            position: relative;
+            border-bottom: 1px solid #f0f2f5;
+        }
+
+        .doc-content .fewshot-list li:last-child {
+            border-bottom: none;
+        }
+
+        .doc-content .fewshot-list li .tag {
+            display: inline-block;
+            font-size: 0.7rem;
+            padding: 0.05rem 0.6rem;
+            border-radius: 12px;
+            margin-left: 6px;
+        }
+
+        .doc-content .fewshot-list li .tag.positive {
+            background: #e6f7ed;
+            color: #1a8a5a;
+        }
+
+        .doc-content .fewshot-list li .tag.negative {
+            background: #fde8e8;
+            color: #c0392b;
+        }
+
+        .doc-content .fewshot-list li .tag.question {
+            background: #eef2f7;
+            color: #4a5a7a;
+        }
+
+        /* CoT 对比框 */
+        .doc-content .cot-compare {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.2rem;
+            margin: 1rem 0;
+        }
+
+        .doc-content .cot-compare .col {
+            background: #f5f7fb;
+            border-radius: 12px;
+            padding: 1.2rem 1.5rem;
+            border: 1px solid #e8ecf0;
+        }
+
+        .doc-content .cot-compare .col h4 {
+            margin-top: 0;
+            text-align: center;
+            font-size: 0.95rem;
+            color: #1a1a2e;
+        }
+
+        .doc-content .cot-compare .col .badge-cot {
+            display: inline-block;
+            font-size: 0.7rem;
+            padding: 0.1rem 0.6rem;
+            border-radius: 12px;
+            background: #e6f0fa;
+            color: #2a5a8a;
+            margin-left: 6px;
+        }
+
+        .doc-content .cot-compare .col .badge-normal {
+            display: inline-block;
+            font-size: 0.7rem;
+            padding: 0.1rem 0.6rem;
+            border-radius: 12px;
+            background: #f0f0f0;
+            color: #6a6a7a;
+            margin-left: 6px;
+        }
+
+        .doc-content .cot-compare .col .step {
+            padding: 0.3rem 0;
+            border-bottom: 1px solid #e8ecf0;
+            font-size: 0.9rem;
+        }
+
+        .doc-content .cot-compare .col .step:last-child {
+            border-bottom: none;
+        }
+
+        .doc-content .cot-compare .col .step .num {
+            font-weight: 700;
+            color: #4f6ef7;
+            margin-right: 4px;
+        }
+
+        .doc-content .cot-compare .col .answer {
+            margin-top: 0.5rem;
+            font-weight: 600;
+            color: #1a8a5a;
+            font-size: 1.05rem;
+        }
+
+        @media (max-width: 680px) {
+            .doc-content {
+                padding: 1rem;
+                font-size: 0.9rem;
+            }
+            .doc-content h1 {
+                font-size: 1.5rem;
+            }
+            .doc-content h2 {
+                font-size: 1.2rem;
+            }
+            .doc-content .cot-compare {
+                grid-template-columns: 1fr;
+            }
+            .doc-content .fewshot-list li {
+                padding-left: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <!-- ===== HEADER ===== -->
+    <header class="header">
+        <div class="header-left">
+            <h1>🧠 AI 工程化实践</h1>
+            <div class="sub">
+                <span><i class="fas fa-brain"></i> Harness Engineering</span>
+                <span><i class="fas fa-robot"></i> AI Agent 工程</span>
+                <span><i class="fas fa-code-branch"></i> 范式跃迁 · 2022-2024</span>
+            </div>
+        </div>
+        <div class="header-right">
+            <a href="../" title="返回首页"><i class="fas fa-home"></i></a>
+            <a href="#" title="GitHub"><i class="fab fa-github"></i></a>
+        </div>
+    </header>
+
+    <!-- ===== 返回链接 ===== -->
+    <a href="../" class="back-link"><i class="fas fa-arrow-left"></i> 返回项目列表</a>
+
+    <!-- ===== 文档内容 ===== -->
+    <section class="card card-doc">
+        <div class="card-title">
+            <i class="fas fa-file-alt"></i> 项目文档
+            <span class="badge">AI 工程实践 · Harness Engineering</span>
+        </div>
+
+        <div class="doc-content">
+
+            <!-- ===== 主标题 ===== -->
+            <h1>
+                Harness Engineering
+                <span class="subtitle">AI 工程实践三次范式跃迁</span>
+            </h1>
+
+            <!-- ===== 第一部分：Prompt Engineering ===== -->
+            <h2>1. Prompt Engineering (2022-2024)</h2>
+            <p>
+                关注的是单次交互的优化——如何通过 <strong>Few-shot Learning</strong>、
+                <strong>Chain-of-Thought</strong>、<strong>角色设定</strong> 等技巧，
+                让模型在一次对话中给出更好的回答。
+            </p>
+
+            <!-- Few-shot Learning -->
+            <h3>a. Few-shot Learning（少样本学习）</h3>
+            <p>
+                指：只给模型 <strong>极少标注样例（1~10 个左右）</strong>，
+                不用大规模微调，仅靠少量示例就能完成新任务。
+            </p>
+
+            <div class="example-box">
+                <div class="label">📌 Few-shot Prompt 示例</div>
+                <div class="content">
+                    <ul class="fewshot-list">
+                        <li>
+                            示例 1：这家奶茶超好喝
+                            <span class="tag positive">正面</span>
+                        </li>
+                        <li>
+                            示例 2：服务很差，再也不来了
+                            <span class="tag negative">负面</span>
+                        </li>
+                        <li>
+                            示例 3：面料粗糙不值这个价
+                            <span class="tag negative">负面</span>
+                        </li>
+                        <li style="font-weight:500; border-bottom: none; padding-top:0.6rem;">
+                            问题：蛋糕奶油细腻甜度刚好
+                            <span class="tag question">❓ 请判断</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Chain-of-Thought -->
+            <h3>b. 思维链 CoT (Chain of Thought)</h3>
+            <p>
+                <strong>思维链 CoT 是一种提示工程技巧：</strong>
+                引导模型先写出完整分步推理过程，再给出最终答案，模拟人类一步步思考。
+            </p>
+
+            <div class="cot-compare">
+                <!-- 普通 Prompt -->
+                <div class="col">
+                    <h4>
+                        ❌ 普通直接提问
+                        <span class="badge-normal">容易算错</span>
+                    </h4>
+                    <p style="font-size:0.9rem; color:#3a3a4e;">
+                        <strong>问：</strong>3 个苹果分给 2 个人，每人分 1 个，还剩几个？
+                    </p>
+                    <p style="font-size:0.9rem; color:#3a3a4e;">
+                        <strong>模型直接输出：</strong>1 个
+                    </p>
+                    <p style="font-size:0.8rem; color:#8a9aaa; margin-top:4px;">
+                        ⚠️ 简单题还行，复杂数学/逻辑题容易出错
+                    </p>
+                </div>
+
+                <!-- CoT Prompt -->
+                <div class="col" style="border-color:#4f6ef7; background:#f0f4ff;">
+                    <h4>
+                        ✅ CoT 思维链提问
+                        <span class="badge-cot">强制分步思考</span>
+                    </h4>
+                    <p style="font-size:0.9rem; color:#3a3a4e;">
+                        <strong>问：</strong>3 个苹果分给 2 个人，每人分 1 个，还剩几个？请一步步思考再回答。
+                    </p>
+                    <div style="margin-top:6px;">
+                        <div class="step">
+                            <span class="num">1.</span> 一共 3 个苹果
+                        </div>
+                        <div class="step">
+                            <span class="num">2.</span> 2 个人每人拿走 1 个，一共分出去 2×1=2 个
+                        </div>
+                        <div class="step">
+                            <span class="num">3.</span> 剩余 = 总数 − 分出去的 = 3−2=1
+                        </div>
+                    </div>
+                    <div class="answer">✅ 答案：1</div>
+                </div>
+            </div>
+
+            <!-- ===== 占位：后续内容 ===== -->
+            <div style="margin-top:2rem; padding:1rem 0; border-top:2px solid #eef0f4; text-align:center; color:#8a9aaa; font-size:0.9rem;">
+                <i class="fas fa-ellipsis-h" style="color:#b0c0d0;"></i>
+                更多内容持续更新中 · Harness Engineering 四大支柱即将发布
+                <i class="fas fa-ellipsis-h" style="color:#b0c0d0;"></i>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="footer">
+        <p>
+            <i class="fas fa-code"></i> AI 工程化实践 · Harness Engineering &nbsp;|&nbsp;
+            <i class="fab fa-github"></i> <a href="#">GitHub</a> &nbsp;·&nbsp;
+            <i class="fas fa-envelope"></i> <a href="#">me@example.com</a>
+        </p>
+        <p style="margin-top:6px; font-size:0.8rem; color:#8a9aaa;">
+            Prompt Engineering · Few-shot Learning · Chain-of-Thought · AI Agent
+        </p>
+    </footer>
+
+</div>
+
+</body>
+</html>

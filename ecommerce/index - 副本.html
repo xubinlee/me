@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>全域电商业务平台 · CRM/OMS/WMS/TMS/FMS/BI</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <link rel="stylesheet" href="../assets/css/style.css" />
+    <style>
+        /* ===== 中台架构专属样式 ===== */
+
+        /* 核心架构图 - 中台分层 */
+        .arch-layer {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin: 1rem 0;
+        }
+
+        .arch-layer .layer-row {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: stretch;
+            gap: 10px;
+        }
+
+        .arch-layer .layer-row .layer-item {
+            flex: 1;
+            min-width: 120px;
+            background: #f5f7fb;
+            border-radius: 12px;
+            padding: 0.8rem 1rem;
+            text-align: center;
+            border: 1px solid #e8ecf0;
+            transition: all 0.2s;
+        }
+
+        .arch-layer .layer-row .layer-item:hover {
+            border-color: #4f6ef7;
+            background: #f0f4ff;
+        }
+
+        .arch-layer .layer-row .layer-item .icon {
+            font-size: 1.5rem;
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .arch-layer .layer-row .layer-item .name {
+            font-weight: 600;
+            color: #1a1a2e;
+            font-size: 0.95rem;
+        }
+
+        .arch-layer .layer-row .layer-item .desc {
+            font-size: 0.75rem;
+            color: #6a7a8e;
+            margin-top: 2px;
+        }
+
+        /* 能力卡片网格 */
+        .capability-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.2rem;
+            margin: 1rem 0;
+        }
+
+        .capability-grid .cap-item {
+            background: #f5f7fb;
+            border-radius: 12px;
+            padding: 1.2rem 1.5rem;
+            border: 1px solid #e8ecf0;
+            transition: all 0.2s;
+        }
+
+        .capability-grid .cap-item:hover {
+            border-color: #4f6ef7;
+            background: #f0f4ff;
+        }
+
+        .capability-grid .cap-item h4 {
+            color: #1a1a2e;
+            margin: 0 0 0.3rem 0;
+            font-size: 1.05rem;
+        }
+
+        .capability-grid .cap-item h4 i {
+            color: #4f6ef7;
+            margin-right: 6px;
+        }
+
+        .capability-grid .cap-item p {
+            color: #3a3a4e;
+            font-size: 0.92rem;
+            margin: 0;
+            line-height: 1.6;
+        }
+
+        .capability-grid .cap-item .tag {
+            display: inline-block;
+            font-size: 0.65rem;
+            padding: 0.1rem 0.6rem;
+            border-radius: 12px;
+            background: #e6f0fa;
+            color: #2a5a8a;
+            margin-top: 6px;
+        }
+
+        /* 成果统计 */
+        .result-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1.2rem;
+            margin: 1rem 0;
+        }
+
+        .result-stats .stat-item {
+            background: #f5f7fb;
+            border-radius: 12px;
+            padding: 1.2rem 1.5rem;
+            text-align: center;
+            border: 1px solid #e8ecf0;
+        }
+
+        .result-stats .stat-item .number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #4f6ef7;
+        }
+
+        .result-stats .stat-item .label {
+            font-size: 0.85rem;
+            color: #5a6a7e;
+            margin-top: 2px;
+        }
+
+        /* 数据孤岛 → 中台 对比图 */
+        .compare-before-after {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin: 1rem 0;
+        }
+
+        .compare-before-after .col {
+            border-radius: 12px;
+            padding: 1.2rem 1.5rem;
+            border: 1px solid #e8ecf0;
+        }
+
+        .compare-before-after .col.before {
+            background: #fdf0f0;
+            border-color: #f5c8c8;
+        }
+
+        .compare-before-after .col.after {
+            background: #f0f7f0;
+            border-color: #b8dcc8;
+        }
+
+        .compare-before-after .col h4 {
+            margin: 0 0 0.5rem 0;
+            font-size: 1rem;
+        }
+
+        .compare-before-after .col ul {
+            padding-left: 1.2rem;
+            margin: 0;
+            color: #3a3a4e;
+            font-size: 0.9rem;
+        }
+
+        .compare-before-after .col ul li {
+            margin-bottom: 0.2rem;
+        }
+
+        @media (max-width: 680px) {
+            .capability-grid {
+                grid-template-columns: 1fr;
+            }
+            .compare-before-after {
+                grid-template-columns: 1fr;
+            }
+            .arch-layer .layer-row .layer-item {
+                min-width: 80px;
+                padding: 0.6rem 0.8rem;
+            }
+            .arch-layer .layer-row .layer-item .name {
+                font-size: 0.8rem;
+            }
+            .result-stats {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <!-- ===== HEADER ===== -->
+    <header class="header">
+        <div class="header-left">
+            <h1>🏢 全域电商业务平台</h1>
+            <div class="sub">
+                <span><i class="fas fa-cubes"></i> CRM · OMS · WMS · TMS · FMS · BI</span>
+                <span><i class="fas fa-link"></i> 业务中台</span>
+                <span><i class="fas fa-sync"></i> 产销存财全链路</span>
+            </div>
+        </div>
+        <div class="header-right">
+            <a href="../" title="返回首页"><i class="fas fa-home"></i></a>
+            <a href="#" title="GitHub"><i class="fab fa-github"></i></a>
+        </div>
+    </header>
+
+    <!-- ===== 返回链接 ===== -->
+    <a href="../" class="back-link"><i class="fas fa-arrow-left"></i> 返回项目列表</a>
+
+    <!-- ===== 项目概述 ===== -->
+    <section class="card">
+        <div class="card-title">
+            <i class="fas fa-rocket"></i> 项目概述
+            <span class="badge">中台架构 · 已落地</span>
+        </div>
+        <p style="color: #2a2a3e; font-size: 1.05rem;">
+            <strong>项目背景：</strong>企业多系统林立形成<strong>数据孤岛</strong>，订单、仓储、财务数据不通，
+            人工对账效率低下。主导构建<strong>全域电商业务中台</strong>，打通多渠道、多系统数据链路，
+            实现产销存财全链路闭环。
+        </p>
+        <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 1rem;">
+            <span style="background:#eef2f7; padding:0.2rem 1rem; border-radius:20px; font-size:0.85rem; color:#2a3a5e;">
+                <i class="fas fa-check-circle" style="color:#4f6ef7;"></i> 打破数据孤岛
+            </span>
+            <span style="background:#eef2f7; padding:0.2rem 1rem; border-radius:20px; font-size:0.85rem; color:#2a3a5e;">
+                <i class="fas fa-check-circle" style="color:#4f6ef7;"></i> 全链路履约
+            </span>
+            <span style="background:#eef2f7; padding:0.2rem 1rem; border-radius:20px; font-size:0.85rem; color:#2a3a5e;">
+                <i class="fas fa-check-circle" style="color:#4f6ef7;"></i> 财务自动化
+            </span>
+            <span style="background:#eef2f7; padding:0.2rem 1rem; border-radius:20px; font-size:0.85rem; color:#2a3a5e;">
+                <i class="fas fa-check-circle" style="color:#4f6ef7;"></i> 数据治理
+            </span>
+        </div>
+    </section>
+
+    <!-- ===== 中台架构分层 ===== -->
+    <section class="card">
+        <div class="card-title">
+            <i class="fas fa-layer-group"></i> 中台架构分层
+            <span class="badge">事件驱动 · 异构集成</span>
+        </div>
+        <div class="arch-layer">
+            <div class="layer-row">
+                <div class="layer-item" style="border-color:#4f6ef7; background:#f0f4ff;">
+                    <span class="icon">📱</span>
+                    <span class="name">多渠道接入</span>
+                    <span class="desc">淘宝 · 京东 · 抖音 · 小程序</span>
+                </div>
+                <div class="layer-item">
+                    <span class="icon">🔀</span>
+                    <span class="name">统一事件总线</span>
+                    <span class="desc">消息中间件 · 数据实时同步</span>
+                </div>
+                <div class="layer-item">
+                    <span class="icon">⚙️</span>
+                    <span class="name">业务中台</span>
+                    <span class="desc">OMS · WMS · TMS · FMS</span>
+                </div>
+                <div class="layer-item">
+                    <span class="icon">📊</span>
+                    <span class="name">数据底座</span>
+                    <span class="desc">数据治理 · BI 分析</span>
+                </div>
+            </div>
+            <div class="layer-row">
+                <div class="layer-item">
+                    <span class="icon">🔗</span>
+                    <span class="name">异构系统集成</span>
+                    <span class="desc">管易云 · 金蝶 · 第三方平台</span>
+                </div>
+                <div class="layer-item">
+                    <span class="icon">🧩</span>
+                    <span class="name">业务解耦</span>
+                    <span class="desc">避免点对点对接复杂度爆炸</span>
+                </div>
+                <div class="layer-item" style="border-color:#1a8a5a; background:#f0f7f0;">
+                    <span class="icon">✅</span>
+                    <span class="name">全链路闭环</span>
+                    <span class="desc">产销存财 · 端到端</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== 核心能力 ===== -->
+    <section class="card">
+        <div class="card-title">
+            <i class="fas fa-cogs"></i> 核心架构设计与落地
+            <span class="badge">4 大模块</span>
+        </div>
+
+        <div class="capability-grid">
+
+            <div class="cap-item">
+                <h4><i class="fas fa-bolt"></i> 事件驱动集成架构</h4>
+                <p>基于消息中间件构建<strong>统一事件总线</strong>，打通淘宝、京东等第三方平台与管易云、金蝶等异构系统，实现数据实时同步与业务解耦，避免点对点对接的复杂度爆炸。</p>
+                <span class="tag">消息中间件 · 事件总线</span>
+            </div>
+
+            <div class="cap-item">
+                <h4><i class="fas fa-tasks"></i> 订单履约中台</h4>
+                <p>统一多渠道订单接入与调度规则，构建 <strong>OMS + WMS + TMS</strong> 全链路履约体系，支持多仓智能调度与库存共享，显著降低订单履约异常率。</p>
+                <span class="tag">OMS · WMS · TMS · 多仓调度</span>
+            </div>
+
+            <div class="cap-item">
+                <h4><i class="fas fa-calculator"></i> 财务自动化引擎</h4>
+                <p>对接金蝶财务系统，设计<strong>自动对账引擎</strong>，实现平台账单、支付账单与财务凭证的自动匹配与生成，提升财务对账效率，彻底消除人工统计误差。</p>
+                <span class="tag">金蝶 · 自动对账 · 财务凭证</span>
+            </div>
+
+            <div class="cap-item">
+                <h4><i class="fas fa-database"></i> 数据治理规范</h4>
+                <p>制定多系统<strong>数据标准与同步校验机制</strong>，保障跨系统数据一致性，为 BI 数据分析提供<strong>可靠数据底座</strong>。</p>
+                <span class="tag">数据标准 · 同步校验 · BI 底座</span>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ===== 数据孤岛 vs 中台对比 ===== -->
+    <section class="card">
+        <div class="card-title">
+            <i class="fas fa-arrows-alt-h"></i> 变革：数据孤岛 → 中台一体化
+        </div>
+        <div class="compare-before-after">
+            <div class="col before">
+                <h4>❌ 改造前：数据孤岛</h4>
+                <ul>
+                    <li>订单、仓储、财务数据不通</li>
+                    <li>人工对账效率低下</li>
+                    <li>点对点对接复杂度爆炸</li>
+                    <li>跨系统数据不一致</li>
+                </ul>
+            </div>
+            <div class="col after">
+                <h4>✅ 改造后：中台一体化</h4>
+                <ul>
+                    <li>产销存财全链路闭环</li>
+                    <li>财务对账自动化</li>
+                    <li>事件驱动 · 业务解耦</li>
+                    <li>数据治理保障一致性</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== 项目成果 ===== -->
+    <section class="card">
+        <div class="card-title">
+            <i class="fas fa-trophy"></i> 项目成果
+            <span class="badge">规模化运营支撑</span>
+        </div>
+
+        <div class="result-stats">
+            <div class="stat-item">
+                <div class="number">✅</div>
+                <div class="label">打破多系统数据孤岛</div>
+            </div>
+            <div class="stat-item">
+                <div class="number">📈</div>
+                <div class="label">财务对账效率显著提升</div>
+            </div>
+            <div class="stat-item">
+                <div class="number">📦</div>
+                <div class="label">订单履约能力全面升级</div>
+            </div>
+            <div class="stat-item">
+                <div class="number">🚀</div>
+                <div class="label">支撑多渠道规模化运营</div>
+            </div>
+        </div>
+
+        <div style="background:#f5f7fb; border-radius:12px; padding:1rem 1.5rem; border:1px solid #e8ecf0; margin-top:0.5rem;">
+            <p style="color:#2a2a3e; font-size:0.95rem; margin:0; text-align:center;">
+                <i class="fas fa-quote-left" style="color:#4f6ef7; opacity:0.5;"></i>
+                实现 <strong>产销存财全链路闭环</strong>，支撑企业多渠道业务规模化运营
+                <i class="fas fa-quote-right" style="color:#4f6ef7; opacity:0.5;"></i>
+            </p>
+        </div>
+    </section>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="footer">
+        <p>
+            <i class="fas fa-code"></i> 全域电商业务平台 · 中台架构 &nbsp;|&nbsp;
+            <i class="fab fa-github"></i> <a href="#">GitHub</a> &nbsp;·&nbsp;
+            <i class="fas fa-envelope"></i> <a href="#">me@example.com</a>
+        </p>
+        <p style="margin-top:6px; font-size:0.8rem; color:#8a9aaa;">
+            CRM · OMS · WMS · TMS · FMS · BI · 事件驱动 · 数据治理
+        </p>
+    </footer>
+
+</div>
+
+</body>
+</html>
