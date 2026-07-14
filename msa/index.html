@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>跨境电商微服务 · 架构详情</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <link rel="stylesheet" href="../assets/css/style.css" />
+    <style>
+        /* ===== 让 iframe 完整展示文档内容 ===== */
+        .iframe-wrapper {
+            width: 100%;
+            /* 高度设大一点，让文档完整显示 */
+            height: 1200px;
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid #252e3c;
+            background: #0f1620;
+        }
+
+        .iframe-wrapper iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            display: block;
+        }
+
+        /* 如果文档内容特别长，可以让它自适应高度 */
+        .iframe-wrapper {
+            min-height: 800px;
+            height: calc(100vh - 280px);
+            /* 视口高度减去头部和底部 */
+        }
+
+        /* 手机端调整 */
+        @media (max-width: 680px) {
+            .iframe-wrapper {
+                height: 700px;
+                min-height: 500px;
+            }
+        }
+
+        /* 卡片内容去掉内边距，让 iframe 撑满 */
+        .card-content {
+            padding: 0 !important;
+            overflow: hidden;
+        }
+
+        /* 让卡片内部无内边距 */
+        .card.card-doc {
+            padding: 0;
+            overflow: hidden;
+        }
+
+        .card.card-doc .card-title {
+            padding: 1.2rem 2rem 0 2rem;
+            margin-bottom: 0;
+        }
+
+        .card.card-doc .iframe-wrapper {
+            border-radius: 0 0 16px 16px;
+            border: none;
+            border-top: 1px solid #252e3c;
+        }
+
+        /* 如果文档有滚动条，保持干净 */
+        .iframe-wrapper iframe {
+            overflow: auto;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <!-- ===== HEADER ===== -->
+    <header class="header">
+        <div class="header-left">
+            <h1>🌐 跨境电商 · 微服务</h1>
+            <div class="sub">
+                <span><i class="fas fa-cube"></i> Spring Cloud 2025</span>
+                <span><i class="fas fa-users"></i> 多租户 SaaS</span>
+                <span><i class="fas fa-globe"></i> 全球多区域</span>
+            </div>
+        </div>
+        <div class="header-right">
+            <a href="../index.html" title="返回首页"><i class="fas fa-home"></i></a>
+            <a href="#" title="GitHub"><i class="fab fa-github"></i></a>
+        </div>
+    </header>
+
+    <a href="../index.html" class="back-link"><i class="fas fa-arrow-left"></i> 返回项目列表</a>
+
+    <!-- ===== 嵌入腾讯文档 ===== -->
+    <section class="card card-doc">
+        <!-- <div class="card-title"> -->
+            <!-- <i class="fas fa-file-alt"></i> 项目文档 -->
+            <!-- <span class="badge">腾讯文档 · AI 工程实践</span> -->
+        <!-- </div> -->
+        <div class="iframe-wrapper">
+            <iframe 
+                src="https://docs.qq.com/doc/p/6e995c45cec23dcaaacb33510dfb2434f4dfb9be?pub=1&hide=1" 
+                allowfullscreen
+                loading="lazy"
+                title="AI 智能库存管理文档"
+                scrolling="yes"
+            ></iframe>
+        </div>
+    </section>
+	
+    <!-- ===== FOOTER ===== -->
+    <footer class="footer">
+        <p>
+            <i class="fas fa-code"></i> 跨境电商微服务 · 架构作品 &nbsp;|&nbsp;
+            <i class="fab fa-github"></i> <a href="#">GitHub</a> &nbsp;·&nbsp;
+            <i class="fas fa-envelope"></i> <a href="#">me@example.com</a>
+        </p>
+        <p style="margin-top:6px; font-size:0.8rem;">
+            Spring Cloud 2025 · 多租户 · 灰度发布 · 分布式事务 · AI 智能体
+        </p>
+    </footer>
+
+</div>
+
+</body>
+</html>
