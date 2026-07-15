@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>CI/CD 自动化部署流水线</title>
+    <title>CI/CD 自动化部署流水线 · Jenkins Pipeline</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
     <link rel="stylesheet" href="../assets/css/style.css" />
     <style>
-        /* ===== 流程图样式 ===== */
+        /* ===== 流水线步骤样式 ===== */
         .pipeline-flow {
             display: flex;
             flex-direction: column;
@@ -19,7 +19,7 @@
             display: flex;
             align-items: center;
             gap: 14px;
-            padding: 0.5rem 1rem;
+            padding: 0.6rem 1rem;
             background: #f5f7fb;
             border-radius: 10px;
             border-left: 4px solid #4f6ef7;
@@ -48,6 +48,7 @@
         .pipeline-step .desc {
             color: #1a1a2e;
             font-size: 0.95rem;
+            flex: 1;
         }
 
         .pipeline-step .badge-step {
@@ -56,7 +57,6 @@
             border-radius: 12px;
             background: #e6f0fa;
             color: #2a5a8a;
-            margin-left: auto;
             white-space: nowrap;
         }
 
@@ -77,97 +77,175 @@
             color: #4f6ef7;
         }
 
-        /* 架构图 ASCII */
-        .ascii-arch {
-            background: #f5f7fb;
+        /* ===== 代码块（Pipeline 语法高亮） ===== */
+        .pipeline-code {
+            background: #0b0e14;
             border-radius: 12px;
             padding: 1.5rem;
-            text-align: center;
-            border: 1px solid #e8ecf0;
             overflow-x: auto;
-            margin: 1rem 0;
-        }
-
-        .ascii-arch pre {
-            color: #1a1a2e;
-            font-size: 0.8rem;
-            text-align: left;
             font-family: 'JetBrains Mono', 'Fira Code', monospace;
+            font-size: 0.8rem;
             line-height: 1.8;
-            margin: 0;
+            color: #e8edf5;
+            border: 1px solid #252e3c;
+            margin: 0.5rem 0;
+            max-height: 600px;
+            overflow-y: auto;
         }
 
-        .ascii-arch .highlight-blue {
+        .pipeline-code .kw { color: #c792ea; font-weight: 600; }
+        .pipeline-code .str { color: #c3e88d; }
+        .pipeline-code .cmt { color: #546e7a; font-style: italic; }
+        .pipeline-code .fn { color: #82aaff; }
+        .pipeline-code .num { color: #f78c6c; }
+        .pipeline-code .ann { color: #f07178; }
+        .pipeline-code .var { color: #eeffff; }
+        .pipeline-code .op { color: #89ddff; }
+        .pipeline-code .cls { color: #ffcb6b; }
+        .pipeline-code .tag { color: #f07178; }
+
+        /* ===== 参数表格 ===== */
+        .param-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+            margin: 0.5rem 0;
+        }
+
+        .param-table th {
+            background: #eef2f7;
+            text-align: left;
+            padding: 0.6rem 1rem;
+            font-weight: 600;
+            color: #1a1a2e;
+            border-bottom: 2px solid #d0d6e0;
+        }
+
+        .param-table td {
+            padding: 0.5rem 1rem;
+            border-bottom: 1px solid #e8ecf0;
+            color: #2a2a3e;
+        }
+
+        .param-table tr:hover td {
+            background: #f5f7fb;
+        }
+
+        .param-table .param-name {
+            font-weight: 600;
             color: #4f6ef7;
-            font-weight: 600;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
         }
 
-        .ascii-arch .highlight-green {
-            color: #1a8a5a;
-            font-weight: 600;
-        }
-
-        .ascii-arch .highlight-gray {
+        .param-table .param-type {
+            font-size: 0.75rem;
             color: #6a7a8e;
+            background: #eef2f7;
+            padding: 0.1rem 0.5rem;
+            border-radius: 12px;
         }
 
-        /* 响应式 */
+        /* ===== 能力卡片 ===== */
+        .cap-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 1rem;
+            margin: 0.5rem 0;
+        }
+
+        .cap-grid .cap-item {
+            background: #f5f7fb;
+            border-radius: 12px;
+            padding: 1rem 1.2rem;
+            border: 1px solid #e8ecf0;
+            text-align: center;
+            transition: all 0.2s;
+        }
+
+        .cap-grid .cap-item:hover {
+            border-color: #4f6ef7;
+            background: #f0f4ff;
+        }
+
+        .cap-grid .cap-item .icon {
+            font-size: 1.8rem;
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .cap-grid .cap-item .name {
+            font-weight: 600;
+            color: #1a1a2e;
+            font-size: 0.95rem;
+        }
+
+        .cap-grid .cap-item .desc {
+            font-size: 0.8rem;
+            color: #6a7a8e;
+            margin-top: 2px;
+        }
+
+        /* ===== 响应式 ===== */
         @media (max-width: 680px) {
             .pipeline-step {
                 flex-wrap: wrap;
                 padding: 0.4rem 0.8rem;
-                gap: 6px;
+                gap: 4px;
             }
             .pipeline-step .badge-step {
-                margin-left: 0;
-                font-size: 0.6rem;
+                font-size: 0.55rem;
             }
             .pipeline-step .num {
-                min-width: 24px;
+                min-width: 20px;
                 font-size: 0.75rem;
             }
             .pipeline-step .desc {
                 font-size: 0.85rem;
-                flex: 1;
-            }
-            .ascii-arch pre {
-                font-size: 0.6rem;
-                line-height: 1.6;
+                flex: 1 1 100%;
             }
             .phase-group {
                 font-size: 0.9rem;
                 padding: 0.4rem 0.8rem;
             }
+            .pipeline-code {
+                font-size: 0.65rem;
+                padding: 1rem;
+                max-height: 400px;
+            }
+            .cap-grid {
+                grid-template-columns: 1fr;
+            }
+            .param-table {
+                font-size: 0.8rem;
+            }
+            .param-table th,
+            .param-table td {
+                padding: 0.3rem 0.6rem;
+            }
         }
 
-        /* 统计标签 */
-        .stats-row {
-            display: flex;
-            gap: 1.5rem;
-            flex-wrap: wrap;
-            margin: 1rem 0;
+        @media (max-width: 480px) {
+            .pipeline-code {
+                font-size: 0.55rem;
+                max-height: 300px;
+                padding: 0.8rem;
+            }
         }
 
-        .stats-row .stat-item {
-            background: #f5f7fb;
-            border-radius: 12px;
-            padding: 0.8rem 1.5rem;
-            border: 1px solid #e8ecf0;
-            text-align: center;
-            flex: 1;
-            min-width: 120px;
+        /* 滚动条美化 */
+        .pipeline-code::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
         }
 
-        .stats-row .stat-item .number {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: #4f6ef7;
+        .pipeline-code::-webkit-scrollbar-track {
+            background: #1a1a2e;
         }
 
-        .stats-row .stat-item .label {
-            font-size: 0.85rem;
-            color: #5a6a7e;
-            margin-top: 2px;
+        .pipeline-code::-webkit-scrollbar-thumb {
+            background: #4a4a6a;
+            border-radius: 8px;
         }
     </style>
 </head>
@@ -180,9 +258,9 @@
         <div class="header-left">
             <h1>⚡ CI/CD 自动化部署</h1>
             <div class="sub">
-                <span><i class="fas fa-code-branch"></i> 流水线编排</span>
-                <span><i class="fas fa-docker"></i> Docker + Rancher</span>
-                <span><i class="fas fa-rocket"></i> 端到端自动化</span>
+                <span><i class="fab fa-jenkins"></i> Jenkins Pipeline</span>
+                <span><i class="fas fa-code-branch"></i> 多分支 · 多环境</span>
+                <span><i class="fas fa-rocket"></i> Docker + Kubernetes</span>
             </div>
         </div>
         <div class="header-right">
@@ -198,120 +276,363 @@
     <section class="card">
         <div class="card-title">
             <i class="fas fa-project-diagram"></i> 项目概述
-            <span class="badge">端到端自动化</span>
+            <span class="badge">生产级 · 已落地</span>
         </div>
         <p style="color: #2a2a3e; font-size: 1.05rem;">
-            从代码提交到服务上线的<strong>全自动化 CI/CD 流水线</strong>，
-            涵盖代码编译、Docker 镜像构建与推送、Rancher 容器编排部署。
-            支持多环境（开发/测试/生产）隔离，实现一键发布、快速回滚。
+            基于 <strong>Jenkins Pipeline</strong> 构建的端到端 CI/CD 自动化部署流水线，
+            支持 <strong>多分支</strong>、<strong>多环境</strong>、
+            <strong>多项目</strong> 的自动化编译、测试、SonarQube 分析、Docker 镜像构建与推送、
+            Kubernetes 滚动部署，并集成 <strong>企业微信通知</strong> 与 <strong>覆盖率报告</strong>。
         </p>
+        <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 1rem;">
+            <span style="background:#eef2f7; padding:0.2rem 1rem; border-radius:20px; font-size:0.85rem; color:#2a3a5e;">
+                <i class="fas fa-check-circle" style="color:#4f6ef7;"></i> 多分支支持
+            </span>
+            <span style="background:#eef2f7; padding:0.2rem 1rem; border-radius:20px; font-size:0.85rem; color:#2a3a5e;">
+                <i class="fas fa-check-circle" style="color:#4f6ef7;"></i> SonarQube 质量门禁
+            </span>
+            <span style="background:#eef2f7; padding:0.2rem 1rem; border-radius:20px; font-size:0.85rem; color:#2a3a5e;">
+                <i class="fas fa-check-circle" style="color:#4f6ef7;"></i> Docker + K8s 部署
+            </span>
+            <span style="background:#eef2f7; padding:0.2rem 1rem; border-radius:20px; font-size:0.85rem; color:#2a3a5e;">
+                <i class="fas fa-check-circle" style="color:#4f6ef7;"></i> 企业微信通知
+            </span>
+            <span style="background:#eef2f7; padding:0.2rem 1rem; border-radius:20px; font-size:0.85rem; color:#2a3a5e;">
+                <i class="fas fa-check-circle" style="color:#4f6ef7;"></i> 覆盖率报告归档
+            </span>
+        </div>
+    </section>
 
-        <div class="stats-row">
-            <div class="stat-item">
-                <div class="number">8</div>
-                <div class="label">核心阶段</div>
+    <!-- ===== 核心能力 ===== -->
+    <section class="card">
+        <div class="card-title">
+            <i class="fas fa-star"></i> 核心能力
+            <span class="badge">6 大特性</span>
+        </div>
+        <div class="cap-grid">
+            <div class="cap-item">
+                <span class="icon">📦</span>
+                <span class="name">多项目构建</span>
+                <span class="desc">支持后端（Maven）与前端（Vue/NPM）混合构建</span>
             </div>
-            <div class="stat-item">
-                <div class="number">⚡</div>
-                <div class="label">全自动触发</div>
+            <div class="cap-item">
+                <span class="icon">🔀</span>
+                <span class="name">多分支策略</span>
+                <span class="desc">dev/test/prod 分支独立部署，环境隔离</span>
             </div>
-            <div class="stat-item">
-                <div class="number">🐳</div>
-                <div class="label">Docker + Rancher</div>
+            <div class="cap-item">
+                <span class="icon">📊</span>
+                <span class="name">SonarQube 分析</span>
+                <span class="desc">代码质量门禁，Bug/漏洞/异味实时检测</span>
+            </div>
+            <div class="cap-item">
+                <span class="icon">🐳</span>
+                <span class="name">Docker 镜像</span>
+                <span class="desc">标准化镜像构建，推送到私有仓库</span>
+            </div>
+            <div class="cap-item">
+                <span class="icon">☸️</span>
+                <span class="name">Kubernetes 部署</span>
+                <span class="desc">kubectl 滚动更新，零停机发布</span>
+            </div>
+            <div class="cap-item">
+                <span class="icon">📱</span>
+                <span class="name">企业微信通知</span>
+                <span class="desc">构建状态实时推送，覆盖率/质量报告</span>
             </div>
         </div>
     </section>
 
-    <!-- ===== 端到端流程图 ===== -->
+    <!-- ===== 构建参数 ===== -->
     <section class="card">
         <div class="card-title">
-            <i class="fas fa-stream"></i> 端到端流水线
-            <span class="badge">8 步 · 全自动</span>
+            <i class="fas fa-sliders-h"></i> 构建参数
+            <span class="badge">6 个参数</span>
+        </div>
+        <table class="param-table">
+            <thead>
+                <tr>
+                    <th>参数名</th>
+                    <th>类型</th>
+                    <th>选项/默认值</th>
+                    <th>描述</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><span class="param-name">CUSTOM_BRANCH</span></td>
+                    <td><span class="param-type">Choice</span></td>
+                    <td><code>dev / test / prod</code></td>
+                    <td>选择分支</td>
+                </tr>
+                <tr>
+                    <td><span class="param-name">CUSTOM_PROJECT</span></td>
+                    <td><span class="param-type">String</span></td>
+                    <td><code>''</code>（必填）</td>
+                    <td>项目名称</td>
+                </tr>
+                <tr>
+                    <td><span class="param-name">CUSTOM_ENVIRONMENT</span></td>
+                    <td><span class="param-type">Choice</span></td>
+                    <td><code>dev / test</code></td>
+                    <td>选择部署环境</td>
+                </tr>
+                <tr>
+                    <td><span class="param-name">CUSTOM_VERSION</span></td>
+                    <td><span class="param-type">String</span></td>
+                    <td><code>''</code>（留空用分支名）</td>
+                    <td>自定义版本号</td>
+                </tr>
+                <tr>
+                    <td><span class="param-name">SKIP_TESTS</span></td>
+                    <td><span class="param-type">Boolean</span></td>
+                    <td><code>true</code>（默认跳过）</td>
+                    <td>是否跳过测试</td>
+                </tr>
+                <tr>
+                    <td><span class="param-name">SKIP_DEPLOY</span></td>
+                    <td><span class="param-type">Boolean</span></td>
+                    <td><code>false</code>（默认部署）</td>
+                    <td>是否跳过部署</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <!-- ===== 流水线步骤 ===== -->
+    <section class="card">
+        <div class="card-title">
+            <i class="fas fa-stream"></i> 流水线步骤
+            <span class="badge">8 个阶段</span>
         </div>
 
-        <!-- 阶段1：代码提交 -->
+        <!-- 阶段1 -->
         <div class="phase-group">
-            <i class="fas fa-code"></i> ① 代码提交阶段
+            <i class="fas fa-cog"></i> ① 环境配置
         </div>
         <div class="pipeline-flow">
             <div class="pipeline-step">
                 <span class="num">1</span>
-                <span class="icon"><i class="fas fa-code"></i></span>
-                <span class="desc">程序员提交代码到 Git 仓库</span>
-                <span class="badge-step">触发</span>
+                <span class="icon"><i class="fas fa-sliders-h"></i></span>
+                <span class="desc">参数解析与校验（分支/项目/环境/版本）</span>
+                <span class="badge-step">初始化</span>
             </div>
             <div class="pipeline-step">
                 <span class="num">2</span>
-                <span class="icon"><i class="fas fa-bolt"></i></span>
-                <span class="desc">Webhook 自动触发 CI/CD 流水线</span>
-                <span class="badge-step">自动</span>
+                <span class="icon"><i class="fas fa-map-pin"></i></span>
+                <span class="desc">环境变量注入（JDK/Maven/镜像仓库/Sonar）</span>
+                <span class="badge-step">配置</span>
             </div>
         </div>
 
-        <!-- 阶段2：编译构建 -->
+        <!-- 阶段2 -->
         <div class="phase-group">
-            <i class="fas fa-hammer"></i> ② 编译构建阶段
+            <i class="fas fa-code-branch"></i> ② 拉取代码
         </div>
         <div class="pipeline-flow">
             <div class="pipeline-step">
                 <span class="num">3</span>
                 <span class="icon"><i class="fas fa-download"></i></span>
-                <span class="desc">拉取最新代码</span>
+                <span class="desc">Git 拉取指定分支代码（含凭据认证）</span>
                 <span class="badge-step">Git</span>
             </div>
+        </div>
+
+        <!-- 阶段3 -->
+        <div class="phase-group">
+            <i class="fas fa-hammer"></i> ③ 编译构建
+        </div>
+        <div class="pipeline-flow">
             <div class="pipeline-step">
                 <span class="num">4</span>
                 <span class="icon"><i class="fas fa-cogs"></i></span>
-                <span class="desc">编译构建（Maven / Gradle）</span>
-                <span class="badge-step">Build</span>
+                <span class="desc">后端：Maven clean install（可跳过测试）</span>
+                <span class="badge-step">Maven</span>
             </div>
-        </div>
-
-        <!-- 阶段3：镜像构建与推送 -->
-        <div class="phase-group">
-            <i class="fas fa-docker"></i> ③ 镜像构建与推送
-        </div>
-        <div class="pipeline-flow">
             <div class="pipeline-step">
                 <span class="num">5</span>
-                <span class="icon"><i class="fab fa-docker"></i></span>
-                <span class="desc">构建 Docker 镜像</span>
-                <span class="badge-step">Dockerfile</span>
-            </div>
-            <div class="pipeline-step">
-                <span class="num">6</span>
-                <span class="icon"><i class="fas fa-upload"></i></span>
-                <span class="desc">推送 Docker 镜像到镜像仓库</span>
-                <span class="badge-step">Registry</span>
+                <span class="icon"><i class="fab fa-vuejs"></i></span>
+                <span class="desc">前端：npm install + build（环境差异化构建）</span>
+                <span class="badge-step">NPM</span>
             </div>
         </div>
 
-        <!-- 阶段4：部署上线 -->
+        <!-- 阶段4 -->
         <div class="phase-group">
-            <i class="fas fa-rocket"></i> ④ 部署上线阶段
+            <i class="fas fa-vial"></i> ④ 单元测试与覆盖率
         </div>
         <div class="pipeline-flow">
             <div class="pipeline-step">
-                <span class="num">7</span>
-                <span class="icon"><i class="fas fa-play"></i></span>
-                <span class="desc">触发 Rancher 部署</span>
-                <span class="badge-step">Orchestration</span>
+                <span class="num">6</span>
+                <span class="icon"><i class="fas fa-flask"></i></span>
+                <span class="desc">后端：mvn test + JaCoCo 覆盖率报告</span>
+                <span class="badge-step">JaCoCo</span>
             </div>
             <div class="pipeline-step">
+                <span class="num">7</span>
+                <span class="icon"><i class="fas fa-flask"></i></span>
+                <span class="desc">前端：npm run test:unit --coverage</span>
+                <span class="badge-step">Jest</span>
+            </div>
+        </div>
+
+        <!-- 阶段5 -->
+        <div class="phase-group">
+            <i class="fas fa-search"></i> ⑤ SonarQube 分析
+        </div>
+        <div class="pipeline-flow">
+            <div class="pipeline-step">
                 <span class="num">8</span>
-                <span class="icon"><i class="fas fa-check-circle" style="color:#1a8a5a;"></i></span>
-                <span class="desc">部署服务 · 拉取镜像 · 容器启动</span>
-                <span class="badge-step" style="background:#e6f7ed;color:#1a8a5a;">✅ 完成</span>
+                <span class="icon"><i class="fas fa-code"></i></span>
+                <span class="desc">SonarScanner 代码质量扫描（Bug/漏洞/异味/覆盖率）</span>
+                <span class="badge-step">SonarQube</span>
+            </div>
+        </div>
+
+        <!-- 阶段6 -->
+        <div class="phase-group">
+            <i class="fas fa-docker"></i> ⑥ 镜像打包与部署
+        </div>
+        <div class="pipeline-flow">
+            <div class="pipeline-step">
+                <span class="num">9</span>
+                <span class="icon"><i class="fab fa-docker"></i></span>
+                <span class="desc">Docker 镜像构建（Dockerfile）</span>
+                <span class="badge-step">Build</span>
+            </div>
+            <div class="pipeline-step">
+                <span class="num">10</span>
+                <span class="icon"><i class="fas fa-upload"></i></span>
+                <span class="desc">镜像推送到私有仓库（docker login + push）</span>
+                <span class="badge-step">Push</span>
+            </div>
+            <div class="pipeline-step">
+                <span class="num">11</span>
+                <span class="icon"><i class="fas fa-play"></i></span>
+                <span class="desc">Kubernetes 滚动部署（kubectl set image + rollout）</span>
+                <span class="badge-step">Deploy</span>
+            </div>
+        </div>
+
+        <!-- 阶段7 -->
+        <div class="phase-group">
+            <i class="fas fa-archive"></i> ⑦ 覆盖率报告归档
+        </div>
+        <div class="pipeline-flow">
+            <div class="pipeline-step">
+                <span class="num">12</span>
+                <span class="icon"><i class="fas fa-file-alt"></i></span>
+                <span class="desc">归档 JaCoCo / Jest 覆盖率报告（HTML + lcov.info）</span>
+                <span class="badge-step">Archive</span>
+            </div>
+        </div>
+
+        <!-- 阶段8 -->
+        <div class="phase-group">
+            <i class="fas fa-bell"></i> ⑧ 构建后通知
+        </div>
+        <div class="pipeline-flow">
+            <div class="pipeline-step">
+                <span class="num">13</span>
+                <span class="icon"><i class="fab fa-weixin"></i></span>
+                <span class="desc">企业微信通知（成功/失败/不稳定/取消）</span>
+                <span class="badge-step">Notify</span>
             </div>
         </div>
     </section>
 
+    <!-- ===== Pipeline 核心代码 ===== -->
+    <section class="card">
+        <div class="card-title">
+            <i class="fas fa-code"></i> Pipeline 核心代码
+            <span class="badge">Declarative Pipeline</span>
+        </div>
+        <div class="pipeline-code">
+            <pre style="margin:0; white-space:pre-wrap; word-break:break-all;">
+<span class="kw">pipeline</span> {
+    <span class="kw">agent</span> any
+
+    <span class="cmt">// ===== 构建参数 =====</span>
+    <span class="kw">parameters</span> {
+        <span class="fn">choice</span>(<span class="kw">name</span>: <span class="str">'CUSTOM_BRANCH'</span>, <span class="kw">choices</span>: [<span class="str">'dev'</span>, <span class="str">'test'</span>, <span class="str">'mes_1'</span>], <span class="kw">description</span>: <span class="str">'选择分支'</span>)
+        <span class="fn">string</span>(<span class="kw">name</span>: <span class="str">'CUSTOM_PROJECT'</span>, <span class="kw">defaultValue</span>: <span class="str">''</span>, <span class="kw">description</span>: <span class="str">'项目名称'</span>)
+        <span class="fn">choice</span>(<span class="kw">name</span>: <span class="str">'CUSTOM_ENVIRONMENT'</span>, <span class="kw">choices</span>: [<span class="str">'dev'</span>, <span class="str">'test'</span>], <span class="kw">description</span>: <span class="str">'部署环境'</span>)
+        <span class="fn">string</span>(<span class="kw">name</span>: <span class="str">'CUSTOM_VERSION'</span>, <span class="kw">defaultValue</span>: <span class="str">''</span>, <span class="kw">description</span>: <span class="str">'版本号（留空用分支名）'</span>)
+        <span class="fn">booleanParam</span>(<span class="kw">name</span>: <span class="str">'SKIP_TESTS'</span>, <span class="kw">defaultValue</span>: <span class="kw">true</span>, <span class="kw">description</span>: <span class="str">'跳过测试'</span>)
+        <span class="fn">booleanParam</span>(<span class="kw">name</span>: <span class="str">'SKIP_DEPLOY'</span>, <span class="kw">defaultValue</span>: <span class="kw">false</span>, <span class="kw">description</span>: <span class="str">'跳过部署'</span>)
+    }
+
+    <span class="cmt">// ===== 环境变量 =====</span>
+    <span class="kw">environment</span> {
+        CHAT_WEBHOOK_KEY = <span class="fn">credentials</span>(<span class="str">'wechat-webhook-key'</span>)
+        GIT_CRED_ID       = <span class="str">'fa2845e8-57d8-461b-9fb4-63cb5a285752'</span>
+        DOCKER_CRED_ID    = <span class="str">'docker-registry-cred'</span>
+        SONAR_TOKEN       = <span class="fn">credentials</span>(<span class="str">'sonar-qube-token'</span>)
+        IMAGE_REGISTRY    = <span class="str">'dev.klhbs.com:8433'</span>
+        SONAR_URL         = <span class="str">'http://dev.klhbs.com:9000'</span>
+        SONAR_SCANNER_HOME = <span class="fn">tool</span>(<span class="kw">name</span>: <span class="str">'Sonar-Scanner-4.x'</span>)
+    }
+
+    <span class="cmt">// ===== 流水线阶段 =====</span>
+    <span class="kw">stages</span> {
+        <span class="kw">stage</span>(<span class="str">'环境配置'</span>) { <span class="kw">steps</span> { <span class="fn">script</span> { ... } } }
+        <span class="kw">stage</span>(<span class="str">'拉取代码'</span>)   { <span class="kw">steps</span> { <span class="fn">checkout</span>(...) } }
+        <span class="kw">stage</span>(<span class="str">'编译构建'</span>)   { <span class="kw">steps</span> { <span class="fn">sh</span> <span class="str">'mvn clean install'</span> } }
+        <span class="kw">stage</span>(<span class="str">'单元测试与覆盖率'</span>) { <span class="kw">when</span> { !params.SKIP_TESTS } <span class="kw">steps</span> { ... } }
+        <span class="kw">stage</span>(<span class="str">'SonarQube 分析'</span>) { <span class="kw">when</span> { !params.SKIP_TESTS } <span class="kw">steps</span> { ... } }
+        <span class="kw">stage</span>(<span class="str">'镜像打包与部署'</span>) {
+            <span class="kw">when</span> { !params.SKIP_DEPLOY }
+            <span class="kw">steps</span> {
+                <span class="fn">sh</span> <span class="str">'docker build -t ${PROJECT}:${VERSION} .'</span>
+                <span class="fn">sh</span> <span class="str">'docker push ${IMAGE_REGISTRY}/library/${PROJECT}:${VERSION}'</span>
+                <span class="fn">sshPublisher</span>(...)  <span class="cmt">// kubectl set image + rollout</span>
+            }
+        }
+        <span class="kw">stage</span>(<span class="str">'覆盖率报告归档'</span>) { <span class="kw">when</span> { !params.SKIP_TESTS } <span class="kw">steps</span> { ... } }
+    }
+
+    <span class="cmt">// ===== 构建后操作 =====</span>
+    <span class="kw">post</span> {
+        <span class="kw">always</span>    { <span class="fn">cleanWs</span>() }
+        <span class="kw">success</span>   { <span class="fn">sendNotification</span>(<span class="str">"成功"</span>, <span class="str">"info"</span>) }
+        <span class="kw">failure</span>   { <span class="fn">sendNotification</span>(<span class="str">"失败"</span>, <span class="str">"danger"</span>) }
+        <span class="kw">unstable</span> { <span class="fn">sendNotification</span>(<span class="str">"不稳定"</span>, <span class="str">"warning"</span>) }
+    }
+}
+
+<span class="cmt">// ===== 工具方法（覆盖率解析 / 通知 / 环境配置） =====</span>
+<span class="kw">def</span> <span class="fn">getEnvConfig</span>(String env, String group) { ... }
+<span class="kw">def</span> <span class="fn">getGitProject</span>(String project) { ... }
+<span class="kw">def</span> <span class="fn">parseFrontendCoverage</span>() { ... }
+<span class="kw">def</span> <span class="fn">sendNotification</span>(String status, String color) { ... }
+            </pre>
+        </div>
+    </section>
+
+    <!-- ===== 技术栈 ===== -->
+    <section class="card">
+        <div class="card-title">
+            <i class="fas fa-microchip"></i> 技术栈
+            <span class="badge">工具链</span>
+        </div>
+        <div style="display:flex; flex-wrap:wrap; gap:10px 20px; font-size:0.95rem; color:#2a2a3e;">
+            <span><strong>CI/CD：</strong>Jenkins 2.x</span>
+            <span><strong>构建工具：</strong>Maven 3.x / NPM</span>
+            <span><strong>代码质量：</strong>SonarQube 9.x</span>
+            <span><strong>容器化：</strong>Docker 20.x</span>
+            <span><strong>编排：</strong>Kubernetes / Rancher</span>
+            <span><strong>覆盖率：</strong>JaCoCo / Jest</span>
+            <span><strong>通知：</strong>企业微信 Webhook</span>
+            <span><strong>版本控制：</strong>GitLab</span>
+        </div>
+    </section>
+
     <!-- ===== 架构图 ===== -->
-	<section class="card">
-		<div class="card-title">
-			<i class="fas fa-sitemap"></i> 系统架构图
-			<span class="badge">Git → Docker → Rancher</span>
-		</div>
+    <section class="card">
+        <div class="card-title">
+            <i class="fas fa-sitemap"></i> 部署架构图
+            <span class="badge">CI/CD 端到端自动化部署架构</span>
+        </div>
 		<div style="
 			background: #f5f7fb;
 			border-radius: 12px;
@@ -330,57 +651,52 @@
 					display: block;
 				"
 			/>
-			<p style="
-				margin-top: 0.8rem;
-				font-size: 0.85rem;
-				color: #8a9aaa;
-			">
-				<i class="fas fa-info-circle"></i> 
-				CI/CD 端到端自动化部署架构
-			</p>
+			<span style="color:#4f6ef7;font-weight:600;">Git → Webhook → Jenkins → Build → Test → Sonar → Docker → Push → K8s → Notify</span>
 		</div>
-	</section>
+        <!-- <div style=" -->
+            <!-- background: #f5f7fb; -->
+            <!-- border-radius: 12px; -->
+            <!-- padding: 1.5rem; -->
+            <!-- border: 1px solid #e8ecf0; -->
+            <!-- text-align: center; -->
+            <!-- overflow-x: auto; -->
+            <!-- font-family: 'JetBrains Mono', monospace; -->
+            <!-- font-size: 0.8rem; -->
+            <!-- color: #1a1a2e; -->
+            <!-- line-height: 2; -->
+        <!-- "> -->
+            <!-- <pre style="margin:0; text-align:left; white-space:pre;"> -->
+<!-- ┌─────────────┐    ┌─────────────┐    ┌─────────────┐    ┌─────────────┐ -->
+<!-- │   👨‍💻 程序员  │───▶│   📦 Git    │───▶│  🔗 Webhook │───▶│  🛠️ Jenkins │ -->
+<!-- │  提交代码    │    │  仓库       │    │  触发器     │    │  Pipeline   │ -->
+<!-- └─────────────┘    └─────────────┘    └─────────────┘    └──────┬──────┘ -->
+                                                                  <!-- │ -->
+                                                                  <!-- ▼ -->
+<!-- ┌─────────────┐    ┌─────────────┐    ┌─────────────┐    ┌─────────────┐ -->
+<!-- │   📊 Sonar  │◀───│   🧪 测试   │───▶│   🐳 Docker │───▶│   📦 镜像   │ -->
+<!-- │  质量分析    │    │  覆盖率     │    │  镜像构建   │    │  仓库       │ -->
+<!-- └─────────────┘    └─────────────┘    └─────────────┘    └──────┬──────┘ -->
+                                                                  <!-- │ -->
+                                                                  <!-- ▼ -->
+<!-- ┌─────────────┐    ┌─────────────┐    ┌─────────────┐ -->
+<!-- │   📱 微信   │◀───│   ☸️ K8s    │───▶│   ✅ 服务   │ -->
+<!-- │  通知       │    │  滚动部署   │    │  上线完成   │ -->
+<!-- └─────────────┘    └─────────────┘    └─────────────┘ -->
 
-    <!-- ===== 核心能力 ===== -->
-    <section class="card">
-        <div class="card-title">
-            <i class="fas fa-star"></i> 核心能力
-            <span class="badge">企业级</span>
-        </div>
-        <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
-
-            <div style="background:#f5f7fb; border-radius:12px; padding:1rem; border:1px solid #e8ecf0;">
-                <h4 style="color:#4f6ef7; margin:0 0 0.3rem 0;"><i class="fas fa-bolt"></i> 全自动触发</h4>
-                <p style="color:#3a3a4e; font-size:0.9rem; margin:0;">Git Webhook 自动触发流水线，无需人工干预</p>
-            </div>
-
-            <div style="background:#f5f7fb; border-radius:12px; padding:1rem; border:1px solid #e8ecf0;">
-                <h4 style="color:#4f6ef7; margin:0 0 0.3rem 0;"><i class="fab fa-docker"></i> 容器化交付</h4>
-                <p style="color:#3a3a4e; font-size:0.9rem; margin:0;">Docker 镜像标准化交付，环境一致性有保障</p>
-            </div>
-
-            <div style="background:#f5f7fb; border-radius:12px; padding:1rem; border:1px solid #e8ecf0;">
-                <h4 style="color:#4f6ef7; margin:0 0 0.3rem 0;"><i class="fas fa-sync"></i> 快速回滚</h4>
-                <p style="color:#3a3a4e; font-size:0.9rem; margin:0;">Rancher 一键回滚到上一版本，故障恢复分钟级</p>
-            </div>
-
-            <div style="background:#f5f7fb; border-radius:12px; padding:1rem; border:1px solid #e8ecf0;">
-                <h4 style="color:#4f6ef7; margin:0 0 0.3rem 0;"><i class="fas fa-shield-alt"></i> 多环境隔离</h4>
-                <p style="color:#3a3a4e; font-size:0.9rem; margin:0;">开发/测试/生产环境独立部署，互不干扰</p>
-            </div>
-
-        </div>
+<!-- <span style="color:#4f6ef7;font-weight:600;">Git → Webhook → Jenkins → Build → Test → Sonar → Docker → Push → K8s → Notify</span> -->
+            <!-- </pre> -->
+        <!-- </div> -->
     </section>
 
     <!-- ===== FOOTER ===== -->
     <footer class="footer">
         <p>
-            <i class="fas fa-code"></i> CI/CD 自动化部署流水线 &nbsp;|&nbsp;
+            <i class="fas fa-code"></i> CI/CD 自动化部署流水线 · Jenkins Pipeline &nbsp;|&nbsp;
             <i class="fab fa-github"></i> <a href="#">GitHub</a> &nbsp;·&nbsp;
             <i class="fas fa-envelope"></i> <a href="#">me@example.com</a>
         </p>
         <p style="margin-top:6px; font-size:0.8rem; color:#8a9aaa;">
-            Git · Webhook · Docker · Rancher · 端到端自动化
+            Jenkins · Docker · Kubernetes · SonarQube · 企业微信通知
         </p>
     </footer>
 
