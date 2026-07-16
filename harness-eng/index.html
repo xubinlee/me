@@ -1,0 +1,968 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Harness Engineering · 企业级 AI 工程化实践</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <link rel="stylesheet" href="../assets/css/style.css" />
+    <style>
+        /* ===== 文档内容样式 ===== */
+        .doc-content {
+            padding: 1.5rem 2rem 2rem 2rem;
+            color: #1a1a2e;
+            font-size: 0.95rem;
+            line-height: 1.8;
+            background: #ffffff;
+            border-radius: 0 0 16px 16px;
+        }
+
+        .doc-content h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #1a1a2e;
+            margin-bottom: 0.3rem;
+            letter-spacing: -0.5px;
+        }
+
+        .doc-content h1 .subtitle {
+            font-size: 1rem;
+            font-weight: 400;
+            color: #5a6a7e;
+            display: block;
+            margin-top: 2px;
+            letter-spacing: 0;
+        }
+
+        .doc-content h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #1a1a2e;
+            margin-top: 2rem;
+            margin-bottom: 0.8rem;
+            border-bottom: 2px solid #eef0f4;
+            padding-bottom: 0.4rem;
+        }
+
+        .doc-content h3 {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: #2a3a5e;
+            margin-top: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .doc-content h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #4f6ef7;
+            margin-top: 1rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .doc-content h5 {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: #3a4a6e;
+            margin-top: 0.8rem;
+            margin-bottom: 0.2rem;
+        }
+
+        .doc-content p {
+            margin-bottom: 0.8rem;
+            color: #2a2a3e;
+        }
+
+        .doc-content ul,
+        .doc-content ol {
+            padding-left: 1.8rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .doc-content li {
+            margin-bottom: 0.3rem;
+            color: #2a2a3e;
+        }
+
+        .doc-content strong {
+            color: #1a1a2e;
+            font-weight: 600;
+        }
+
+        .doc-content .highlight-box {
+            background: #f5f7fb;
+            border-left: 4px solid #4f6ef7;
+            padding: 1rem 1.2rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+        }
+
+        .doc-content .highlight-box .label {
+            font-weight: 600;
+            color: #4f6ef7;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .doc-content .highlight-box .content {
+            margin-top: 4px;
+        }
+
+        .doc-content .example-box {
+            background: #f0f4ff;
+            border: 1px solid #d0dcec;
+            border-radius: 10px;
+            padding: 1rem 1.2rem;
+            margin: 0.8rem 0;
+        }
+
+        .doc-content .example-box .title {
+            font-weight: 600;
+            color: #4f6ef7;
+            font-size: 0.9rem;
+            margin-bottom: 4px;
+        }
+
+        /* 对比框 */
+        .doc-content .compare-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.2rem;
+            margin: 1rem 0;
+        }
+
+        .doc-content .compare-grid .col {
+            background: #f5f7fb;
+            border-radius: 12px;
+            padding: 1.2rem 1.5rem;
+            border: 1px solid #e8ecf0;
+        }
+
+        .doc-content .compare-grid .col.bad {
+            border-color: #f5c8c8;
+            background: #fdf0f0;
+        }
+
+        .doc-content .compare-grid .col.good {
+            border-color: #b8dcc8;
+            background: #f0f7f0;
+        }
+
+        .doc-content .compare-grid .col h4 {
+            margin-top: 0;
+            text-align: center;
+            font-size: 0.95rem;
+            color: #1a1a2e;
+        }
+
+        /* 四支柱卡片 */
+        .pillars-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .pillars-grid .pillar {
+            background: #f5f7fb;
+            border-radius: 12px;
+            padding: 1.2rem 1.5rem;
+            border: 1px solid #e8ecf0;
+            border-top: 4px solid #4f6ef7;
+            transition: all 0.2s;
+        }
+
+        .pillars-grid .pillar:hover {
+            border-color: #4f6ef7;
+            background: #f0f4ff;
+        }
+
+        .pillars-grid .pillar .num {
+            font-weight: 700;
+            color: #4f6ef7;
+            font-size: 0.85rem;
+            display: inline-block;
+            background: #e6f0fa;
+            padding: 0.1rem 0.5rem;
+            border-radius: 12px;
+        }
+
+        .pillars-grid .pillar h4 {
+            margin: 0.3rem 0 0.2rem 0;
+            color: #1a1a2e;
+            font-size: 1rem;
+        }
+
+        .pillars-grid .pillar p {
+            color: #3a3a4e;
+            font-size: 0.9rem;
+            margin: 0;
+        }
+
+        /* 十阶段流水线 */
+        .pipeline-stages {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+            gap: 0.6rem;
+            margin: 1rem 0;
+        }
+
+        .pipeline-stages .stage {
+            background: #f5f7fb;
+            border-radius: 10px;
+            padding: 0.6rem 0.8rem;
+            text-align: center;
+            border: 1px solid #e8ecf0;
+            font-size: 0.8rem;
+            color: #2a2a3e;
+            transition: all 0.2s;
+        }
+
+        .pipeline-stages .stage:hover {
+            border-color: #4f6ef7;
+            background: #f0f4ff;
+        }
+
+        .pipeline-stages .stage .step-num {
+            font-weight: 700;
+            color: #4f6ef7;
+            font-size: 0.7rem;
+            display: block;
+        }
+
+        .pipeline-stages .stage .step-name {
+            font-weight: 500;
+        }
+
+        .pipeline-stages .stage .step-desc {
+            font-size: 0.65rem;
+            color: #6a7a8e;
+            display: block;
+            margin-top: 2px;
+        }
+
+        /* 四要素表格 */
+        .four-elements {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+            gap: 0.8rem;
+            margin: 1rem 0;
+        }
+
+        .four-elements .el {
+            background: #f5f7fb;
+            border-radius: 10px;
+            padding: 1rem;
+            text-align: center;
+            border: 1px solid #e8ecf0;
+            transition: all 0.2s;
+        }
+
+        .four-elements .el:hover {
+            border-color: #4f6ef7;
+        }
+
+        .four-elements .el .icon {
+            font-size: 1.6rem;
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .four-elements .el .name {
+            font-weight: 600;
+            color: #1a1a2e;
+            font-size: 0.95rem;
+        }
+
+        .four-elements .el .dir {
+            font-size: 0.7rem;
+            color: #6a7a8e;
+            font-family: monospace;
+            display: block;
+        }
+
+        .four-elements .el .desc {
+            font-size: 0.8rem;
+            color: #5a6a7e;
+            margin-top: 4px;
+        }
+
+        /* 分层架构 */
+        .layer-arch {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin: 1rem 0;
+        }
+
+        .layer-arch .layer-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .layer-arch .layer-row .layer-item {
+            flex: 1;
+            min-width: 120px;
+            background: #f5f7fb;
+            border-radius: 10px;
+            padding: 0.6rem 1rem;
+            text-align: center;
+            border: 1px solid #e8ecf0;
+            transition: all 0.2s;
+        }
+
+        .layer-arch .layer-row .layer-item:hover {
+            border-color: #4f6ef7;
+            background: #f0f4ff;
+        }
+
+        .layer-arch .layer-row .layer-item .l-name {
+            font-weight: 600;
+            color: #1a1a2e;
+            font-size: 0.9rem;
+        }
+
+        .layer-arch .layer-row .layer-item .l-desc {
+            font-size: 0.75rem;
+            color: #6a7a8e;
+        }
+
+        .layer-arch .layer-row .layer-item .l-tag {
+            font-size: 0.6rem;
+            color: #4f6ef7;
+            background: #e6f0fa;
+            padding: 0.05rem 0.5rem;
+            border-radius: 10px;
+            display: inline-block;
+            margin-top: 2px;
+        }
+
+        /* 失败模式表格 */
+        .failure-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .failure-grid .failure-item {
+            background: #fdf0f0;
+            border-radius: 10px;
+            padding: 1rem 1.2rem;
+            border: 1px solid #f5c8c8;
+        }
+
+        .failure-grid .failure-item .f-name {
+            font-weight: 700;
+            color: #c0392b;
+            font-size: 0.95rem;
+        }
+
+        .failure-grid .failure-item .f-desc {
+            color: #3a2a2a;
+            font-size: 0.9rem;
+            margin-top: 4px;
+        }
+
+        .failure-grid .failure-item .f-solution {
+            font-size: 0.85rem;
+            color: #1a8a5a;
+            margin-top: 4px;
+        }
+
+        .failure-grid .failure-item .f-solution i {
+            color: #4f6ef7;
+        }
+
+        /* 响应式 */
+        @media (max-width: 1024px) {
+            .pipeline-stages {
+                grid-template-columns: 1fr 1fr 1fr;
+            }
+            .four-elements {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 680px) {
+            .doc-content {
+                padding: 1rem;
+                font-size: 0.9rem;
+            }
+            .doc-content h1 {
+                font-size: 1.5rem;
+            }
+            .doc-content h2 {
+                font-size: 1.2rem;
+            }
+            .compare-grid {
+                grid-template-columns: 1fr;
+            }
+            .pillars-grid {
+                grid-template-columns: 1fr;
+            }
+            .pipeline-stages {
+                grid-template-columns: 1fr 1fr;
+            }
+            .four-elements {
+                grid-template-columns: 1fr 1fr;
+            }
+            .failure-grid {
+                grid-template-columns: 1fr;
+            }
+            .layer-arch .layer-row .layer-item {
+                min-width: 80px;
+                padding: 0.4rem 0.6rem;
+            }
+            .layer-arch .layer-row .layer-item .l-name {
+                font-size: 0.8rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .pipeline-stages {
+                grid-template-columns: 1fr;
+            }
+            .four-elements {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <!-- ===== HEADER ===== -->
+    <header class="header">
+        <div class="header-left">
+            <h1>🧠 Harness Engineering</h1>
+            <div class="sub">
+                <span><i class="fas fa-robot"></i> 企业级 AI 工程化</span>
+                <span><i class="fas fa-code-branch"></i> 三大范式跃迁</span>
+                <span><i class="fas fa-cubes"></i> 四大支柱 · 十阶段流水线</span>
+            </div>
+        </div>
+        <div class="header-right">
+            <a href="../index.html" title="返回首页"><i class="fas fa-home"></i></a>
+            <a href="#" title="GitHub"><i class="fab fa-github"></i></a>
+        </div>
+    </header>
+
+    <!-- ===== 返回链接 ===== -->
+    <a href="../index.html" class="back-link"><i class="fas fa-arrow-left"></i> 返回项目列表</a>
+
+    <!-- ===== 文档内容 ===== -->
+    <section class="card card-doc">
+        <div class="card-title">
+            <i class="fas fa-file-alt"></i> 项目文档
+            <span class="badge">AI 工程实践 · Harness Engineering</span>
+        </div>
+
+        <div class="doc-content">
+
+            <!-- ===== 主标题 ===== -->
+            <h1>
+                Harness Engineering
+                <span class="subtitle">AI 工程实践三次范式跃迁</span>
+            </h1>
+
+            <!-- ========================================================= -->
+            <!-- 第一部分：Prompt Engineering -->
+            <!-- ========================================================= -->
+            <h2>1. Prompt Engineering (2022-2024)</h2>
+            <p>
+                关注的是单次交互的优化——如何通过 <strong>Few-shot Learning</strong>、
+                <strong>Chain-of-Thought</strong>、<strong>角色设定</strong> 等技巧，
+                让模型在一次对话中给出更好的回答。
+            </p>
+
+            <!-- a. Few-shot Learning -->
+            <h3>a. Few-shot Learning（少样本学习）</h3>
+            <p>
+                指：只给模型 <strong>极少标注样例（1~10 个左右）</strong>，
+                不用大规模微调，仅靠少量示例就能完成新任务。
+            </p>
+
+            <div class="example-box">
+                <div class="title">📌 Few-shot Prompt 示例</div>
+                <ul style="margin:4px 0 0 1.2rem;">
+                    <li>示例 1：这家奶茶超好喝 → <span style="color:#1a8a5a;font-weight:600;">正面</span></li>
+                    <li>示例 2：服务很差，再也不来了 → <span style="color:#c0392b;font-weight:600;">负面</span></li>
+                    <li>示例 3：面料粗糙不值这个价 → <span style="color:#c0392b;font-weight:600;">负面</span></li>
+                    <li style="font-weight:500;margin-top:4px;">问题：蛋糕奶油细腻甜度刚好 → <span style="color:#4f6ef7;">❓ 请判断</span></li>
+                </ul>
+            </div>
+
+            <!-- b. Chain-of-Thought -->
+            <h3>b. 思维链 CoT (Chain of Thought)</h3>
+            <p>
+                <strong>思维链 CoT 是一种提示工程技巧：</strong>
+                引导模型先写出完整分步推理过程，再给出最终答案，模拟人类一步步思考。
+            </p>
+
+            <div class="compare-grid">
+                <div class="col bad">
+                    <h4>❌ 普通直接提问 <span style="font-size:0.7rem;font-weight:400;color:#8a8a9a;">（容易算错）</span></h4>
+                    <p style="font-size:0.9rem;color:#3a3a4e;">
+                        <strong>问：</strong>3 个苹果分给 2 个人，每人分 1 个，还剩几个？
+                    </p>
+                    <p style="font-size:0.9rem;color:#3a3a4e;">
+                        <strong>模型直接输出：</strong>1 个
+                    </p>
+                    <p style="font-size:0.8rem;color:#8a9aaa;margin-top:4px;">
+                        ⚠️ 简单题还行，复杂数学/逻辑题容易出错
+                    </p>
+                </div>
+                <div class="col good">
+                    <h4>✅ CoT 思维链提问 <span style="font-size:0.7rem;font-weight:400;color:#1a8a5a;">（强制分步思考）</span></h4>
+                    <p style="font-size:0.9rem;color:#3a3a4e;">
+                        <strong>问：</strong>3 个苹果分给 2 个人，每人分 1 个，还剩几个？请一步步思考再回答。
+                    </p>
+                    <div style="margin-top:6px;font-size:0.9rem;">
+                        <div>1. 一共 3 个苹果</div>
+                        <div>2. 2 个人每人拿走 1 个，一共分出去 2×1=2 个</div>
+                        <div>3. 剩余 = 总数 − 分出去的 = 3−2=1</div>
+                    </div>
+                    <div style="margin-top:6px;font-weight:600;color:#1a8a5a;">✅ 答案：1</div>
+                </div>
+            </div>
+
+            <!-- c. 角色设定 -->
+            <h3>c. 角色设定（Role Prompting）</h3>
+            <p>
+                在提示词开头给模型绑定固定身份、专业背景、说话风格、立场、输出规则，
+                约束模型的知识范围、语气、思考视角。
+            </p>
+            <div class="highlight-box">
+                <div class="label">📋 完整角色模板包含：</div>
+                <div class="content">
+                    <ol style="margin:4px 0 0 1.2rem;">
+                        <li><strong>身份：</strong>资深 Java 架构师 / 小学语文老师 / 专业律师</li>
+                        <li><strong>专业能力：</strong>精通 XX 领域、熟悉行业规范</li>
+                        <li><strong>输出要求：</strong>语言风格、篇幅、格式、禁止内容</li>
+                        <li><strong>约束条件：</strong>不能编造数据、通俗易懂、分点作答</li>
+                    </ol>
+                </div>
+            </div>
+
+            <!-- d. 三者组合 -->
+            <h3>d. 三者组合使用（工业级标准提示词）</h3>
+            <p>
+                实际使用中通常叠加三者，效果远高于单独使用：<strong>角色设定 + Few-shot 样例 + CoT 思维链</strong>
+            </p>
+            <div class="highlight-box">
+                <div class="label">📝 模板结构：</div>
+                <div class="content">
+                    <ol style="margin:4px 0 0 1.2rem;">
+                        <li>角色定义（身份 + 输出约束）</li>
+                        <li>任务说明</li>
+                        <li>少量带推理过程的示例（Few-shot CoT）</li>
+                        <li>当前待处理问题</li>
+                    </ol>
+                </div>
+            </div>
+
+            <!-- ========================================================= -->
+            <!-- 第二部分：Context Engineering -->
+            <!-- ========================================================= -->
+            <h2>2. Context Engineering (2025)</h2>
+            <p>
+                向前迈了一步，关注的是 <strong>"给 Agent 看什么"</strong>——
+                动态构建的上下文窗口中应该填充哪些文档、对话历史、工具定义和 RAG 检索结果。
+            </p>
+            <p>
+                <strong>核心观点：</strong>大模型 Agent 没有长期记忆，所有它能思考、调用工具、回答问题的依据，
+                全部来自你塞进上下文窗口的内容。
+            </p>
+
+            <h3>完整上下文四大类组件</h3>
+
+            <h4>a. 对话历史</h4>
+            <p><strong>作用：</strong>让 Agent 记住上下文语境，理解多轮连续提问。</p>
+            <p><strong>应该填充：</strong></p>
+            <ul>
+                <li>用户所有历史提问（User）</li>
+                <li>Agent 上一轮完整回复（Assistant）</li>
+                <li>工具调用记录（调用了什么工具、入参、返回结果）</li>
+                <li>中间推理记录（CoT 思维过程、Few-shot 示例交互）</li>
+            </ul>
+            <div class="highlight-box">
+                <div class="label">✂️ 动态裁剪规则</div>
+                <div class="content">
+                    <ul style="margin:4px 0 0 1.2rem;">
+                        <li><strong>短对话：</strong>全部保留</li>
+                        <li><strong>长对话（逼近 token 上限）：</strong>
+                            <ul>
+                                <li>保留最新 N 轮对话（滑动窗口截断）</li>
+                                <li>剔除无关闲聊、无效重复内容</li>
+                                <li>压缩长工具返回结果，只保留摘要</li>
+                                <li>优先保留包含关键参数、业务结论的轮次</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <h4>b. 工具定义</h4>
+            <p><strong>作用：</strong>告诉 Agent 有哪些工具、怎么调用、参数格式、返回内容。</p>
+            <p><strong>窗口内要放的完整信息：</strong></p>
+            <ul>
+                <li>工具总说明：工具整体用途、适用场景</li>
+                <li>每个工具元信息：工具名称、功能描述</li>
+                <li>入参 Schema：参数名、类型、是否必填、参数含义、示例</li>
+                <li>工具返回数据结构说明</li>
+                <li>调用约束：什么场景禁止调用、调用次数限制</li>
+                <li>输出格式要求：function call 必须是 JSON</li>
+            </ul>
+
+            <h4>c. RAG 检索结果</h4>
+            <p><strong>作用：</strong>给 Agent 外部私有知识，解决大模型幻觉、内部业务资料查询。</p>
+            <p><strong>应该填充：</strong></p>
+            <ul>
+                <li>高相似度 Top-K 分片文本（通常 3–8 条）</li>
+                <li>每条文档附带元数据：文档来源、标题、章节、更新时间、可信度</li>
+                <li>文档分段摘要（超长原文做切片压缩）</li>
+                <li>冲突知识标注（多条文档信息矛盾时提前标注）</li>
+            </ul>
+            <div class="highlight-box">
+                <div class="label">🔍 动态筛选逻辑</div>
+                <div class="content">
+                    <ol style="margin:4px 0 0 1.2rem;">
+                        <li><strong>相关性过滤：</strong>低于相似度阈值的文档直接丢弃</li>
+                        <li><strong>时效性过滤：</strong>过期、作废的业务文档剔除</li>
+                        <li><strong>去重：</strong>召回重复内容只保留一份</li>
+                        <li><strong>权重排序：</strong>高相关、高权威文档放前面</li>
+                        <li><strong>容量控制：</strong>文档总 token 超标时压缩、减少召回条数</li>
+                    </ol>
+                </div>
+            </div>
+
+            <h4>d. 静态/业务基础文档</h4>
+            <ul>
+                <li><strong>角色设定文档：</strong>Agent 身份、专业能力、回答语气、输出格式、禁止行为</li>
+                <li><strong>业务规则文档：</strong>公司流程、审批规范、数据权限、业务边界</li>
+                <li><strong>Few-shot / CoT 示例文档：</strong>任务样例、带推理步骤的标准输出模板</li>
+                <li><strong>系统指令（System Prompt）：</strong>最高优先级全局约束</li>
+            </ul>
+
+            <h4>动态上下文窗口标准组装顺序</h4>
+            <div class="example-box">
+                <div style="font-weight:600;color:#1a1a2e;">模型读取文本从上到下，信息权重依次降低：</div>
+                <ol style="margin:4px 0 0 1.2rem;">
+                    <li><strong>System 系统指令</strong>（角色 + 全局约束）</li>
+                    <li><strong>业务规则 / Few-shot/CoT 示例文档</strong></li>
+                    <li><strong>工具定义列表</strong>（当前可用工具）</li>
+                    <li><strong>RAG 检索到的知识库文档</strong></li>
+                    <li><strong>完整对话历史</strong>（最新内容靠后）</li>
+                    <li><strong>当前用户最新提问</strong></li>
+                </ol>
+            </div>
+
+            <!-- ========================================================= -->
+            <!-- 第三部分：Harness Engineering -->
+            <!-- ========================================================= -->
+            <h2>3. Harness Engineering (2026)</h2>
+            <p>
+                站在更高的抽象层次，不再只关注"一次对话"或"一次上下文窗口"，
+                而是设计 <strong>跨越多个会话、多个 Agent 角色、多个执行阶段的完整系统架构</strong>。
+            </p>
+
+            <h3>高抽象层：系统架构视角</h3>
+
+            <h4>a. 跨越多个会话（长期记忆体系）</h4>
+            <div class="highlight-box">
+                <div class="label">🧠 分层记忆架构</div>
+                <div class="content">
+                    <ul style="margin:4px 0 0 1.2rem;">
+                        <li><strong>瞬时记忆：</strong>当前上下文窗口</li>
+                        <li><strong>短期记忆：</strong>会话内持久存储（本轮聊天全程摘要、关键实体）</li>
+                        <li><strong>长期记忆：</strong>向量库/数据库持久化，跨会话读取</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h4>b. 跨越多个 Agent 角色（多智能体协同）</h4>
+            <ul>
+                <li><strong>调度 Agent（中控）：</strong>分发任务、判断调用哪个子 Agent</li>
+                <li><strong>检索 Agent：</strong>专门做 RAG、文档解析、知识库查询</li>
+                <li><strong>工具执行 Agent：</strong>负责函数调用、API、数据库操作</li>
+                <li><strong>推理 Agent：</strong>复杂 CoT、逻辑演算、方案推演</li>
+                <li><strong>输出格式化 Agent：</strong>统一返回格式、校验输出合规</li>
+            </ul>
+
+            <h4>c. 跨越多个执行阶段（长流程任务编排）</h4>
+            <div class="example-box">
+                <div class="title">📋 客户需求处理全流程示例</div>
+                <ol style="margin:4px 0 0 1.2rem;">
+                    <li><strong>阶段 1：</strong>意图识别 &amp; 信息补全</li>
+                    <li><strong>阶段 2：</strong>知识库检索 + 数据查询</li>
+                    <li><strong>阶段 3：</strong>多 Agent 分工计算/调研</li>
+                    <li><strong>阶段 4：</strong>方案整合、校验、反思 Self-Reflection</li>
+                    <li><strong>阶段 5：</strong>结果交付、存档、更新长期记忆</li>
+                </ol>
+            </div>
+
+            <h4>d. 完整系统级配套能力</h4>
+            <ul>
+                <li>全局权限与数据隔离</li>
+                <li>监控与日志（全链路 Agent 调用、token 消耗、幻觉检测）</li>
+                <li>资源调度（多模型路由、上下文缓存、向量库扩容）</li>
+                <li>迭代闭环（自动收集历史问答、自动优化 Agent 提示词）</li>
+                <li>持久化存储（会话快照、任务中间状态、长期记忆库）</li>
+            </ul>
+
+            <!-- ========================================================= -->
+            <!-- 第四部分：四类失败模式 -->
+            <!-- ========================================================= -->
+            <h2>4. 复杂 Agent 任务四类失败模式</h2>
+            <p>
+                Anthropic 在其 Harness 工程博客中系统总结了 Agent 在复杂项目中的四种典型失败模式。
+                纯模型自驱动时，这四类问题几乎无法自愈。
+            </p>
+
+            <div class="failure-grid">
+                <div class="failure-item">
+                    <div class="f-name">⚠️ Failure Mode 1: One-shot Syndrome</div>
+                    <div class="f-desc">试图一步到位，单窗口过载。模型最优推理习惯是一次性输出完整答案，不会主动做任务拆解。</div>
+                    <div class="f-solution"><i class="fas fa-check-circle"></i> 支柱一：分层上下文 + 窗口填充管控</div>
+                </div>
+                <div class="failure-item">
+                    <div class="f-name">⚠️ Failure Mode 2: Premature Victory Declaration</div>
+                    <div class="f-desc">过早宣布胜利。模型无法客观自评产出，只能基于文本逻辑判断"看起来写完了"。</div>
+                    <div class="f-solution"><i class="fas fa-check-circle"></i> 支柱二：独立 Evaluator 评估 Agent</div>
+                </div>
+                <div class="failure-item">
+                    <div class="f-name">⚠️ Failure Mode 3: Premature Feature Completion</div>
+                    <div class="f-desc">过早标记功能完成。模型只能阅读代码文本，无法在真实运行环境中验证。</div>
+                    <div class="f-solution"><i class="fas fa-check-circle"></i> 支柱四：自动化端到端校验流程</div>
+                </div>
+                <div class="failure-item">
+                    <div class="f-name">⚠️ Failure Mode 4: Cold Start Problem</div>
+                    <div class="f-desc">环境启动困难。上下文窗口是瞬时内存，会话销毁后全部丢失。</div>
+                    <div class="f-solution"><i class="fas fa-check-circle"></i> 支柱三：持久化记忆 + 跨会话恢复</div>
+                </div>
+            </div>
+
+            <!-- ========================================================= -->
+            <!-- 第五部分：四大支柱 -->
+            <!-- ========================================================= -->
+            <h2>5. Harness Engineering 四大支柱</h2>
+            <p>
+                四根支柱是企业级长期运行、工程化 Agent 的标准化落地框架，
+                融合 Anthropic Harness 与 OpenAI Codex 大规模代码生产实战经验。
+            </p>
+
+            <div class="pillars-grid">
+                <div class="pillar">
+                    <span class="num">支柱一</span>
+                    <h4>上下文架构 Context Architecture</h4>
+                    <p>上下文精准按需供给，不多冗余、不少关键信息。顶层指令轻量化，分层延迟加载，动态窗口管控，稳定维持填充率在 40% 黄金区间。</p>
+                </div>
+                <div class="pillar">
+                    <span class="num">支柱二</span>
+                    <h4>Agent 专业化 Agent Specialization</h4>
+                    <p>拆分专用分工 Agent，限制每个智能体工具权限，把「执行」和「评审评估」物理隔离。Planner + Generator + Evaluator 三角色分离。</p>
+                </div>
+                <div class="pillar">
+                    <span class="num">支柱三</span>
+                    <h4>持久化记忆 Persistent Memory</h4>
+                    <p>任务进度、项目元数据、历史成果落地存储在文件/Git/数据库，而非临时上下文窗口。支持跨数十次会话、超长周期工程任务。</p>
+                </div>
+                <div class="pillar">
+                    <span class="num">支柱四</span>
+                    <h4>结构化执行 Structured Execution</h4>
+                    <p>强制固定流水线 + 硬性质量门禁，机械化校验替代文本建议。杜绝 Agent 跳步骤、简化流程、未验证就交付。</p>
+                </div>
+            </div>
+
+            <!-- ========================================================= -->
+            <!-- 第六部分：企业级实战 -->
+            <!-- ========================================================= -->
+            <h2>6. 企业级项目 Harness Engineering 实战</h2>
+
+            <h3>一、核心顶层设计：四要素架构</h3>
+            <div class="four-elements">
+                <div class="el">
+                    <span class="icon">📋</span>
+                    <span class="name">规则体系</span>
+                    <span class="dir">.harness/rules/</span>
+                    <span class="desc">支柱四：定义不变约束（工程分层、编码规范、架构红线）</span>
+                </div>
+                <div class="el">
+                    <span class="icon">🛠️</span>
+                    <span class="name">技能体系</span>
+                    <span class="dir">.harness/skills/</span>
+                    <span class="desc">支柱二：标准化可复用 SOP，规划/编码/评审/测试独立</span>
+                </div>
+                <div class="el">
+                    <span class="icon">📚</span>
+                    <span class="name">知识库</span>
+                    <span class="dir">wiki/</span>
+                    <span class="desc">支柱一：沉淀业务链路、中间件、隐性业务知识</span>
+                </div>
+                <div class="el">
+                    <span class="icon">🔄</span>
+                    <span class="name">变更管理</span>
+                    <span class="dir">.harness/changes/</span>
+                    <span class="desc">支柱三：全流程持久化留存，跨会话恢复进度</span>
+                </div>
+            </div>
+
+            <h3>二、中枢大脑：Application Owner Agent</h3>
+            <p>
+                整套 Harness 的统一入口、流程调度中控。遵循 Anthropic「Index &amp; Map」设计，
+                控制在 400 行左右，轻量化索引而非百科全书。
+            </p>
+            <p><strong>五大核心模块：</strong></p>
+            <ol>
+                <li><strong>角色与项目背景：</strong>明确身份、技术栈、全局硬性业务约束</li>
+                <li><strong>配置中枢索引：</strong>结构化表格记录 Rules/Skills/Wiki/MCP 路径</li>
+                <li><strong>七大固定核心职责：</strong>需求澄清、任务拆解、子任务分发、阶段验收等</li>
+                <li><strong>十阶段流水线调度指令：</strong>每个阶段的准入条件、Skill、产出、门禁</li>
+                <li><strong>硬性黑白行为约束清单：</strong>必须/禁止的行为列表</li>
+            </ol>
+
+            <h3>三、地基：三层分层上下文加载架构</h3>
+            <div class="layer-arch">
+                <div class="layer-row">
+                    <div class="layer-item" style="border-color:#4f6ef7;background:#f0f4ff;">
+                        <div class="l-name">L1 会话常驻层</div>
+                        <div class="l-desc">Application Owner Agent + 3 份全局 Rules</div>
+                        <span class="l-tag">永久加载</span>
+                    </div>
+                    <div class="layer-item">
+                        <div class="l-name">L2 阶段触发层</div>
+                        <div class="l-desc">当前阶段 Skill + 对应分层规范</div>
+                        <span class="l-tag">动态挂载/卸载</span>
+                    </div>
+                    <div class="layer-item">
+                        <div class="l-name">L3 按需查询层</div>
+                        <div class="l-desc">Wiki 业务知识库、中间件规范</div>
+                        <span class="l-tag">按需检索</span>
+                    </div>
+                </div>
+            </div>
+
+            <h3>四、结构化执行：十阶段强制流水线</h3>
+            <div class="pipeline-stages">
+                <div class="stage">
+                    <span class="step-num">1</span>
+                    <span class="step-name">需求分析</span>
+                    <span class="step-desc">需求澄清</span>
+                </div>
+                <div class="stage">
+                    <span class="step-num">2</span>
+                    <span class="step-name">需求评审</span>
+                    <span class="step-desc">最多 3 轮</span>
+                </div>
+                <div class="stage">
+                    <span class="step-num">3</span>
+                    <span class="step-name">编码实现</span>
+                    <span class="step-desc">分层编码</span>
+                </div>
+                <div class="stage">
+                    <span class="step-num">4</span>
+                    <span class="step-name">编码评审</span>
+                    <span class="step-desc">最多 2 轮</span>
+                </div>
+                <div class="stage">
+                    <span class="step-num">5</span>
+                    <span class="step-name">单元测试编写</span>
+                    <span class="step-desc">改动驱动</span>
+                </div>
+                <div class="stage">
+                    <span class="step-num">6</span>
+                    <span class="step-name">单元测试评审</span>
+                    <span class="step-desc">独立评审</span>
+                </div>
+                <div class="stage">
+                    <span class="step-num">7</span>
+                    <span class="step-name">代码推送</span>
+                    <span class="step-desc">Git 提交</span>
+                </div>
+                <div class="stage">
+                    <span class="step-num">8</span>
+                    <span class="step-name">CI 自动化验证</span>
+                    <span class="step-desc">编译+Linter+UT</span>
+                </div>
+                <div class="stage">
+                    <span class="step-num">9</span>
+                    <span class="step-name">部署自动化验证</span>
+                    <span class="step-desc">端到端校验</span>
+                </div>
+                <div class="stage">
+                    <span class="step-num">10</span>
+                    <span class="step-name">最终用户确认</span>
+                    <span class="step-desc">人工验收</span>
+                </div>
+            </div>
+
+            <div class="highlight-box">
+                <div class="label">🔑 关键工程设计</div>
+                <div class="content">
+                    <ul style="margin:4px 0 0 1.2rem;">
+                        <li><strong>精准失败回退路由：</strong>CI 报错→退回编码；测试不达标→退回测试编写</li>
+                        <li><strong>循环迭代上限：</strong>限制评审轮次，防止死循环</li>
+                        <li><strong>5 个人工介入节点：</strong>需求澄清、方案确认、编码验收、部署参数、最终交付</li>
+                        <li><strong>机械化质量门禁：</strong>自定义 Linter + 结构校验 + 业务不变量校验</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h3>五、专业化 Agent 体系：Skill 技能包</h3>
+            <p><strong>两类核心角色物理隔离：</strong></p>
+            <ul>
+                <li><strong>生成类 Skill (Generator)：</strong>request-analysis、coding-skill、unit-test-write — 仅拥有文件读写、代码生成工具</li>
+                <li><strong>评审校验类 Skill (Evaluator)：</strong>expert-reviewer、code-review、unit-test-ci — 仅拥有读取、校验、输出缺陷报告权限</li>
+            </ul>
+
+            <h3>六、持久化记忆：变更管理 Changes 目录</h3>
+            <p><strong>核心文件 summary.md：</strong>全流程唯一事实源，记录每个阶段状态、评审结论、CI 指标、例外问题。</p>
+            <ul>
+                <li>每条需求独立创建隔离目录</li>
+                <li>全流程文件版本留存（v1/v2/v3 不删除历史文件）</li>
+                <li>构建完整审计链路 Audit Trail</li>
+            </ul>
+
+            <!-- ========================================================= -->
+            <!-- 第七部分：总结 -->
+            <!-- ========================================================= -->
+            <h2>7. 整体落地核心思想</h2>
+            <div class="highlight-box" style="border-left-color:#1a8a5a;background:#f0f7f0;">
+                <ol style="margin:0 0 0 1.2rem;">
+                    <li>完全遵循 Harness 四大支柱，全部依靠<strong>外部结构化约束、自动化反馈、持久化存储、分工式多智能体</strong></li>
+                    <li>所有隐性开发经验、架构规范、业务约束全部<strong>显性化为机器可读文件</strong></li>
+                    <li>上下文<strong>严格分层管控</strong>，稳定维持窗口填充率在安全区间</li>
+                    <li>全流程<strong>可追溯、可断点续跑、自动化校验兜底</strong></li>
+                </ol>
+            </div>
+
+            <div style="margin-top:1.5rem;padding:1rem 0;border-top:2px solid #eef0f4;text-align:center;color:#8a9aaa;font-size:0.9rem;">
+                <i class="fas fa-robot" style="color:#4f6ef7;"></i>
+                Harness Engineering · 企业级 AI 工程化实践
+                <i class="fas fa-robot" style="color:#4f6ef7;"></i>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="footer">
+        <p>
+            <i class="fas fa-code"></i> Harness Engineering · 企业级 AI 工程化实践 &nbsp;|&nbsp;
+            <i class="fab fa-github"></i> <a href="#">GitHub</a> &nbsp;·&nbsp;
+            <i class="fas fa-envelope"></i> <a href="#">me@example.com</a>
+        </p>
+        <p style="margin-top:6px; font-size:0.8rem; color:#8a9aaa;">
+            Prompt Engineering · Context Engineering · Harness Engineering · 四大支柱 · 十阶段流水线
+        </p>
+    </footer>
+
+</div>
+
+</body>
+</html>
