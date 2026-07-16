@@ -343,6 +343,67 @@
         </div>
     </section>
 
+    <!-- ===== 架构图 ===== -->
+    <section class="card">
+        <div class="card-title">
+            <i class="fas fa-sitemap"></i> 部署架构图
+            <span class="badge">CI/CD 端到端自动化部署架构</span>
+        </div>
+		<div style="
+			background: #f5f7fb;
+			border-radius: 12px;
+			padding: 1rem;
+			border: 1px solid #e8ecf0;
+			text-align: center;
+			overflow: hidden;
+		">
+			<img 
+				src="../assets/images/cicd-arch.png" 
+				alt="CI/CD 系统架构图" 
+				style="
+					max-width: 100%;
+					height: auto;
+					border-radius: 8px;
+					display: block;
+				"
+			/>
+			<span style="color:#4f6ef7;font-weight:600;">Git → Webhook → Jenkins → Build → Test → Sonar → Docker → Push → K8s → Notify</span>
+		</div>
+        <!-- <div style=" -->
+            <!-- background: #f5f7fb; -->
+            <!-- border-radius: 12px; -->
+            <!-- padding: 1.5rem; -->
+            <!-- border: 1px solid #e8ecf0; -->
+            <!-- text-align: center; -->
+            <!-- overflow-x: auto; -->
+            <!-- font-family: 'JetBrains Mono', monospace; -->
+            <!-- font-size: 0.8rem; -->
+            <!-- color: #1a1a2e; -->
+            <!-- line-height: 2; -->
+        <!-- "> -->
+            <!-- <pre style="margin:0; text-align:left; white-space:pre;"> -->
+<!-- ┌─────────────┐    ┌─────────────┐    ┌─────────────┐    ┌─────────────┐ -->
+<!-- │   👨‍💻 程序员  │───▶│   📦 Git    │───▶│  🔗 Webhook │───▶│  🛠️ Jenkins │ -->
+<!-- │  提交代码    │    │  仓库       │    │  触发器     │    │  Pipeline   │ -->
+<!-- └─────────────┘    └─────────────┘    └─────────────┘    └──────┬──────┘ -->
+                                                                  <!-- │ -->
+                                                                  <!-- ▼ -->
+<!-- ┌─────────────┐    ┌─────────────┐    ┌─────────────┐    ┌─────────────┐ -->
+<!-- │   📊 Sonar  │◀───│   🧪 测试   │───▶│   🐳 Docker │───▶│   📦 镜像   │ -->
+<!-- │  质量分析    │    │  覆盖率     │    │  镜像构建   │    │  仓库       │ -->
+<!-- └─────────────┘    └─────────────┘    └─────────────┘    └──────┬──────┘ -->
+                                                                  <!-- │ -->
+                                                                  <!-- ▼ -->
+<!-- ┌─────────────┐    ┌─────────────┐    ┌─────────────┐ -->
+<!-- │   📱 微信   │◀───│   ☸️ K8s    │───▶│   ✅ 服务   │ -->
+<!-- │  通知       │    │  滚动部署   │    │  上线完成   │ -->
+<!-- └─────────────┘    └─────────────┘    └─────────────┘ -->
+
+<!-- <span style="color:#4f6ef7;font-weight:600;">Git → Webhook → Jenkins → Build → Test → Sonar → Docker → Push → K8s → Notify</span> -->
+            <!-- </pre> -->
+        <!-- </div> -->
+    </section>
+
     <!-- ===== 构建参数 ===== -->
     <section class="card">
         <div class="card-title">
@@ -625,67 +686,6 @@
             <span><strong>通知：</strong>企业微信 Webhook</span>
             <span><strong>版本控制：</strong>GitLab</span>
         </div>
-    </section>
-
-    <!-- ===== 架构图 ===== -->
-    <section class="card">
-        <div class="card-title">
-            <i class="fas fa-sitemap"></i> 部署架构图
-            <span class="badge">CI/CD 端到端自动化部署架构</span>
-        </div>
-		<div style="
-			background: #f5f7fb;
-			border-radius: 12px;
-			padding: 1rem;
-			border: 1px solid #e8ecf0;
-			text-align: center;
-			overflow: hidden;
-		">
-			<img 
-				src="../assets/images/cicd-arch.png" 
-				alt="CI/CD 系统架构图" 
-				style="
-					max-width: 100%;
-					height: auto;
-					border-radius: 8px;
-					display: block;
-				"
-			/>
-			<span style="color:#4f6ef7;font-weight:600;">Git → Webhook → Jenkins → Build → Test → Sonar → Docker → Push → K8s → Notify</span>
-		</div>
-        <!-- <div style=" -->
-            <!-- background: #f5f7fb; -->
-            <!-- border-radius: 12px; -->
-            <!-- padding: 1.5rem; -->
-            <!-- border: 1px solid #e8ecf0; -->
-            <!-- text-align: center; -->
-            <!-- overflow-x: auto; -->
-            <!-- font-family: 'JetBrains Mono', monospace; -->
-            <!-- font-size: 0.8rem; -->
-            <!-- color: #1a1a2e; -->
-            <!-- line-height: 2; -->
-        <!-- "> -->
-            <!-- <pre style="margin:0; text-align:left; white-space:pre;"> -->
-<!-- ┌─────────────┐    ┌─────────────┐    ┌─────────────┐    ┌─────────────┐ -->
-<!-- │   👨‍💻 程序员  │───▶│   📦 Git    │───▶│  🔗 Webhook │───▶│  🛠️ Jenkins │ -->
-<!-- │  提交代码    │    │  仓库       │    │  触发器     │    │  Pipeline   │ -->
-<!-- └─────────────┘    └─────────────┘    └─────────────┘    └──────┬──────┘ -->
-                                                                  <!-- │ -->
-                                                                  <!-- ▼ -->
-<!-- ┌─────────────┐    ┌─────────────┐    ┌─────────────┐    ┌─────────────┐ -->
-<!-- │   📊 Sonar  │◀───│   🧪 测试   │───▶│   🐳 Docker │───▶│   📦 镜像   │ -->
-<!-- │  质量分析    │    │  覆盖率     │    │  镜像构建   │    │  仓库       │ -->
-<!-- └─────────────┘    └─────────────┘    └─────────────┘    └──────┬──────┘ -->
-                                                                  <!-- │ -->
-                                                                  <!-- ▼ -->
-<!-- ┌─────────────┐    ┌─────────────┐    ┌─────────────┐ -->
-<!-- │   📱 微信   │◀───│   ☸️ K8s    │───▶│   ✅ 服务   │ -->
-<!-- │  通知       │    │  滚动部署   │    │  上线完成   │ -->
-<!-- └─────────────┘    └─────────────┘    └─────────────┘ -->
-
-<!-- <span style="color:#4f6ef7;font-weight:600;">Git → Webhook → Jenkins → Build → Test → Sonar → Docker → Push → K8s → Notify</span> -->
-            <!-- </pre> -->
-        <!-- </div> -->
     </section>
 
     <!-- ===== FOOTER ===== -->
