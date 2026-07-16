@@ -422,7 +422,7 @@
             <tbody>
                 <tr>
                     <td><span class="param-name">CUSTOM_BRANCH</span></td>
-                    <td><span class="param-type">Choice</span></td>
+                    <td><span class="param-type">String</span></td>
                     <td><code>main / feature/* / release/*</code></td>
                     <td>选择分支</td>
                 </tr>
@@ -441,7 +441,7 @@
                 <tr>
                     <td><span class="param-name">CUSTOM_VERSION</span></td>
                     <td><span class="param-type">String</span></td>
-                    <td><code>''</code>（留空用分支名）</td>
+                    <td><code>''</code></td>
                     <td>自定义版本号</td>
                 </tr>
                 <tr>
@@ -615,22 +615,22 @@
 
     <span class="cmt">// ===== 构建参数 =====</span>
     <span class="kw">parameters</span> {
-        <span class="fn">choice</span>(<span class="kw">name</span>: <span class="str">'CUSTOM_BRANCH'</span>, <span class="kw">choices</span>: [<span class="str">'dev'</span>, <span class="str">'test'</span>, <span class="str">'mes_1'</span>], <span class="kw">description</span>: <span class="str">'选择分支'</span>)
+        <span class="fn">string</span>(<span class="kw">name</span>: <span class="str">'CUSTOM_BRANCH'</span>, <span class="kw">defaultValue</span>: <span class="str">''</span>, <span class="kw">description</span>: <span class="str">'分支名'</span>)
         <span class="fn">string</span>(<span class="kw">name</span>: <span class="str">'CUSTOM_PROJECT'</span>, <span class="kw">defaultValue</span>: <span class="str">''</span>, <span class="kw">description</span>: <span class="str">'项目名称'</span>)
-        <span class="fn">choice</span>(<span class="kw">name</span>: <span class="str">'CUSTOM_ENVIRONMENT'</span>, <span class="kw">choices</span>: [<span class="str">'dev'</span>, <span class="str">'test'</span>], <span class="kw">description</span>: <span class="str">'部署环境'</span>)
-        <span class="fn">string</span>(<span class="kw">name</span>: <span class="str">'CUSTOM_VERSION'</span>, <span class="kw">defaultValue</span>: <span class="str">''</span>, <span class="kw">description</span>: <span class="str">'版本号（留空用分支名）'</span>)
-        <span class="fn">booleanParam</span>(<span class="kw">name</span>: <span class="str">'SKIP_TESTS'</span>, <span class="kw">defaultValue</span>: <span class="kw">true</span>, <span class="kw">description</span>: <span class="str">'跳过测试'</span>)
+        <span class="fn">choice</span>(<span class="kw">name</span>: <span class="str">'CUSTOM_ENVIRONMENT'</span>, <span class="kw">choices</span>: [<span class="str">'dev'</span>, <span class="str">'test'</span>], <span class="str">'prod'</span>], <span class="kw">description</span>: <span class="str">'部署环境'</span>)
+        <span class="fn">string</span>(<span class="kw">name</span>: <span class="str">'CUSTOM_VERSION'</span>, <span class="kw">defaultValue</span>: <span class="str">''</span>, <span class="kw">description</span>: <span class="str">'版本号'</span>)
+        <span class="fn">booleanParam</span>(<span class="kw">name</span>: <span class="str">'SKIP_TESTS'</span>, <span class="kw">defaultValue</span>: <span class="kw">false</span>, <span class="kw">description</span>: <span class="str">'跳过测试'</span>)
         <span class="fn">booleanParam</span>(<span class="kw">name</span>: <span class="str">'SKIP_DEPLOY'</span>, <span class="kw">defaultValue</span>: <span class="kw">false</span>, <span class="kw">description</span>: <span class="str">'跳过部署'</span>)
     }
 
     <span class="cmt">// ===== 环境变量 =====</span>
     <span class="kw">environment</span> {
         CHAT_WEBHOOK_KEY = <span class="fn">credentials</span>(<span class="str">'wechat-webhook-key'</span>)
-        GIT_CRED_ID       = <span class="str">'fa2845e8-57d8-461b-9fb4-63cb5a285752'</span>
+        GIT_CRED_ID       = <span class="str">'fa2845e8-57d8-xxxx-9fb4-63cb5axxxxxx'</span>
         DOCKER_CRED_ID    = <span class="str">'docker-registry-cred'</span>
         SONAR_TOKEN       = <span class="fn">credentials</span>(<span class="str">'sonar-qube-token'</span>)
-        IMAGE_REGISTRY    = <span class="str">'dev.klhbs.com:8433'</span>
-        SONAR_URL         = <span class="str">'http://dev.klhbs.com:9000'</span>
+        IMAGE_REGISTRY    = <span class="str">'harbor.xxx.com'</span>
+        SONAR_URL         = <span class="str">'http://sonar.xxx.com'</span>
         SONAR_SCANNER_HOME = <span class="fn">tool</span>(<span class="kw">name</span>: <span class="str">'Sonar-Scanner-4.x'</span>)
     }
 
