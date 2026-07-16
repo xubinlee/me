@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>跨境电商 &amp; 全渠道零售 · 行业技能</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <link rel="stylesheet" href="../assets/css/style.css" />
+    <style>
+        /* ===== 文档内容样式 ===== */
+        .doc-content {
+            padding: 1.5rem 2rem 2rem 2rem;
+            color: #1a1a2e;
+            font-size: 0.95rem;
+            line-height: 1.8;
+            background: #ffffff;
+            border-radius: 0 0 16px 16px;
+        }
+
+        .doc-content h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #1a1a2e;
+            margin-bottom: 0.3rem;
+            letter-spacing: -0.5px;
+        }
+
+        .doc-content h1 .subtitle {
+            font-size: 1rem;
+            font-weight: 400;
+            color: #5a6a7e;
+            display: block;
+            margin-top: 2px;
+        }
+
+        .doc-content h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #1a1a2e;
+            margin-top: 2rem;
+            margin-bottom: 0.8rem;
+            border-bottom: 2px solid #eef0f4;
+            padding-bottom: 0.4rem;
+        }
+
+        .doc-content h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #2a3a5e;
+            margin-top: 1.2rem;
+            margin-bottom: 0.4rem;
+        }
+
+        .doc-content h4 {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: #4f6ef7;
+            margin-top: 0.8rem;
+            margin-bottom: 0.2rem;
+        }
+
+        .doc-content p {
+            margin-bottom: 0.7rem;
+            color: #2a2a3e;
+        }
+
+        .doc-content ul,
+        .doc-content ol {
+            padding-left: 1.8rem;
+            margin-bottom: 0.7rem;
+        }
+
+        .doc-content li {
+            margin-bottom: 0.2rem;
+            color: #2a2a3e;
+        }
+
+        .doc-content strong {
+            color: #1a1a2e;
+            font-weight: 600;
+        }
+
+        .doc-content code {
+            background: #eef2f7;
+            padding: 0.1rem 0.4rem;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            color: #4f6ef7;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* ===== 高亮框 ===== */
+        .doc-content .highlight-box {
+            background: #f5f7fb;
+            border-left: 4px solid #4f6ef7;
+            padding: 1rem 1.2rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+        }
+
+        .doc-content .highlight-box .label {
+            font-weight: 600;
+            color: #4f6ef7;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .doc-content .highlight-box .content {
+            margin-top: 4px;
+        }
+
+        .doc-content .highlight-box.green {
+            border-left-color: #1a8a5a;
+            background: #f0f7f0;
+        }
+
+        .doc-content .highlight-box.gold {
+            border-left-color: #e8a838;
+            background: #fdf8f0;
+        }
+
+        /* ===== 对比表格 ===== */
+        .doc-content .compare-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+            margin: 0.8rem 0;
+        }
+
+        .doc-content .compare-table th {
+            background: #eef2f7;
+            text-align: left;
+            padding: 0.5rem 1rem;
+            font-weight: 600;
+            color: #1a1a2e;
+            border-bottom: 2px solid #d0d6e0;
+        }
+
+        .doc-content .compare-table td {
+            padding: 0.5rem 1rem;
+            border-bottom: 1px solid #e8ecf0;
+            color: #2a2a3e;
+        }
+
+        .doc-content .compare-table tr:hover td {
+            background: #f5f7fb;
+        }
+
+        .doc-content .compare-table .badge-good {
+            display: inline-block;
+            background: #e6f7ed;
+            color: #1a8a5a;
+            padding: 0.05rem 0.5rem;
+            border-radius: 12px;
+            font-size: 0.7rem;
+        }
+
+        .doc-content .compare-table .badge-bad {
+            display: inline-block;
+            background: #fde8e8;
+            color: #c0392b;
+            padding: 0.05rem 0.5rem;
+            border-radius: 12px;
+            font-size: 0.7rem;
+        }
+
+        /* ===== 策略卡片 ===== */
+        .doc-content .strategy-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin: 0.8rem 0;
+        }
+
+        .doc-content .strategy-grid .item {
+            background: #f5f7fb;
+            border-radius: 10px;
+            padding: 1rem 1.2rem;
+            border: 1px solid #e8ecf0;
+            transition: all 0.2s;
+        }
+
+        .doc-content .strategy-grid .item:hover {
+            border-color: #4f6ef7;
+            background: #f0f4ff;
+        }
+
+        .doc-content .strategy-grid .item .title {
+            font-weight: 600;
+            color: #4f6ef7;
+            font-size: 0.95rem;
+        }
+
+        .doc-content .strategy-grid .item .desc {
+            color: #3a3a4e;
+            font-size: 0.9rem;
+            margin-top: 2px;
+        }
+
+        /* ===== 流程步骤 ===== */
+        .doc-content .flow-steps {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px 12px;
+            margin: 0.8rem 0;
+            padding: 1rem;
+            background: #f5f7fb;
+            border-radius: 10px;
+            border: 1px solid #e8ecf0;
+        }
+
+        .doc-content .flow-steps .step {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.9rem;
+            color: #2a2a3e;
+        }
+
+        .doc-content .flow-steps .step .num {
+            background: #4f6ef7;
+            color: #ffffff;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .doc-content .flow-steps .step .arrow {
+            color: #b0c0d0;
+            font-size: 1.2rem;
+        }
+
+        /* ===== Lua 代码块 ===== */
+        .doc-content .lua-code {
+            background: #0b0e14;
+            border-radius: 10px;
+            padding: 1.2rem 1.5rem;
+            overflow-x: auto;
+            font-family: 'JetBrains Mono', 'Fira Code', monospace;
+            font-size: 0.8rem;
+            line-height: 1.8;
+            color: #e8edf5;
+            border: 1px solid #252e3c;
+            margin: 0.8rem 0;
+        }
+
+        .doc-content .lua-code .kw { color: #c792ea; }
+        .doc-content .lua-code .str { color: #c3e88d; }
+        .doc-content .lua-code .cmt { color: #546e7a; font-style: italic; }
+        .doc-content .lua-code .fn { color: #82aaff; }
+        .doc-content .lua-code .num { color: #f78c6c; }
+        .doc-content .lua-code .op { color: #89ddff; }
+        .doc-content .lua-code .var { color: #eeffff; }
+
+        /* ===== 响应式 ===== */
+        @media (max-width: 680px) {
+            .doc-content {
+                padding: 1rem;
+                font-size: 0.9rem;
+            }
+            .doc-content h1 {
+                font-size: 1.5rem;
+            }
+            .doc-content h2 {
+                font-size: 1.2rem;
+            }
+            .doc-content .strategy-grid {
+                grid-template-columns: 1fr;
+            }
+            .doc-content .compare-table {
+                font-size: 0.75rem;
+            }
+            .doc-content .compare-table th,
+            .doc-content .compare-table td {
+                padding: 0.3rem 0.5rem;
+            }
+            .doc-content .flow-steps {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .doc-content .flow-steps .step .arrow {
+                display: none;
+            }
+            .doc-content .lua-code {
+                font-size: 0.65rem;
+                padding: 0.8rem 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <!-- ===== HEADER ===== -->
+    <header class="header">
+        <div class="header-left">
+            <h1>🌐 跨境电商 &amp; 全渠道零售</h1>
+            <div class="sub">
+                <span><i class="fas fa-cube"></i> 微服务架构</span>
+                <span><i class="fas fa-rocket"></i> 高并发</span>
+                <span><i class="fas fa-warehouse"></i> 多仓库存</span>
+                <span><i class="fas fa-globe"></i> 跨境网络优化</span>
+            </div>
+        </div>
+        <div class="header-right">
+            <a href="../" title="返回首页"><i class="fas fa-home"></i></a>
+            <a href="#" title="GitHub"><i class="fab fa-github"></i></a>
+        </div>
+    </header>
+
+    <!-- ===== 返回链接 ===== -->
+    <a href="../" class="back-link"><i class="fas fa-arrow-left"></i> 返回项目列表</a>
+
+    <!-- ===== 文档内容 ===== -->
+    <section class="card card-doc">
+        <div class="card-title">
+            <i class="fas fa-file-alt"></i> 行业技能文档
+            <span class="badge">微服务 · 高并发 · 多仓库存</span>
+        </div>
+
+        <div class="doc-content">
+
+            <h1>
+                🌐 跨境电商 &amp; 全渠道零售行业技能
+                <span class="subtitle">微服务架构 · 高并发 · 多仓库存 · 跨境网络优化</span>
+            </h1>
+
+            <!-- ========================================================= -->
+            <!-- 第一部分：微服务架构 -->
+            <!-- ========================================================= -->
+            <h2>微服务架构篇</h2>
+
+            <h3>Q1：跨境电商为什么要做微服务拆分？单体架构撑不住吗？</h3>
+
+            <h4>业务视角</h4>
+            <ul>
+                <li>跨境电商业务复杂度远超国内电商：多国站点、多币种、多语言、多物流链路、多合规体系，单体架构的代码耦合度会随国家站点增加呈指数级膨胀</li>
+                <li>各国家站点迭代节奏不同（俄罗斯大促是11月、东南亚大促是6月斋月后），单体架构无法按站点独立发布</li>
+                <li>跨境业务对可用性要求更高（跨境网络不稳定），需要核心链路（下单/支付）与非核心链路（推荐/评价）隔离，避免非核心故障拖垮核心</li>
+            </ul>
+
+            <h4>技术视角</h4>
+            <ul>
+                <li><strong>单体架构痛点量化：</strong>代码量 50W+ 行 → 编译部署 30min+ → 全量发布风险高 → 一个模块 OOM 整机挂掉</li>
+                <li><strong>微服务拆分后：</strong>订单/库存/物流/支付/商品/用户 6 大核心域独立部署，提高核心链路可用性</li>
+                <li><strong>拆分原则：</strong>DDD 领域驱动，按业务边界而非技术层拆分，避免分布式单体</li>
+            </ul>
+
+            <div class="highlight-box">
+                <div class="label">💡 加分点</div>
+                <div class="content">
+                    "我们拆分时遵循两个原则：一是<strong>业务闭环</strong>（每个服务能独立完成一个业务场景），二是<strong>数据自治</strong>（每个服务拥有自己的数据库，不跨库 JOIN）。拆分后订单服务独立数据库，库存服务独立数据库，通过领域事件（RocketMQ）实现最终一致性，而非分布式事务。"
+                </div>
+            </div>
+
+            <!-- ========================================================= -->
+            <h3>Q2：微服务拆分后，分布式事务怎么处理？Seata 还是 MQ？</h3>
+
+            <table class="compare-table">
+                <thead>
+                    <tr>
+                        <th>维度</th>
+                        <th>Seata AT 模式</th>
+                        <th>RocketMQ 事务消息</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>一致性</strong></td>
+                        <td>强一致（分支事务全部提交或回滚）</td>
+                        <td>最终一致（消息确认+补偿）</td>
+                    </tr>
+                    <tr>
+                        <td><strong>性能</strong></td>
+                        <td><span class="badge-bad">全局锁持有时间长，并发度低</span></td>
+                        <td><span class="badge-good">无全局锁，并发度高</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>侵入性</strong></td>
+                        <td>需要 undo_log 表，对业务有侵入</td>
+                        <td>仅需实现本地事务+回查接口</td>
+                    </tr>
+                    <tr>
+                        <td><strong>适用场景</strong></td>
+                        <td>资金类强一致要求</td>
+                        <td>电商类最终一致即可</td>
+                    </tr>
+                    <tr>
+                        <td><strong>跨境场景适配</strong></td>
+                        <td><span class="badge-bad">跨境网络延迟大，全局锁持有时间更长</span></td>
+                        <td><span class="badge-good">天然适配异步场景，不受跨境网络影响</span></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h4>跨境电商最佳实践：下单流程</h4>
+            <div class="flow-steps">
+                <span class="step"><span class="num">1</span> 订单服务：创建订单（本地事务）</span>
+                <span class="step"><span class="arrow">→</span></span>
+                <span class="step"><span class="num">2</span> 发送半消息</span>
+                <span class="step"><span class="arrow">→</span></span>
+                <span class="step"><span class="num">3</span> 库存服务：扣减库存（本地事务）</span>
+                <span class="step"><span class="arrow">→</span></span>
+                <span class="step"><span class="num">4</span> 消费消息</span>
+                <span class="step"><span class="arrow">→</span></span>
+                <span class="step"><span class="num">5</span> 库存扣减失败 → 订单回滚（RocketMQ 回查机制）</span>
+            </div>
+
+            <div class="highlight-box green">
+                <div class="label">🚀 为什么不用 Seata？</div>
+                <div class="content">
+                    <ul style="margin:4px 0 0 1.2rem;">
+                        <li>下单链路涉及订单 + 库存 + 营销 3 个服务，跨境网络 RT 200ms+</li>
+                        <li>Seata 全局锁持有时间 = 本地事务时间 + 网络 RT × 2，跨境场景下全局锁持有时间翻倍</li>
+                        <li>大促场景下全局锁竞争激烈，TPS 下降明显</li>
+                        <li>RocketMQ 事务消息：本地事务 + 异步消息，无全局锁，TPS 不受跨境网络影响</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="highlight-box gold">
+                <div class="label">💡 加分点</div>
+                <div class="content">
+                    "我们选择 RocketMQ 事务消息而非 Seata，核心原因是跨境场景下网络 RT 高（200ms+），Seata 全局锁持有时间长导致并发度低。但资金类场景（退款/结算）我们用<strong>本地消息表 + 定时补偿</strong>，保证资金强一致。"
+                </div>
+            </div>
+
+            <!-- ========================================================= -->
+            <h3>Q3：服务间调用用什么？Feign 还是 gRPC？跨境网络延迟怎么优化？</h3>
+
+            <h4>方案选型</h4>
+            <ul>
+                <li><strong>内部服务间调用：</strong>OpenFeign（Spring Cloud 生态一致性好，开发效率高）</li>
+                <li><strong>高频核心链路（库存查询/价格查询）：</strong>gRPC（Protobuf 序列化体积小、HTTP/2 多路复用，RT 比 Feign 低 30%+）</li>
+                <li><strong>跨境网关-海外服务：</strong>gRPC（减少网络传输量）</li>
+            </ul>
+
+            <h4>跨境网络延迟优化策略</h4>
+            <div class="strategy-grid">
+                <div class="item">
+                    <span class="title">策略1：就近部署</span>
+                    <span class="desc">东南亚服务部署在新加坡 AWS，俄罗斯服务部署在莫斯科 Yandex Cloud，国内管理后台部署在深圳阿里云。用户请求就近接入，RT 降低 60%。</span>
+                </div>
+                <div class="item">
+                    <span class="title">策略2：异步化</span>
+                    <span class="desc">同步调用→异步消息：订单创建后异步通知库存/物流，核心链路 RT 从 800ms 降至 200ms。本地缓存+异步刷新：商品信息/汇率等读多写少数据。</span>
+                </div>
+                <div class="item">
+                    <span class="title">策略3：超时与重试</span>
+                    <span class="desc">核心链路超时 3s，非核心 5s。重试策略：指数退避（1s/2s/4s），最大 3 次。幂等保障：每次请求携带唯一 requestId，服务端去重。</span>
+                </div>
+                <div class="item">
+                    <span class="title">策略4：数据压缩</span>
+                    <span class="desc">gRPC 默认 Protobuf，比 JSON 体积小 3-5 倍。大列表查询（如商品列表）启用 Gzip 压缩，传输量减少 70%。</span>
+                </div>
+            </div>
+
+            <div class="highlight-box gold">
+                <div class="label">💡 加分点</div>
+                <div class="content">
+                    "跨境网络最大的问题不是延迟，而是不确定性——同一链路 RT 可能从 50ms 跳到 500ms。所以我们设计了<strong>自适应超时策略</strong>：基于滑动窗口统计最近 100 次调用的 P99 RT，动态调整超时阈值。正常时超时 3s，网络抖动时自动放宽到 5s，避免误触发熔断。"
+                </div>
+            </div>
+
+            <!-- ========================================================= -->
+            <!-- 第二部分：高并发 -->
+            <!-- ========================================================= -->
+            <h2>高并发篇</h2>
+
+            <h3>Q4：二级库存机制具体怎么实现的？Redis 预扣和 DB 扣减如何保证一致？</h3>
+
+            <h4>Redis Lua 原子扣减脚本</h4>
+            <div class="lua-code">
+                <pre style="margin:0; white-space:pre-wrap; word-break:break-all;">
+<span class="cmt">-- KEYS[1]: 库存 key (inventory:sku:{skuId}:warehouse:{warehouseId})</span>
+<span class="cmt">-- ARGV[1]: 扣减数量</span>
+<span class="cmt">-- ARGV[2]: 订单号（用于幂等去重）</span>
+
+<span class="kw">local</span> stockKey = KEYS[1]
+<span class="kw">local</span> deductQty = tonumber(ARGV[1])
+<span class="kw">local</span> orderId = ARGV[2]
+
+<span class="cmt">-- 幂等检查：是否已扣减过</span>
+<span class="kw">if</span> redis.call(<span class="str">'SISMEMBER'</span>, stockKey .. <span class="str">':orders'</span>, orderId) == <span class="num">1</span> <span class="kw">then</span>
+    <span class="kw">return</span> <span class="num">0</span> <span class="cmt">-- 已扣减，直接返回</span>
+<span class="kw">end</span>
+
+<span class="cmt">-- 库存检查</span>
+<span class="kw">local</span> currentStock = tonumber(redis.call(<span class="str">'GET'</span>, stockKey) <span class="kw">or</span> <span class="str">'0'</span>)
+<span class="kw">if</span> currentStock &lt; deductQty <span class="kw">then</span>
+    <span class="kw">return</span> -<span class="num">1</span> <span class="cmt">-- 库存不足</span>
+<span class="kw">end</span>
+
+<span class="cmt">-- 扣减库存 + 记录订单号（幂等）</span>
+redis.call(<span class="str">'DECRBY'</span>, stockKey, deductQty)
+redis.call(<span class="str">'SADD'</span>, stockKey .. <span class="str">':orders'</span>, orderId)
+redis.call(<span class="str">'EXPIRE'</span>, stockKey .. <span class="str">':orders'</span>, <span class="num">86400</span>) <span class="cmt">-- 24h 过期</span>
+
+<span class="kw">return</span> <span class="num">1</span> <span class="cmt">-- 扣减成功</span>
+                </pre>
+            </div>
+
+            <h4>一致性保障三层机制</h4>
+            <table class="compare-table">
+                <thead>
+                    <tr><th>层级</th><th>机制</th><th>作用</th></tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>第一层</strong></td>
+                        <td>RocketMQ 事务消息</td>
+                        <td>Redis 扣减成功 → 发半消息 → DB 扣减 → 消息确认；DB 扣减失败 → 消息回滚 → Redis 归还</td>
+                    </tr>
+                    <tr>
+                        <td><strong>第二层</strong></td>
+                        <td>延迟消息补偿</td>
+                        <td>下单后 30min 未支付 → 延迟消息触发 → Redis 归还 + DB 归还（防止库存永久锁定）</td>
+                    </tr>
+                    <tr>
+                        <td><strong>第三层</strong></td>
+                        <td>T+1 库存对账</td>
+                        <td>每日凌晨对比 Redis 与 DB 库存快照，差异自动告警+工单，兜底保障</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="highlight-box gold">
+                <div class="label">💡 加分点</div>
+                <div class="content">
+                    "为什么不用 Redis + Lua + DB 事务的同步方案？因为 DB 行级锁（SELECT FOR UPDATE）在高并发下持有锁时间长，TPS 上不去。我们选择 <strong>Redis 异步预扣 + MQ 最终一致</strong>，Redis 层 TPS 可达 10W+，DB 层通过 MQ 削峰后 TPS 只需支撑 5000+，大促零超卖。"
+                </div>
+            </div>
+
+            <!-- ========================================================= -->
+            <h3>Q5：库存预扣后用户不支付怎么办？超卖和少卖怎么防？</h3>
+
+            <h4>超时未支付库存释放机制</h4>
+            <div class="flow-steps">
+                <span class="step"><span class="num">1</span> 下单</span>
+                <span class="step"><span class="arrow">→</span></span>
+                <span class="step"><span class="num">2</span> 支付等待（30min）</span>
+                <span class="step"><span class="arrow">→</span></span>
+                <span class="step"><span class="num">3</span> 超时未支付</span>
+                <span class="step"><span class="arrow">→</span></span>
+                <span class="step"><span class="num">4</span> 库存释放</span>
+            </div>
+            <ul>
+                <li>下单成功后发送延迟消息（orderId, skuId, qty, warehouseId）</li>
+                <li>30min 后消费者收到消息，查询订单状态：
+                    <ul>
+                        <li>未支付 → 释放 Redis 库存 + 发 MQ 通知 DB 归还库存 + 取消订单</li>
+                        <li>已支付 → 忽略（幂等）</li>
+                    </ul>
+                </li>
+                <li>释放库存也需要幂等（用 orderId 去重），避免重复释放</li>
+            </ul>
+
+            <h4>超卖防护</h4>
+            <ul>
+                <li>Redis 预扣时 Lua 原子操作保证不超卖</li>
+                <li>DB 层行级锁（SELECT...FOR UPDATE）作为最终兜底</li>
+                <li>双重保障：即使 Redis 异常，DB 行级锁也能防止超卖</li>
+            </ul>
+
+            <h4>少卖防护（库存卖不完）</h4>
+            <ul>
+                <li><strong>问题：</strong>Redis 预扣后用户不支付，库存被锁定但实际可售</li>
+                <li><strong>解决：</strong>设置库存锁定超时时间（30min），超时自动释放</li>
+                <li><strong>优化：</strong>大促场景缩短锁定时间至 15min，提高库存流转效率</li>
+            </ul>
+
+            <div class="highlight-box gold">
+                <div class="label">💡 加分点</div>
+                <div class="content">
+                    "少卖比超卖更隐蔽但同样影响营收。我们做了一个优化：大促期间库存锁定时间从 30min 缩短至 15min，同时在商品详情页展示<strong>库存紧张标签</strong>（库存 &lt; 10 件时），制造紧迫感加速用户支付决策，支付转化率提升了 <strong>12%</strong>。"
+                </div>
+            </div>
+
+            <!-- ========================================================= -->
+            <!-- 第三部分：多仓库存 -->
+            <!-- ========================================================= -->
+            <h2>多仓库存篇</h2>
+
+            <h3>多仓库存调度与扣减流程</h3>
+
+            <h4>选仓路由流程</h4>
+            <div class="flow-steps">
+                <span class="step"><span class="num">1</span> 用户下单</span>
+                <span class="step"><span class="arrow">→</span></span>
+                <span class="step"><span class="num">2</span> 选仓路由引擎</span>
+                <span class="step"><span class="arrow">→</span></span>
+                <span class="step"><span class="num">3</span> 确定发货仓</span>
+                <span class="step"><span class="arrow">→</span></span>
+                <span class="step"><span class="num">4</span> 扣减对应仓库存</span>
+            </div>
+
+            <h4>选仓路由规则（优先级从高到低）</h4>
+            <ol>
+                <li><strong>库存充足：</strong>该仓有库存且满足订单数量</li>
+                <li><strong>距离最近：</strong>物流时效最短（国内仓 → 海外仓 → 国内直发）</li>
+                <li><strong>成本最低：</strong>物流成本 + 关税成本综合最低</li>
+                <li><strong>同国优先：</strong>优先从用户所在国家的海外仓发货（清关快）</li>
+            </ol>
+
+            <div class="highlight-box">
+                <div class="label">📦 具体策略示例</div>
+                <div class="content">
+                    <ul style="margin:4px 0 0 1.2rem;">
+                        <li>越南用户下单 → 优先越南海外仓 → 次选东南亚其他海外仓 → 兜底国内直发</li>
+                        <li>俄罗斯用户下单 → 优先俄罗斯海外仓 → 兜底国内直发</li>
+                        <li>库存不足时 → 拆单（有库存的仓先发）+ 缺货部分显示"到货后发货"</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h4>多仓库存扣减流程</h4>
+            <ol>
+                <li>查询分仓库存（Redis 分仓库存 key: <code>inventory:sku:{skuId}:warehouse:{warehouseId}</code>）</li>
+                <li>选仓路由确定发货仓</li>
+                <li>扣减指定仓库存（Lua 原子操作，key 包含 warehouseId）</li>
+                <li>如果需要拆单：
+                    <ul>
+                        <li>订单拆分为多个子订单</li>
+                        <li>每个子订单对应一个发货仓</li>
+                        <li>分别扣减各仓库存</li>
+                    </ul>
+                </li>
+                <li>MQ 异步同步 DB</li>
+            </ol>
+
+            <div class="highlight-box gold">
+                <div class="label">💡 加分点</div>
+                <div class="content">
+                    "选仓路由最大的挑战是<strong>库存快照不一致</strong>——用户看到有库存，下单时可能已被其他用户抢走。我们用 Redis Lua 原子操作做<strong>'查询 + 扣减'一体化</strong>，不是先查再扣，而是 Lua 脚本里判断库存充足直接扣减，保证原子性。扣减失败时自动尝试下一个仓，对用户透明。"
+                </div>
+            </div>
+
+            <div style="margin-top:1.5rem;padding:1rem 0;border-top:2px solid #eef0f4;text-align:center;color:#8a9aaa;font-size:0.9rem;">
+                <i class="fas fa-graduation-cap" style="color:#4f6ef7;"></i>
+                跨境电商 &amp; 全渠道零售 · 行业技能沉淀
+                <i class="fas fa-graduation-cap" style="color:#4f6ef7;"></i>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="footer">
+        <p>
+            <i class="fas fa-code"></i> 跨境电商 &amp; 全渠道零售 · 行业技能 &nbsp;|&nbsp;
+            <i class="fab fa-github"></i> <a href="#">GitHub</a> &nbsp;·&nbsp;
+            <i class="fas fa-envelope"></i> <a href="#">me@example.com</a>
+        </p>
+        <p style="margin-top:6px; font-size:0.8rem; color:#8a9aaa;">
+            微服务架构 · 分布式事务 · 高并发库存 · 多仓调度 · 跨境网络优化
+        </p>
+    </footer>
+
+</div>
+
+</body>
+</html>
