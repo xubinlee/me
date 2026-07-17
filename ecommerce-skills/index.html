@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
     <link rel="stylesheet" href="../assets/css/style.css" />
     <style>
+        /* ===== 全局样式重置（浅色主题适配） ===== */
         .doc-content {
             padding: 1.5rem 2rem 2rem 2rem;
             color: #1a1a2e;
@@ -23,7 +24,6 @@
             margin-bottom: 0.3rem;
             letter-spacing: -0.5px;
         }
-
         .doc-content h1 .subtitle {
             font-size: 1rem;
             font-weight: 400;
@@ -31,7 +31,6 @@
             display: block;
             margin-top: 2px;
         }
-
         .doc-content h2 {
             font-size: 1.5rem;
             font-weight: 600;
@@ -41,7 +40,6 @@
             border-bottom: 2px solid #eef0f4;
             padding-bottom: 0.4rem;
         }
-
         .doc-content h3 {
             font-size: 1.1rem;
             font-weight: 600;
@@ -49,7 +47,6 @@
             margin-top: 1.2rem;
             margin-bottom: 0.4rem;
         }
-
         .doc-content h4 {
             font-size: 0.95rem;
             font-weight: 600;
@@ -57,28 +54,23 @@
             margin-top: 0.8rem;
             margin-bottom: 0.2rem;
         }
-
         .doc-content p {
             margin-bottom: 0.7rem;
             color: #2a2a3e;
         }
-
         .doc-content ul,
         .doc-content ol {
             padding-left: 1.8rem;
             margin-bottom: 0.7rem;
         }
-
         .doc-content li {
             margin-bottom: 0.2rem;
             color: #2a2a3e;
         }
-
         .doc-content strong {
             color: #1a1a2e;
             font-weight: 600;
         }
-
         .doc-content code {
             background: #eef2f7;
             padding: 0.1rem 0.4rem;
@@ -88,6 +80,7 @@
             font-family: 'JetBrains Mono', monospace;
         }
 
+        /* ===== 高亮框 ===== */
         .doc-content .highlight-box {
             background: #f5f7fb;
             border-left: 4px solid #4f6ef7;
@@ -95,7 +88,6 @@
             border-radius: 8px;
             margin: 1rem 0;
         }
-
         .doc-content .highlight-box .label {
             font-weight: 600;
             color: #4f6ef7;
@@ -103,28 +95,29 @@
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
-
         .doc-content .highlight-box .content {
             margin-top: 4px;
         }
-
         .doc-content .highlight-box.gold {
             border-left-color: #e8a838;
             background: #fdf8f0;
         }
-
         .doc-content .highlight-box.green {
             border-left-color: #1a8a5a;
             background: #f0f7f0;
         }
+        .doc-content .highlight-box.red {
+            border-left-color: #c0392b;
+            background: #fdf0f0;
+        }
 
+        /* ===== 表格 ===== */
         .doc-content .compare-table {
             width: 100%;
             border-collapse: collapse;
             font-size: 0.9rem;
             margin: 0.8rem 0;
         }
-
         .doc-content .compare-table th {
             background: #eef2f7;
             text-align: left;
@@ -133,17 +126,14 @@
             color: #1a1a2e;
             border-bottom: 2px solid #d0d6e0;
         }
-
         .doc-content .compare-table td {
             padding: 0.5rem 1rem;
             border-bottom: 1px solid #e8ecf0;
             color: #2a2a3e;
         }
-
         .doc-content .compare-table tr:hover td {
             background: #f5f7fb;
         }
-
         .doc-content .compare-table .badge-good {
             display: inline-block;
             background: #e6f7ed;
@@ -152,7 +142,6 @@
             border-radius: 12px;
             font-size: 0.7rem;
         }
-
         .doc-content .compare-table .badge-bad {
             display: inline-block;
             background: #fde8e8;
@@ -162,13 +151,13 @@
             font-size: 0.7rem;
         }
 
+        /* ===== 网格卡片 ===== */
         .doc-content .strategy-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 1rem;
             margin: 0.8rem 0;
         }
-
         .doc-content .strategy-grid .item {
             background: #f5f7fb;
             border-radius: 10px;
@@ -176,24 +165,115 @@
             border: 1px solid #e8ecf0;
             transition: all 0.2s;
         }
-
         .doc-content .strategy-grid .item:hover {
             border-color: #4f6ef7;
             background: #f0f4ff;
         }
-
         .doc-content .strategy-grid .item .title {
             font-weight: 600;
             color: #4f6ef7;
             font-size: 0.95rem;
         }
-
         .doc-content .strategy-grid .item .desc {
             color: #3a3a4e;
             font-size: 0.9rem;
             margin-top: 2px;
         }
 
+        .doc-content .domain-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 0.8rem;
+            margin: 0.8rem 0;
+        }
+        .doc-content .domain-grid .domain {
+            background: #f5f7fb;
+            border-radius: 10px;
+            padding: 0.8rem 1rem;
+            border: 1px solid #e8ecf0;
+            text-align: center;
+            transition: all 0.2s;
+        }
+        .doc-content .domain-grid .domain:hover {
+            border-color: #4f6ef7;
+            background: #f0f4ff;
+        }
+        .doc-content .domain-grid .domain .name {
+            font-weight: 700;
+            color: #1a1a2e;
+            font-size: 1rem;
+        }
+        .doc-content .domain-grid .domain .services {
+            font-size: 0.8rem;
+            color: #5a6a7e;
+        }
+        .doc-content .domain-grid .domain .special {
+            font-size: 0.75rem;
+            color: #4f6ef7;
+            margin-top: 2px;
+        }
+
+        .doc-content .gateway-filters {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+            gap: 0.6rem;
+            margin: 0.8rem 0;
+        }
+        .doc-content .gateway-filters .filter {
+            background: #f5f7fb;
+            border-radius: 8px;
+            padding: 0.5rem 0.8rem;
+            border: 1px solid #e8ecf0;
+            text-align: center;
+            font-size: 0.85rem;
+            color: #2a2a3e;
+            transition: all 0.2s;
+        }
+        .doc-content .gateway-filters .filter:hover {
+            border-color: #4f6ef7;
+            background: #f0f4ff;
+        }
+        .doc-content .gateway-filters .filter .f-icon {
+            color: #4f6ef7;
+            margin-right: 4px;
+        }
+
+        .doc-content .three-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 0.8rem;
+            margin: 0.8rem 0;
+        }
+        .doc-content .three-col .col {
+            background: #f5f7fb;
+            border-radius: 10px;
+            padding: 0.8rem 1rem;
+            border: 1px solid #e8ecf0;
+            text-align: center;
+            transition: all 0.2s;
+        }
+        .doc-content .three-col .col:hover {
+            border-color: #4f6ef7;
+            background: #f0f4ff;
+        }
+        .doc-content .three-col .col .title {
+            font-weight: 600;
+            color: #4f6ef7;
+            font-size: 0.85rem;
+        }
+        .doc-content .three-col .col .desc {
+            font-size: 0.8rem;
+            color: #3a3a4e;
+        }
+
+        .doc-content .two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin: 0.8rem 0;
+        }
+
+        /* ===== 流程步骤 ===== */
         .doc-content .flow-steps {
             display: flex;
             flex-wrap: wrap;
@@ -204,7 +284,6 @@
             border-radius: 10px;
             border: 1px solid #e8ecf0;
         }
-
         .doc-content .flow-steps .step {
             display: flex;
             align-items: center;
@@ -212,7 +291,6 @@
             font-size: 0.9rem;
             color: #2a2a3e;
         }
-
         .doc-content .flow-steps .step .num {
             background: #4f6ef7;
             color: #ffffff;
@@ -226,12 +304,45 @@
             font-weight: 700;
             flex-shrink: 0;
         }
-
         .doc-content .flow-steps .step .arrow {
             color: #b0c0d0;
             font-size: 1.2rem;
         }
 
+        .doc-content .status-flow {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px 10px;
+            margin: 0.8rem 0;
+            padding: 1rem;
+            background: #f5f7fb;
+            border-radius: 10px;
+            border: 1px solid #e8ecf0;
+            justify-content: center;
+        }
+        .doc-content .status-flow .status {
+            background: #ffffff;
+            border-radius: 20px;
+            padding: 0.3rem 1rem;
+            border: 1px solid #d0d6e0;
+            font-size: 0.8rem;
+            color: #2a2a3e;
+            transition: all 0.2s;
+        }
+        .doc-content .status-flow .status:hover {
+            border-color: #4f6ef7;
+            background: #f0f4ff;
+        }
+        .doc-content .status-flow .status .s-icon {
+            color: #4f6ef7;
+            margin-right: 4px;
+        }
+        .doc-content .status-flow .arrow-flow {
+            color: #b0c0d0;
+            font-size: 1rem;
+        }
+
+        /* ===== 代码块 ===== */
         .doc-content .lua-code {
             background: #0b0e14;
             border-radius: 10px;
@@ -244,7 +355,6 @@
             border: 1px solid #252e3c;
             margin: 0.8rem 0;
         }
-
         .doc-content .lua-code .kw { color: #c792ea; }
         .doc-content .lua-code .str { color: #c3e88d; }
         .doc-content .lua-code .cmt { color: #546e7a; font-style: italic; }
@@ -253,139 +363,42 @@
         .doc-content .lua-code .op { color: #89ddff; }
         .doc-content .lua-code .var { color: #eeffff; }
         .doc-content .lua-code .cls { color: #ffcb6b; }
+        .doc-content .lua-code .ann { color: #f07178; }
 
-        .doc-content .domain-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 0.8rem;
-            margin: 0.8rem 0;
-        }
-
-        .doc-content .domain-grid .domain {
-            background: #f5f7fb;
-            border-radius: 10px;
-            padding: 0.8rem 1rem;
-            border: 1px solid #e8ecf0;
-            text-align: center;
-            transition: all 0.2s;
-        }
-
-        .doc-content .domain-grid .domain:hover {
-            border-color: #4f6ef7;
-            background: #f0f4ff;
-        }
-
-        .doc-content .domain-grid .domain .name {
-            font-weight: 700;
+        .doc-content .lua-code.light {
             color: #1a1a2e;
-            font-size: 1rem;
-        }
-
-        .doc-content .domain-grid .domain .services {
-            font-size: 0.8rem;
-            color: #5a6a7e;
-        }
-
-        .doc-content .domain-grid .domain .special {
-            font-size: 0.75rem;
-            color: #4f6ef7;
-            margin-top: 2px;
-        }
-
-        .doc-content .gateway-filters {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 0.6rem;
-            margin: 0.8rem 0;
-        }
-
-        .doc-content .gateway-filters .filter {
             background: #f5f7fb;
-            border-radius: 8px;
-            padding: 0.5rem 0.8rem;
-            border: 1px solid #e8ecf0;
-            text-align: center;
-            font-size: 0.85rem;
-            color: #2a2a3e;
-            transition: all 0.2s;
+            border-color: #e8ecf0;
         }
+        .doc-content .lua-code.light .cmt { color: #6a7a8e; }
 
-        .doc-content .gateway-filters .filter:hover {
-            border-color: #4f6ef7;
-            background: #f0f4ff;
-        }
-
-        .doc-content .gateway-filters .filter .f-icon {
-            color: #4f6ef7;
-            margin-right: 4px;
-        }
-
-        .doc-content .two-col {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1rem;
-            margin: 0.8rem 0;
-        }
-
+        /* ===== 响应式 ===== */
         @media (max-width: 1024px) {
-            .doc-content .domain-grid {
-                grid-template-columns: 1fr 1fr;
-            }
-            .doc-content .gateway-filters {
-                grid-template-columns: 1fr 1fr;
-            }
+            .doc-content .domain-grid { grid-template-columns: 1fr 1fr; }
+            .doc-content .gateway-filters { grid-template-columns: 1fr 1fr; }
+            .doc-content .three-col { grid-template-columns: 1fr 1fr; }
         }
-
         @media (max-width: 680px) {
-            .doc-content {
-                padding: 1rem;
-                font-size: 0.9rem;
-            }
-            .doc-content h1 {
-                font-size: 1.5rem;
-            }
-            .doc-content h2 {
-                font-size: 1.2rem;
-            }
-            .doc-content .strategy-grid {
-                grid-template-columns: 1fr;
-            }
-            .doc-content .compare-table {
-                font-size: 0.75rem;
-            }
+            .doc-content { padding: 1rem; font-size: 0.9rem; }
+            .doc-content h1 { font-size: 1.5rem; }
+            .doc-content h2 { font-size: 1.2rem; }
+            .doc-content .strategy-grid { grid-template-columns: 1fr; }
+            .doc-content .compare-table { font-size: 0.75rem; }
             .doc-content .compare-table th,
-            .doc-content .compare-table td {
-                padding: 0.3rem 0.5rem;
-            }
-            .doc-content .flow-steps {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-            .doc-content .flow-steps .step .arrow {
-                display: none;
-            }
-            .doc-content .lua-code {
-                font-size: 0.6rem;
-                padding: 0.8rem 1rem;
-            }
-            .doc-content .domain-grid {
-                grid-template-columns: 1fr 1fr;
-            }
-            .doc-content .gateway-filters {
-                grid-template-columns: 1fr 1fr;
-            }
-            .doc-content .two-col {
-                grid-template-columns: 1fr;
-            }
+            .doc-content .compare-table td { padding: 0.3rem 0.5rem; }
+            .doc-content .flow-steps { flex-direction: column; align-items: flex-start; }
+            .doc-content .flow-steps .step .arrow { display: none; }
+            .doc-content .lua-code { font-size: 0.6rem; padding: 0.8rem 1rem; }
+            .doc-content .domain-grid { grid-template-columns: 1fr 1fr; }
+            .doc-content .gateway-filters { grid-template-columns: 1fr 1fr; }
+            .doc-content .two-col { grid-template-columns: 1fr; }
+            .doc-content .three-col { grid-template-columns: 1fr; }
+            .doc-content .status-flow { flex-direction: column; align-items: center; }
+            .doc-content .status-flow .arrow-flow { display: none; }
         }
-
         @media (max-width: 480px) {
-            .doc-content .domain-grid {
-                grid-template-columns: 1fr;
-            }
-            .doc-content .gateway-filters {
-                grid-template-columns: 1fr;
-            }
+            .doc-content .domain-grid { grid-template-columns: 1fr; }
+            .doc-content .gateway-filters { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -402,7 +415,8 @@
                 <span><i class="fas fa-rocket"></i> 高并发库存</span>
                 <span><i class="fas fa-warehouse"></i> 多仓调度</span>
                 <span><i class="fas fa-bolt"></i> 事件驱动</span>
-                <span><i class="fas fa-globe"></i> 跨境网络优化</span>
+                <span><i class="fas fa-globe"></i> 跨境支付</span>
+                <span><i class="fas fa-truck"></i> 物流状态机</span>
             </div>
         </div>
         <div class="header-right">
@@ -418,14 +432,14 @@
     <section class="card card-doc">
         <!-- <div class="card-title"> -->
             <!-- <i class="fas fa-file-alt"></i> 行业技能文档 -->
-            <!-- <span class="badge">微服务 · 高并发 · 多仓 · 事件驱动</span> -->
+            <!-- <span class="badge">微服务 · 高并发 · 多仓 · 支付 · 物流 · 业财一体</span> -->
         <!-- </div> -->
 
         <div class="doc-content">
 
             <!-- <h1> -->
                 <!-- 📚 跨境电商 &amp; 全渠道零售行业技能 -->
-                <!-- <span class="subtitle">微服务架构 · 高并发库存 · 多仓调度 · 事件驱动集成</span> -->
+                <!-- <span class="subtitle">微服务架构 · 高并发库存 · 多仓调度 · 事件驱动 · 跨境支付 · 物流状态机 · 业财一体</span> -->
             <!-- </h1> -->
 
             <!-- ========================================================= -->
@@ -450,36 +464,12 @@
             </ul>
 
             <div class="domain-grid">
-                <div class="domain">
-                    <div class="name">🛍️ 商品域</div>
-                    <div class="services">商品中心 · 类目中心 · SKU 映射</div>
-                    <div class="special">多国合规审核 · 多语言商品信息</div>
-                </div>
-                <div class="domain">
-                    <div class="name">📦 订单域</div>
-                    <div class="services">订单中心 · 售后中心</div>
-                    <div class="special">多国履约规则 · COD 确认机制</div>
-                </div>
-                <div class="domain">
-                    <div class="name">📊 库存域</div>
-                    <div class="services">库存中心 · 调拨中心</div>
-                    <div class="special">多仓共享 · 跨境调拨 · 在途库存</div>
-                </div>
-                <div class="domain">
-                    <div class="name">💳 支付域</div>
-                    <div class="services">支付网关 · 结算中心</div>
-                    <div class="special">多国本地支付 · 汇率转换 · 跨境结算</div>
-                </div>
-                <div class="domain">
-                    <div class="name">🚚 物流域</div>
-                    <div class="services">物流调度 · 轨迹追踪</div>
-                    <div class="special">头程/尾程分离 · 清关节点 · 多物流商适配</div>
-                </div>
-                <div class="domain">
-                    <div class="name">👤 用户域</div>
-                    <div class="services">用户中心 · 认证中心</div>
-                    <div class="special">多国 SSO · VK/Yandex 等本地登录</div>
-                </div>
+                <div class="domain"><div class="name">🛍️ 商品域</div><div class="services">商品中心 · 类目中心 · SKU 映射</div><div class="special">多国合规审核 · 多语言商品信息</div></div>
+                <div class="domain"><div class="name">📦 订单域</div><div class="services">订单中心 · 售后中心</div><div class="special">多国履约规则 · COD 确认机制</div></div>
+                <div class="domain"><div class="name">📊 库存域</div><div class="services">库存中心 · 调拨中心</div><div class="special">多仓共享 · 跨境调拨 · 在途库存</div></div>
+                <div class="domain"><div class="name">💳 支付域</div><div class="services">支付网关 · 结算中心</div><div class="special">多国本地支付 · 汇率转换 · 跨境结算</div></div>
+                <div class="domain"><div class="name">🚚 物流域</div><div class="services">物流调度 · 轨迹追踪</div><div class="special">头程/尾程分离 · 清关节点 · 多物流商适配</div></div>
+                <div class="domain"><div class="name">👤 用户域</div><div class="services">用户中心 · 认证中心</div><div class="special">多国 SSO · VK/Yandex 等本地登录</div></div>
             </div>
 
             <ul>
@@ -489,18 +479,14 @@
 
             <div class="highlight-box gold">
                 <div class="label">💡 加分点</div>
-                <div class="content">
-                    "我们拆分时遵循两个原则：一是<strong>业务闭环</strong>（每个服务能独立完成一个业务场景），二是<strong>数据自治</strong>（每个服务拥有自己的数据库，不跨库 JOIN）。拆分后订单服务独立数据库，库存服务独立数据库，通过领域事件（RocketMQ）实现最终一致性，而非分布式事务。"
-                </div>
+                <div class="content">"我们拆分时遵循两个原则：一是<strong>业务闭环</strong>（每个服务能独立完成一个业务场景），二是<strong>数据自治</strong>（每个服务拥有自己的数据库，不跨库 JOIN）。拆分后订单服务独立数据库，库存服务独立数据库，通过领域事件（RocketMQ）实现最终一致性，而非分布式事务。"</div>
             </div>
 
             <!-- ========================================================= -->
             <h3>Q：微服务拆分后，分布式事务怎么处理？Seata 还是 MQ？</h3>
 
             <table class="compare-table">
-                <thead>
-                    <tr><th>维度</th><th>Seata AT 模式</th><th>RocketMQ 事务消息</th></tr>
-                </thead>
+                <thead><tr><th>维度</th><th>Seata AT 模式</th><th>RocketMQ 事务消息</th></tr></thead>
                 <tbody>
                     <tr><td><strong>一致性</strong></td><td>强一致（分支事务全部提交或回滚）</td><td>最终一致（消息确认 + 补偿）</td></tr>
                     <tr><td><strong>性能</strong></td><td><span class="badge-bad">全局锁持有时间长，并发度低</span></td><td><span class="badge-good">无全局锁，并发度高</span></td></tr>
@@ -510,7 +496,6 @@
                 </tbody>
             </table>
 
-            <h4>下单流程（RocketMQ 事务消息）</h4>
             <div class="flow-steps">
                 <span class="step"><span class="num">1</span> 订单服务：创建订单（本地事务）</span>
                 <span class="step"><span class="arrow">→</span></span>
@@ -525,64 +510,38 @@
 
             <div class="highlight-box green">
                 <div class="label">🚀 为什么不用 Seata？</div>
-                <div class="content">
-                    <ul style="margin:4px 0 0 1.2rem;">
-                        <li>下单链路涉及订单 + 库存 + 营销 3 个服务，跨境网络 RT 200ms+</li>
-                        <li>Seata 全局锁持有时间 = 本地事务时间 + 网络 RT × 2，跨境场景下全局锁持有时间翻倍</li>
-                        <li>大促场景下全局锁竞争激烈，TPS 下降明显</li>
-                        <li>RocketMQ 事务消息：本地事务 + 异步消息，无全局锁，TPS 不受跨境网络影响</li>
-                    </ul>
-                </div>
+                <div class="content"><ul style="margin:4px 0 0 1.2rem;"><li>下单链路涉及订单 + 库存 + 营销 3 个服务，跨境网络 RT 200ms+</li><li>Seata 全局锁持有时间 = 本地事务时间 + 网络 RT × 2，跨境场景下全局锁持有时间翻倍</li><li>大促场景下全局锁竞争激烈，TPS 下降明显</li><li>RocketMQ 事务消息：本地事务 + 异步消息，无全局锁，TPS 不受跨境网络影响</li></ul></div>
             </div>
 
             <div class="highlight-box gold">
                 <div class="label">💡 加分点</div>
-                <div class="content">
-                    "我们选择 RocketMQ 事务消息而非 Seata，核心原因是跨境场景下网络 RT 高（200ms+），Seata 全局锁持有时间长导致并发度低。但资金类场景（退款/结算）我们用<strong>本地消息表 + 定时补偿</strong>，保证资金强一致。"
-                </div>
+                <div class="content">"我们选择 RocketMQ 事务消息而非 Seata，核心原因是跨境场景下网络 RT 高（200ms+），Seata 全局锁持有时间长导致并发度低。但资金类场景（退款/结算）我们用<strong>本地消息表 + 定时补偿</strong>，保证资金强一致。"</div>
             </div>
 
             <!-- ========================================================= -->
             <h3>Q：服务间调用用什么？Feign 还是 gRPC？跨境网络延迟怎么优化？</h3>
 
-            <h4>方案选型</h4>
             <ul>
                 <li><strong>内部服务间调用：</strong>OpenFeign（Spring Cloud 生态一致性好，开发效率高）</li>
                 <li><strong>高频核心链路（库存查询/价格查询）：</strong>gRPC（Protobuf 序列化体积小、HTTP/2 多路复用，RT 比 Feign 低 30%+）</li>
                 <li><strong>跨境网关-海外服务：</strong>gRPC（减少网络传输量）</li>
             </ul>
 
-            <h4>跨境网络延迟优化策略</h4>
             <div class="strategy-grid">
-                <div class="item">
-                    <span class="title">策略1：就近部署</span>
-                    <span class="desc">东南亚服务部署在新加坡 AWS，俄罗斯服务部署在莫斯科 Yandex Cloud，国内管理后台部署在深圳阿里云。用户请求就近接入，RT 降低 60%。</span>
-                </div>
-                <div class="item">
-                    <span class="title">策略2：异步化</span>
-                    <span class="desc">同步调用→异步消息：订单创建后异步通知库存/物流，核心链路 RT 从 800ms 降至 200ms。本地缓存 + 异步刷新：商品信息/汇率等读多写少数据。</span>
-                </div>
-                <div class="item">
-                    <span class="title">策略3：超时与重试</span>
-                    <span class="desc">核心链路超时 3s，非核心 5s。重试策略：指数退避（1s/2s/4s），最大 3 次。幂等保障：每次请求携带唯一 requestId，服务端去重。</span>
-                </div>
-                <div class="item">
-                    <span class="title">策略4：数据压缩</span>
-                    <span class="desc">gRPC 默认 Protobuf，比 JSON 体积小 3-5 倍。大列表查询（如商品列表）启用 Gzip 压缩，传输量减少 70%。</span>
-                </div>
+                <div class="item"><span class="title">策略1：就近部署</span><span class="desc">东南亚服务部署在新加坡 AWS，俄罗斯服务部署在莫斯科 Yandex Cloud，国内管理后台部署在深圳阿里云。用户请求就近接入，RT 降低 60%。</span></div>
+                <div class="item"><span class="title">策略2：异步化</span><span class="desc">同步调用→异步消息：订单创建后异步通知库存/物流，核心链路 RT 从 800ms 降至 200ms。本地缓存 + 异步刷新：商品信息/汇率等读多写少数据。</span></div>
+                <div class="item"><span class="title">策略3：超时与重试</span><span class="desc">核心链路超时 3s，非核心 5s。重试策略：指数退避（1s/2s/4s），最大 3 次。幂等保障：每次请求携带唯一 requestId，服务端去重。</span></div>
+                <div class="item"><span class="title">策略4：数据压缩</span><span class="desc">gRPC 默认 Protobuf，比 JSON 体积小 3-5 倍。大列表查询（如商品列表）启用 Gzip 压缩，传输量减少 70%。</span></div>
             </div>
 
             <div class="highlight-box gold">
                 <div class="label">💡 加分点</div>
-                <div class="content">
-                    "跨境网络最大的问题不是延迟，而是<strong>不确定性</strong>——同一链路 RT 可能从 50ms 跳到 500ms。所以我们设计了<strong>自适应超时策略</strong>：基于滑动窗口统计最近 100 次调用的 P99 RT，动态调整超时阈值。正常时超时 3s，网络抖动时自动放宽到 5s，避免误触发熔断。"
-                </div>
+                <div class="content">"跨境网络最大的问题不是延迟，而是<strong>不确定性</strong>——同一链路 RT 可能从 50ms 跳到 500ms。所以我们设计了<strong>自适应超时策略</strong>：基于滑动窗口统计最近 100 次调用的 P99 RT，动态调整超时阈值。正常时超时 3s，网络抖动时自动放宽到 5s，避免误触发熔断。"</div>
             </div>
 
             <!-- ========================================================= -->
             <h3>Q：网关怎么适配多国家/多语言/多币种/多时区？</h3>
 
-            <h4>Spring Cloud Gateway 过滤器链</h4>
             <div class="gateway-filters">
                 <div class="filter"><span class="f-icon">🌍</span> 地域识别 Filter</div>
                 <div class="filter"><span class="f-icon">🌐</span> 多语言 Filter</div>
@@ -594,55 +553,98 @@
                 <div class="filter"><span class="f-icon">📍</span> 路由断言</div>
             </div>
 
-            <h4>多语言适配细节</h4>
-            <div class="lua-code" style="color:#1a1a2e;background:#f5f7fb;border-color:#e8ecf0;">
+            <div class="lua-code light">
                 <pre style="margin:0;color:#1a1a2e;white-space:pre-wrap;word-break:break-all;">
-<span class="cmt" style="color:#6a7a8e;">// i18n 资源管理：基于 MessageSource + Redis 缓存</span>
-<span class="cmt" style="color:#6a7a8e;">// 数据库存储多语言文案，启动时加载至 Redis，按 locale 作为 key</span>
-<span class="cmt" style="color:#6a7a8e;">// 商品名称多语言：product_i18n 表（sku_id, locale, name, description）</span>
-<span class="cmt" style="color:#6a7a8e;">// 异常码多语言：error_code_i18n 表（error_code, locale, message）</span>
+<span class="num">一.</span> 多语言适配细节
+<span class="cmt" style="color:#6a7a8e;">
+// i18n资源管理：基于MessageSource + Redis缓存
+// 数据库存储多语言文案，启动时加载至Redis，按 locale 作为key
+// 商品名称多语言：product_i18n表 (sku_id, locale, name, description)
+// 异常码多语言：error_code_i18n表 (error_code, locale, message)
 
-<span class="cmt" style="color:#6a7a8e;">// 地域识别策略优先级：</span>
-<span class="num">1.</span> URL 域名（ru.example.com → 俄罗斯）
-<span class="num">2.</span> 请求 Header X-Country-Code
-<span class="num">3.</span> IP 地理位置解析（GeoIP2 库）
-<span class="num">4.</span> 用户注册国家（已登录用户）
+// 地域识别策略优先级：
+// 1. URL域名（ru.example.com → 俄罗斯）
+// 2. 请求Header X-Country-Code
+// 3. IP地理位置解析（GeoIP2库）
+// 4. 用户注册国家（已登录用户）
+</span>
+<span class="num">二.</span> 多币种适配细节
+<span class="cmt" style="color:#6a7a8e;">
+// 汇率缓存方案：
+// 1. 对接汇率API（如fixer.io），每小时拉取最新汇率
+// 2. Redis缓存汇率：key=exchange:rate:{from}:{to}, TTL=1h
+// 3. 下单时锁定汇率（避免下单到支付期间汇率波动）：
+//    - 锁定有效期30分钟，超时自动释放
+//    - 锁定汇率与实际支付汇率差异 > 1% 时，差异计入汇兑损益
+
+// 价格展示策略：
+// 1. 商品基础价：CNY（结算币种）
+// 2. 展示价：按用户所在国币种实时转换
+// 3. 定价策略：支持"固定本地价"模式（如俄罗斯站固定卢布价，不随汇率波动）
+//    - 定价表：product_pricing (sku_id, country, currency, fixed_price)
+//    - 优先级：固定本地价 > 实时汇率转换
+</span>
+<span class="num">三.</span> 多时区适配细节
+<span class="cmt" style="color:#6a7a8e;">
+// 统一规范：
+// 1. 数据库存储统一UTC时间
+// 2. 服务间通信统一UTC时间戳（epoch millis）
+// 3. 前端展示按用户时区格式化
+// 4. 定时任务按各国家时区触发（如俄罗斯大促开始时间按莫斯科时间）
+
+// 跨境定时任务调度：
+// - 越南站促销开始：Asia/Ho_Chi_Minh 00:00
+// - 俄罗斯站促销开始：Europe/Moscow 00:00
+// - 统一用Cron表达式 + 时区标识，XXL-JOB按国家站点分组调度
+</span>
                 </pre>
             </div>
-
-            <h4>多币种适配细节</h4>
-            <div class="lua-code" style="color:#1a1a2e;background:#f5f7fb;border-color:#e8ecf0;">
-                <pre style="margin:0;color:#1a1a2e;white-space:pre-wrap;word-break:break-all;">
-<span class="cmt" style="color:#6a7a8e;">// 汇率缓存方案：</span>
-<span class="num">1.</span> 对接汇率 API（如 fixer.io），每小时拉取最新汇率
-<span class="num">2.</span> Redis 缓存汇率：key = exchange:rate:{from}:{to}，TTL = 1h
-<span class="num">3.</span> 下单时锁定汇率（避免下单到支付期间汇率波动）：
-    - 锁定有效期 30 分钟，超时自动释放
-    - 锁定汇率与实际支付汇率差异 &gt; 1% 时，差异计入汇兑损益
-
-<span class="cmt" style="color:#6a7a8e;">// 价格展示策略：</span>
-<span class="num">1.</span> 商品基础价：CNY（结算币种）
-<span class="num">2.</span> 展示价：按用户所在国币种实时转换
-<span class="num">3.</span> 定价策略：支持"固定本地价"模式
-    - 定价表：product_pricing（sku_id, country, currency, fixed_price）
-    - 优先级：固定本地价 &gt; 实时汇率转换
-                </pre>
-            </div>
-
-            <h4>多时区适配细节</h4>
-            <ul>
-                <li><strong>统一规范：</strong>数据库存储统一 UTC 时间；服务间通信统一 UTC 时间戳（epoch millis）；前端展示按用户时区格式化</li>
-                <li><strong>跨境定时任务：</strong>越南站促销开始 Asia/Ho_Chi_Minh 00:00；俄罗斯站促销开始 Europe/Moscow 00:00；统一用 Cron 表达式 + 时区标识，XXL-JOB 按国家站点分组调度</li>
-            </ul>
 
             <!-- ========================================================= -->
-            <!-- 第二部分：高并发库存 -->
+            <!-- 第二部分：高并发篇（完整版） -->
             <!-- ========================================================= -->
             <h2>高并发篇</h2>
 
             <h3>Q：二级库存机制具体怎么实现的？Redis 预扣和 DB 扣减如何保证一致？</h3>
 
-            <h4>Redis Lua 原子扣减脚本</h4>
+            <!-- <h4>核心流程图</h4> -->
+            <!-- <div class="highlight-box" style="font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; line-height: 2;"> -->
+                <!-- <pre style="margin:0; white-space:pre-wrap; word-break:break-all; color:#2a2a3e;"> -->
+<!-- ┌─────────────────────────────────────────────────────────────────────────────┐ -->
+<!-- │                           下单请求                                         │ -->
+<!-- └─────────────────────────────────┬───────────────────────────────────────────┘ -->
+                                  <!-- ▼ -->
+<!-- ┌─────────────────────────────────────────────────────────────────────────────┐ -->
+<!-- │ ① Redis 预扣（Lua 原子，扣减成功占坑）                                      │ -->
+<!-- │    失败 → 返回库存不足                                                      │ -->
+<!-- └─────────────────────────────────┬───────────────────────────────────────────┘ -->
+                                  <!-- ▼ -->
+<!-- ┌─────────────────────────────────────────────────────────────────────────────┐ -->
+<!-- │ ② 创建订单（状态=待支付，记录扣减流水号）                                    │ -->
+<!-- └─────────────────────────────────┬───────────────────────────────────────────┘ -->
+                                  <!-- ▼ -->
+<!-- ┌─────────────────────────────────────────────────────────────────────────────┐ -->
+<!-- │ ③ 发送 RocketMQ 事务消息（半消息）                                          │ -->
+<!-- └─────────────────────────────────┬───────────────────────────────────────────┘ -->
+                                  <!-- ▼ -->
+<!-- ┌─────────────────────────────────────────────────────────────────────────────┐ -->
+<!-- │ ④ 执行本地 DB 扣减（使用行级锁 + 版本号乐观锁）                              │ -->
+<!-- │    成功 → 提交消息（库存服务异步确认）                                       │ -->
+<!-- │    失败 → 回滚 + 异步归还 Redis（重试 + 告警）                              │ -->
+<!-- └─────────────────────────────────┬───────────────────────────────────────────┘ -->
+                                  <!-- ▼ -->
+<!-- ┌─────────────────────────────────────────────────────────────────────────────┐ -->
+<!-- │ ⑤ 延迟消息（30min，可配置）                                                 │ -->
+<!-- │    若订单未支付 → 归还 Redis + 异步归还 DB（使用唯一流水号防重）              │ -->
+<!-- └─────────────────────────────────┬───────────────────────────────────────────┘ -->
+                                  <!-- ▼ -->
+<!-- ┌─────────────────────────────────────────────────────────────────────────────┐ -->
+<!-- │ ⑥ 定时对账任务（每 5 分钟）                                                 │ -->
+<!-- │    扫描 Redis 与 DB 差异，自动修复（以 DB 为准）                             │ -->
+<!-- └─────────────────────────────────────────────────────────────────────────────┘</pre> -->
+            <!-- </div> -->
+
+            <h4>Redis 预扣库存 Lua 脚本核心逻辑</h4>
             <div class="lua-code">
                 <pre style="margin:0;white-space:pre-wrap;word-break:break-all;">
 <span class="cmt">-- KEYS[1] = 可售库存 Key</span>
@@ -654,13 +656,14 @@
 
 <span class="cmt">-- 1. 幂等检查（先检查是否已处理）</span>
 <span class="kw">if</span> redis.call(<span class="str">'EXISTS'</span>, KEYS[3]) == <span class="num">1</span> <span class="kw">then</span>
-    <span class="kw">return</span> <span class="num">1</span> <span class="cmt">-- 已扣减，直接返回成功</span>
+    <span class="kw">return</span> <span class="num">1</span> <span class="cmt">-- 已扣减，直接返回成功（防止业务重试报错）</span>
 <span class="kw">end</span>
 
 <span class="kw">local</span> available = tonumber(redis.call(<span class="str">'GET'</span>, KEYS[1]) <span class="kw">or</span> <span class="str">'0'</span>)
 <span class="kw">local</span> deductQty = tonumber(ARGV[1])
 
 <span class="kw">if</span> available &gt;= deductQty <span class="kw">then</span>
+    <span class="cmt">-- 原子扣减</span>
     redis.call(<span class="str">'DECRBY'</span>, KEYS[1], deductQty)
     redis.call(<span class="str">'INCRBY'</span>, KEYS[2], deductQty)
 
@@ -672,18 +675,18 @@
     })
     redis.call(<span class="str">'HSET'</span>, <span class="str">'inventory:lock:detail'</span>, ARGV[2], detail)
 
-    <span class="cmt">-- 设置幂等标记</span>
+    <span class="cmt">-- 设置幂等标记（过期时间略大于锁定时间，防止明细未清理时重复扣）</span>
     redis.call(<span class="str">'SETEX'</span>, KEYS[3], tonumber(ARGV[3]) + <span class="num">60</span>, <span class="str">'1'</span>)
 
     <span class="kw">return</span> <span class="num">1</span>
 <span class="kw">else</span>
-    <span class="kw">return</span> -<span class="num">1</span>
+    <span class="kw">return</span> <span class="num">0</span>
 <span class="kw">end</span>
                 </pre>
             </div>
 
-            <h4>DB 层行级锁兜底</h4>
-            <div class="lua-code" style="color:#1a1a2e;background:#f5f7fb;border-color:#e8ecf0;">
+            <h4>DB 行级锁扣减</h4>
+            <div class="lua-code light">
                 <pre style="margin:0;color:#1a1a2e;white-space:pre-wrap;word-break:break-all;">
 <span class="cmt" style="color:#6a7a8e;">-- SELECT FOR UPDATE 行级锁，保证 DB 层库存一致性</span>
 <span class="cmt" style="color:#6a7a8e;">-- 在事务中执行：</span>
@@ -691,7 +694,7 @@
 <span class="kw">WHERE</span> sku_id = #{skuId} <span class="kw">AND</span> warehouse_id = #{warehouseId}
 <span class="kw">FOR UPDATE</span>;
 
-<span class="cmt" style="color:#6a7a8e;">-- 判断 available_qty &gt;= deductQty 后执行：</span>
+<span class="cmt" style="color:#6a7a8e;">-- 判断 available_qty >= deductQty 后执行：</span>
 <span class="kw">UPDATE</span> inventory
 <span class="kw">SET</span> available_qty = available_qty - #{deductQty},
     locked_qty = locked_qty + #{deductQty}
@@ -700,8 +703,8 @@
                 </pre>
             </div>
 
-            <h4>事务消息监听器</h4>
-            <div class="lua-code" style="color:#1a1a2e;background:#f5f7fb;border-color:#e8ecf0;">
+            <h4>RocketMQ 事务消息保障最终一致性</h4>
+            <div class="lua-code light">
                 <pre style="margin:0;color:#1a1a2e;white-space:pre-wrap;word-break:break-all;">
 <span class="cls">@Component</span>
 <span class="kw">public class</span> <span class="fn">InventoryTransactionListener</span> <span class="kw">implements</span> TransactionListener {
@@ -709,6 +712,7 @@
     <span class="cls">@Override</span>
     <span class="kw">public</span> LocalTransactionState <span class="fn">executeLocalTransaction</span>(Message msg, Object arg) {
         <span class="kw">try</span> {
+            <span class="cmt" style="color:#6a7a8e;">// 执行 DB 库存扣减（SELECT FOR UPDATE + UPDATE）</span>
             inventoryService.<span class="fn">deductDB</span>(skuId, warehouseId, qty);
             <span class="kw">return</span> LocalTransactionState.COMMIT_MESSAGE;
         } <span class="kw">catch</span> (Exception e) {
@@ -718,6 +722,7 @@
 
     <span class="cls">@Override</span>
     <span class="kw">public</span> LocalTransactionState <span class="fn">checkLocalTransaction</span>(MessageExt msg) {
+        <span class="cmt" style="color:#6a7a8e;">// 事务回查：查询 DB 库存扣减记录是否存在</span>
         <span class="kw">boolean</span> deducted = inventoryService.<span class="fn">checkDeductRecord</span>(orderId);
         <span class="kw">return</span> deducted ? LocalTransactionState.COMMIT_MESSAGE
                        : LocalTransactionState.ROLLBACK_MESSAGE;
@@ -726,24 +731,58 @@
                 </pre>
             </div>
 
+            <h4>超时未支付库存归还</h4>
+            <div class="lua-code light">
+                <pre style="margin:0;color:#1a1a2e;white-space:pre-wrap;word-break:break-all;">
+<span class="cmt" style="color:#6a7a8e;">// 延迟消息消费：30分钟超时未支付 → 归还库存</span>
+<span class="cls">@RocketMQMessageListener</span>(topic = <span class="str">"ORDER_TIMEOUT_CHECK"</span>,
+                          consumerGroup = <span class="str">"inventory-timeout-group"</span>)
+<span class="kw">public class</span> <span class="fn">OrderTimeoutConsumer</span> <span class="kw">implements</span> RocketMQListener&lt;OrderTimeoutEvent&gt; {
+
+    <span class="cls">@Override</span>
+    <span class="kw">public</span> <span class="kw">void</span> <span class="fn">onMessage</span>(OrderTimeoutEvent event) {
+        <span class="cmt" style="color:#6a7a8e;">// 1. 查询订单状态，确认确实未支付</span>
+        Order order = orderService.<span class="fn">getById</span>(event.getOrderId());
+        <span class="kw">if</span> (order.getStatus() != OrderStatus.UNPAID) {
+            <span class="kw">return</span>; <span class="cmt" style="color:#6a7a8e;">// 已支付，不归还</span>
+        }
+
+        <span class="cmt" style="color:#6a7a8e;">// 2. 归还 Redis 库存</span>
+        redisTemplate.opsForValue().<span class="fn">increment</span>(
+            <span class="str">"inventory:available:"</span> + skuId + <span class="str">":"</span> + warehouseId, qty);
+        redisTemplate.opsForValue().<span class="fn">decrement</span>(
+            <span class="str">"inventory:locked:"</span> + skuId + <span class="str">":"</span> + warehouseId, qty);
+
+        <span class="cmt" style="color:#6a7a8e;">// 3. 归还 DB 库存</span>
+        inventoryService.<span class="fn">releaseInventory</span>(skuId, warehouseId, qty);
+
+        <span class="cmt" style="color:#6a7a8e;">// 4. 取消订单</span>
+        orderService.<span class="fn">cancelOrder</span>(event.getOrderId());
+    }
+}
+                </pre>
+            </div>
+
             <h4>一致性保障四层机制</h4>
             <table class="compare-table">
-                <thead><tr><th>层级</th><th>机制</th><th>作用</th></tr></thead>
+                <thead>
+                    <tr><th>层级</th><th>机制</th><th>作用</th></tr>
+                </thead>
                 <tbody>
                     <tr>
                         <td><strong>第一层</strong></td>
-                        <td>Redis 消息</td>
-                        <td>扛并发流量</td>
+                        <td>Redis 抗流量</td>
+                        <td>Lua 原子扣减，10W+ TPS 扛住大促峰值流量</td>
                     </tr>
                     <tr>
                         <td><strong>第二层</strong></td>
                         <td>RocketMQ 事务消息</td>
-                        <td>Redis 扣减成功→发半消息→DB 扣减→消息确认；DB 扣减失败→消息回滚→Redis 归还</td>
+                        <td>Redis 扣减成功 → 发半消息 → DB 扣减 → 消息确认；DB 扣减失败 → 消息回滚 → Redis 归还</td>
                     </tr>
                     <tr>
                         <td><strong>第三层</strong></td>
                         <td>延迟消息补偿</td>
-                        <td>下单后 30min 未支付→延迟消息触发→Redis 归还 + DB 归还（防止库存永久锁定）</td>
+                        <td>下单后 30min 未支付 → 延迟消息触发 → Redis 归还 + DB 归还（防止库存永久锁定）</td>
                     </tr>
                     <tr>
                         <td><strong>第四层</strong></td>
@@ -755,7 +794,8 @@
 
             <div class="highlight-box gold">
                 <div class="label">💡 加分点</div>
-                <div class="content"> 		  "纯Redis方案最大的风险是数据丢失——Redis主从切换期间（哨兵选举约10-30s），这段时间内的库存扣减数据可能丢失。跨境大促场景下，10秒可能产生数千笔订单，如果这些库存扣减丢失，就会导致超卖。所以我们的设计原则是：<strong>Redis扛并发流量，DB保数据一致，MQ保最终一致，T+1对账兜底</strong>——四层保障，任何一层出问题都有下一层兜底。"
+                <div class="content">
+                    "纯 Redis 方案最大的风险是<strong>数据丢失</strong>——Redis 主从切换期间（哨兵选举约 10-30s），这段时间内的库存扣减数据可能丢失。跨境大促场景下，10 秒可能产生数千笔订单，如果这些库存扣减丢失，就会导致超卖。所以我们的设计原则是：<strong>Redis 打并发流量，DB 保数据一致，MQ 保最终一致，T+1 对账兜底</strong>——四层保障，任何一层出问题都有下一层兜底。"
                 </div>
             </div>
 
@@ -772,26 +812,45 @@
                 <span class="step"><span class="arrow">→</span></span>
                 <span class="step"><span class="num">4</span> 库存释放</span>
             </div>
+
+            <p><strong>实现方式：</strong>RocketMQ 延迟消息（Level 16 = 30min）</p>
+            <ol>
+                <li>下单成功后发送延迟消息（orderId, skuId, qty, warehouseId）</li>
+                <li>30min 后消费者收到消息</li>
+                <li>查询订单状态：
+                    <ul>
+                        <li><strong>未支付</strong> → 释放 Redis 库存 + 发 MQ 通知 DB 归还库存 + 取消订单</li>
+                        <li><strong>已支付</strong> → 忽略（幂等）</li>
+                    </ul>
+                </li>
+                <li><strong>注意：</strong>释放库存也需要幂等（用 orderId 去重），避免重复释放</li>
+            </ol>
+
+            <h4>超卖防护</h4>
             <ul>
-                <li>下单成功后发送延迟消息（orderId, skuId, qty, warehouseId），30min 后消费者收到消息</li>
-                <li>查询订单状态：未支付 → 释放 Redis 库存 + 发 MQ 通知 DB 归还库存 + 取消订单；已支付 → 忽略（幂等）</li>
-                <li>释放库存也需要幂等（用 orderId 去重），避免重复释放</li>
+                <li>Redis 预扣时 Lua 原子操作保证不超卖</li>
+                <li>DB 层行级锁（SELECT ... FOR UPDATE）作为最终兜底</li>
+                <li><strong>双重保障：</strong>即使 Redis 异常，DB 行级锁也能防止超卖</li>
+            </ul>
+
+            <h4>少卖防护（库存卖不完）</h4>
+            <ul>
+                <li><strong>问题：</strong>Redis 预扣后用户不支付，库存被锁定但实际可售</li>
+                <li><strong>解决：</strong>设置库存锁定超时时间（30min），超时自动释放</li>
+                <li><strong>优化：</strong>大促场景缩短锁定时间至 15min，提高库存流转效率</li>
             </ul>
 
             <div class="highlight-box gold">
                 <div class="label">💡 加分点</div>
                 <div class="content">
-                    "少卖比超卖更隐蔽但同样影响营收。我们做了一个优化：大促期间库存锁定时间从 30min 缩短至 15min，同时在商品详情页展示<strong>库存紧张标签</strong>（库存 &lt; 10 件时），制造紧迫感加速用户支付决策，支付转化率提升了 <strong>12%</strong>。"
+                    "少卖比超卖更隐蔽但同样影响营收。我们做了一个优化：大促期间库存锁定时间从 30min 缩短至 15min，同时在商品详情页展示<strong>'库存紧张'标签</strong>（库存 &lt; 10 件时），制造紧迫感加速用户支付决策，支付转化率提升了 <strong>12%</strong>。"
                 </div>
             </div>
 
             <!-- ========================================================= -->
-            <!-- 第三部分：多仓库存 -->
-            <!-- ========================================================= -->
-            <h2>多仓库存篇</h2>
+            <h3>Q：多仓场景下库存怎么扣？用户下单时怎么选仓？</h3>
 
-            <h3>多仓库存调度与扣减流程</h3>
-
+            <h4>选仓路由策略</h4>
             <div class="flow-steps">
                 <span class="step"><span class="num">1</span> 用户下单</span>
                 <span class="step"><span class="arrow">→</span></span>
@@ -810,23 +869,25 @@
                 <li><strong>同国优先：</strong>优先从用户所在国家的海外仓发货（清关快）</li>
             </ol>
 
-            <div class="highlight-box">
-                <div class="label">📦 具体策略示例</div>
-                <div class="content">
-                    <ul style="margin:4px 0 0 1.2rem;">
-                        <li>越南用户下单 → 优先越南海外仓 → 次选东南亚其他海外仓 → 兜底国内直发</li>
-                        <li>俄罗斯用户下单 → 优先俄罗斯海外仓 → 兜底国内直发</li>
-                        <li>库存不足时 → 拆单（有库存的仓先发）+ 缺货部分显示"到货后发货"</li>
-                    </ul>
-                </div>
-            </div>
+            <h4>具体策略示例</h4>
+            <ul>
+                <li><strong>越南用户下单</strong> → 优先越南海外仓 → 次选东南亚其他海外仓 → 兜底国内直发</li>
+                <li><strong>俄罗斯用户下单</strong> → 优先俄罗斯海外仓 → 兜底国内直发</li>
+                <li><strong>库存不足时</strong> → 拆单（有库存的仓先发）+ 缺货部分显示"到货后发货"</li>
+            </ul>
 
             <h4>多仓库存扣减流程</h4>
             <ol>
                 <li>查询分仓库存（Redis 分仓库存 key: <code>inventory:sku:{skuId}:warehouse:{warehouseId}</code>）</li>
                 <li>选仓路由确定发货仓</li>
                 <li>扣减指定仓库存（Lua 原子操作，key 包含 warehouseId）</li>
-                <li>如果需要拆单：订单拆分为多个子订单，每个子订单对应一个发货仓，分别扣减各仓库存</li>
+                <li>如果需要拆单：
+                    <ul>
+                        <li>订单拆分为多个子订单</li>
+                        <li>每个子订单对应一个发货仓</li>
+                        <li>分别扣减各仓库存</li>
+                    </ul>
+                </li>
                 <li>MQ 异步同步 DB</li>
             </ol>
 
@@ -843,66 +904,155 @@
             <h2>事件驱动集成篇</h2>
 
             <h3>Q：统一事件总线怎么设计的？如何避免点对点对接的复杂度爆炸？</h3>
-
-            <h4>复杂度对比</h4>
-            <div class="two-col">
-                <div class="highlight-box" style="border-left-color:#c0392b;background:#fdf0f0;">
-                    <div class="label" style="color:#c0392b;">❌ 点对点对接（N×M 问题）</div>
-                    <div class="content">
-                        <ul style="margin:4px 0 0 1.2rem;">
-                            <li>6 个系统两两对接 = 6×5/2 = <strong>15 条链路</strong></li>
-                            <li>新增 1 个系统 = 新增 5 条链路</li>
-                            <li>复杂度 <strong>O(N²)</strong></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="highlight-box green">
-                    <div class="label" style="color:#1a8a5a;">✅ 事件总线（N+M 问题）</div>
-                    <div class="content">
-                        <ul style="margin:4px 0 0 1.2rem;">
-                            <li>6 个系统接入事件总线 = <strong>6 条接入链路</strong></li>
-                            <li>新增 1 个系统 = 新增 1 条接入链路</li>
-                            <li>复杂度 <strong>O(N)</strong></li>
-                        </ul>
-                    </div>
-                </div>
+            <h4>事件总线架构</h4>
+            <div class="lua-code">
+                <pre style="margin:0;white-space:pre-wrap;word-break:break-all;">
+┌
+│                    统一事件总线 (RocketMQ)                     
+│                                                             
+│  领域事件定义：                                                
+│  ├── OrderCreatedEvent      → 订单创建                       
+│  ├── PaymentSuccessEvent    → 支付成功                       
+│  ├── InventoryDeductedEvent → 库存扣减                       
+│  ├── ShipmentDispatchedEvent→ 物流发货                       
+│  ├── OrderDeliveredEvent    → 订单签收                       
+│  └── SettlementCompletedEvent→ 结算完成                      
+│                                                             
+│  事件消费者：                                                 
+│  ├── 库存服务 ← PaymentSuccessEvent（确认扣减）               
+│  ├── 物流服务 ← PaymentSuccessEvent（创建发货单）             
+│  ├── 通知服务 ← PaymentSuccessEvent（发送通知）               
+│  ├── 对账服务 ← PaymentSuccessEvent（记录待对账流水）         
+│  ├── 营销服务 ← OrderDeliveredEvent（发放积分/优惠券）        
+│  └── BI服务  ← *(所有事件)（实时数据同步）                    
+└
+                </pre>
             </div>
+            <h4>消息可靠性保障（三层机制）</h4>
+            <div class="lua-code">
+                <pre style="margin:0;white-space:pre-wrap;word-break:break-all;">
+1. 生产者端——确保消息发出
+   ├── 同步发送 + 重试（3次）
+   ├── 本地消息表（Outbox Pattern）：业务操作+消息记录在同一事务中
+   └── 定时任务扫描未发送消息，补偿发送
 
-            <h4>事件消息规范</h4>
-            <div class="lua-code" style="color:#1a1a2e;background:#f5f7fb;border-color:#e8ecf0;">
-                <pre style="margin:0;color:#1a1a2e;white-space:pre-wrap;word-break:break-all;">
-{
-    <span class="str">"eventId"</span>: <span class="str">"evt-20250715-00001"</span>,
-    <span class="str">"eventType"</span>: <span class="str">"OrderCreated"</span>,
-    <span class="str">"eventTime"</span>: <span class="str">"2025-07-15T10:30:00+07:00"</span>,
-    <span class="str">"source"</span>: <span class="str">"OMS"</span>,
-    <span class="str">"traceId"</span>: <span class="str">"trace-abc123"</span>,
-    <span class="str">"data"</span>: {
-        <span class="str">"orderId"</span>: <span class="str">"ORD-VN-20250715-00001"</span>,
-        <span class="str">"channelCode"</span>: <span class="str">"SHOPEE_VN"</span>,
-        <span class="str">"countryCode"</span>: <span class="str">"VN"</span>,
-        <span class="str">"currencyCode"</span>: <span class="str">"VND"</span>,
-        <span class="str">"totalAmount"</span>: <span class="num">1000000</span>,
-        <span class="str">"items"</span>: [
-            { <span class="str">"skuId"</span>: <span class="str">"SKU001"</span>, <span class="str">"quantity"</span>: <span class="num">2</span>, <span class="str">"unitPrice"</span>: <span class="num">500000</span> }
-        ]
+2. Broker端——确保消息存储
+   ├── 同步刷盘（SYNC_FLUSH）
+   ├── 主从同步复制（SYNC_MASTER）
+   └── 消息持久化到磁盘
+
+3. 消费者端——确保消息消费
+   ├── 手动ACK（消费成功才确认）
+   ├── 幂等消费（业务幂等表/唯一键）
+   └── 死信队列（消费失败3次→DLQ→人工处理）
+                </pre>
+            </div>
+            <h4>本地消息表（Outbox Pattern）实现</h4>
+            <div class="lua-code light">
+                <pre style="margin:0;white-space:pre-wrap;word-break:break-all;">
+@Transactional
+public void createOrder(Order order) {
+    // 1. 业务操作：创建订单
+    orderMapper.insert(order);
+    
+    // 2. 记录事件到本地消息表（同一事务）
+    EventMessage event = EventMessage.builder()
+        .eventId(UUID.randomUUID().toString())
+        .eventType("OrderCreatedEvent")
+        .payload(JsonUtils.toJson(order))
+        .status("PENDING")
+        .createTime(LocalDateTime.now())
+        .build();
+    eventMessageMapper.insert(event);
+}
+
+// 定时任务：扫描未发送消息，补偿发送
+@Scheduled(fixedDelay = 5000)
+public void compensateEventMessages() {
+    List<EventMessage> pendingEvents = eventMessageMapper.selectByStatus("PENDING", 100);
+    for (EventMessage event : pendingEvents) {
+        try {
+            SendResult result = rocketMQTemplate.syncSend(
+                event.getEventType(), event.getPayload()
+            );
+            if (result.getSendStatus() == SendStatus.SEND_OK) {
+                event.setStatus("SENT");
+                eventMessageMapper.updateById(event);
+            }
+        } catch (Exception e) {
+            log.error("消息发送失败，等待下次补偿。eventId={}", event.getEventId());
+        }
     }
 }
                 </pre>
             </div>
+            <div class="two-col">
+                <div class="highlight-box red"><div class="label" style="color:#c0392b;">❌ 点对点对接（N×M 问题）</div><div class="content"><ul><li>6 个系统两两对接 = <strong>15 条链路</strong></li><li>复杂度 <strong>O(N²)</strong></li></ul></div></div>
+                <div class="highlight-box green"><div class="label" style="color:#1a8a5a;">✅ 事件总线（N+M 问题）</div><div class="content"><ul><li>6 个系统接入事件总线 = <strong>6 条接入链路</strong></li><li>复杂度 <strong>O(N)</strong></li></ul></div></div>
+            </div>
+
+            <h4>可靠性保障三端</h4>
+            <div class="three-col">
+                <div class="col"><div class="title">📤 生产者端</div><div class="desc">同步发送 + 重试（3 次）<br/>本地消息表（Outbox Pattern）<br/>定时任务补偿发送</div></div>
+                <div class="col"><div class="title">📦 Broker 端</div><div class="desc">同步刷盘（SYNC_FLUSH）<br/>主从同步复制<br/>消息持久化到磁盘</div></div>
+                <div class="col"><div class="title">📥 消费者端</div><div class="desc">手动 ACK<br/>幂等消费（唯一键）<br/>死信队列 → 人工处理</div></div>
+            </div>
 
             <div class="highlight-box gold">
                 <div class="label">💡 加分点</div>
-                <div class="content">
-                    "事件总线最大的挑战是<strong>事件顺序性</strong>。比如库存扣减事件必须在订单创建事件之后处理，但 MQ 不保证跨 Topic 的顺序。我们设计了<strong>事件依赖图</strong>：每个事件定义其前置依赖事件，消费者消费时检查前置事件是否已处理完毕，未完毕则延迟消费。同时关键链路（订单→库存→物流）使用 RocketMQ 顺序消息，保证同一订单的事件按序消费。"
-                </div>
+                <div class="content">"事件总线最大的挑战是<strong>事件顺序性</strong>。我们设计了<strong>事件依赖图</strong>：每个事件定义其前置依赖事件，消费者消费时检查前置事件是否已处理完毕，未完毕则延迟消费。同时关键链路（订单→库存→物流）使用 RocketMQ 顺序消息，保证同一订单的事件按序消费。"</div>
             </div>
 
             <!-- ========================================================= -->
-            <!-- 第五部分：第三方 ERP 对接 -->
+            <!-- 第五部分：第三方 ERP 集成 -->
             <!-- ========================================================= -->
-            <h3>Q：第三方 ERP（领星/马帮）怎么对接？适配器模式 + 限流熔断怎么实现？</h3>
+            <h2>第三方 ERP 集成篇</h2>
 
+            <h3>Q：领星/马帮等跨境 ERP 如何集成？</h3>
+            <h4>第三方ERP对接架构</h4>
+            <div class="lua-code">
+                <pre style="margin:0;white-space:pre-wrap;word-break:break-all;">
+┌──────────────────────────────────────────────────┐
+│              ERP集成适配层 (ERP Integration Layer)   
+├────────────┬────────────┬────────────────────────┤
+│  领星ERP    │  马帮ERP    │  管易云ERP              
+│ (跨境ERP)  │ (跨境ERP)   │  (国内ERP)             
+├────────────┴────────────┴────────────────────────┤
+│           统一ERP接口 (Unified ERP Interface)       
+├──────────┬──────────┬──────────┬─────────────────┤
+│ 商品同步  │ 订单同步  │ 库存同步  │ 物流回传          
+├──────────┴──────────┴──────────┴─────────────────┤
+│           基础能力层 (Infrastructure)                
+├──────────┬──────────┬──────────┬─────────────────┤
+│ 限流熔断  │ 断点续传  │ 数据映射  │ 日志追踪          
+└──────────┴──────────┴──────────┴─────────────────
+                </pre>
+            </div>
+            <h4>适配器模式对接第三方ERP</h4>
+            <div class="lua-code">
+                <pre style="margin:0;white-space:pre-wrap;word-break:break-all;">
+┌
+│              ERP集成适配层                                 
+│                                                         
+│  统一接口：ErpIntegrationService                         
+│  ├── syncOrder(Order)        → 同步订单                  
+│  ├── syncInventory(Sku)      → 同步库存                  
+│  ├── syncProduct(Product)    → 同步商品                  
+│  └── syncSettlement(Bill)    → 同步结算                  
+│                                                         
+│  适配器实现：                                              
+│  ├── LingxingErpAdapter  → 领星ERP适配（OpenAPI）        
+│  ├── MabangErpAdapter    → 马帮ERP适配（OpenAPI+Webhook） 
+│  └── GuanyiErpAdapter    → 管易云适配（OpenAPI+MQ）       
+│                                                         
+│  安全机制：                                                
+│  ├── 限流：按ERP分配QPS配额（领星50QPS/马帮30QPS）        
+│  ├── 熔断：连续5次调用失败→熔断5min→半开探测              
+│  ├── 断点续传：记录同步位点，失败后从断点恢复               
+│  └── 数据校验：同步后回查校验，保障数据一致性               
+└
+                </pre>
+            </div>
             <h4>三种数据同步通道</h4>
             <table class="compare-table">
                 <thead><tr><th>通道</th><th>适用场景</th><th>实现方式</th><th>可靠性</th></tr></thead>
@@ -912,61 +1062,739 @@
                     <tr><td><strong>MQ</strong></td><td>实时同步</td><td>双方订阅同一 MQ Topic</td><td>最高（MQ 保证至少一次投递）</td></tr>
                 </tbody>
             </table>
-
             <h4>限流熔断实现</h4>
-            <div class="lua-code" style="color:#1a1a2e;background:#f5f7fb;border-color:#e8ecf0;">
-                <pre style="margin:0;color:#1a1a2e;white-space:pre-wrap;word-break:break-all;">
-<span class="cls">@Component</span>
-<span class="kw">public class</span> <span class="fn">LingxingRateLimiter</span> {
-    <span class="kw">private final</span> RateLimiter rateLimiter = RateLimiter.<span class="fn">create</span>(<span class="num">10.0</span>); <span class="cmt" style="color:#6a7a8e;">// Guava</span>
-}
-
-<span class="kw">public</span> &lt;T&gt; T <span class="fn">executeWithRateLimit</span>(Supplier&lt;T&gt; apiCall) {
-    <span class="kw">if</span> (!rateLimiter.<span class="fn">tryAcquire</span>(<span class="num">5</span>, TimeUnit.SECONDS)) {
-        <span class="kw">throw new</span> ERPRateLimitExceededException(<span class="str">"Lingxing API rate limit exceeded"</span>);
+            <div class="lua-code light">
+                <pre style="margin:0;white-space:pre-wrap;word-break:break-all;">
+// 领星API限流：每秒最多10次请求（领星限制）
+@Component
+public class LingxingRateLimiter {
+    private final RateLimiter rateLimiter = RateLimiter.create(10.0);  // Guava
+    
+    public <T> T executeWithRateLimit(Supplier<T> apiCall) {
+        if (!rateLimiter.tryAcquire(5, TimeUnit.SECONDS)) {
+            throw new ERPRateLimitExceededException("Lingxing API rate limit exceeded");
+        }
+        return apiCall.get();
     }
-    <span class="kw">return</span> apiCall.<span class="fn">get</span>();
 }
 
-<span class="cls">@CircuitBreaker</span>(name = <span class="str">"lingxing"</span>, fallbackMethod = <span class="str">"fallback"</span>)
-<span class="cls">@Retry</span>(name = <span class="str">"lingxing"</span>, fallbackMethod = <span class="str">"fallback"</span>)
-<span class="kw">public</span> ErpOrderSyncResponse <span class="fn">syncOrderToLingxing</span>(Order order) {
-    <span class="kw">return</span> lingxingAdapter.<span class="fn">syncOrder</span>(order);
+// 熔断降级：领星API连续5次失败→熔断30s
+@CircuitBreaker(name = "lingxing", fallbackMethod = "fallback")
+@Retry(name = "lingxing", fallbackMethod = "fallback")
+public ErpOrderSyncResponse syncOrderToLingxing(Order order) {
+    return lingxingAdapter.syncOrder(order);
 }
 
-<span class="kw">public</span> ErpOrderSyncResponse <span class="fn">fallback</span>(Order order, Exception e) {
-    compensationService.<span class="fn">recordFailure</span>(<span class="str">"LINGXING"</span>, <span class="str">"ORDER_SYNC"</span>, order.getOrderId(), e);
-    <span class="kw">return</span> ErpOrderSyncResponse.<span class="fn">retryLater</span>();
+public ErpOrderSyncResponse fallback(Order order, Exception e) {
+    // 降级策略：记录失败日志→写入补偿表→定时重试
+    compensationService.recordFailure("LINGXING", "ORDER_SYNC", order.getOrderId(), e);
+    return ErpOrderSyncResponse.retryLater();
 }
                 </pre>
             </div>
+            <h4>断点续传机制</h4>
+            <div class="lua-code">
+                <pre style="margin:0;white-space:pre-wrap;word-break:break-all;">
+问题：同步10W条商品数据到领星，同步到5W条时网络中断，如何续传？
 
-            <h4>同步进度表设计</h4>
-            <div class="lua-code" style="color:#1a1a2e;background:#f5f7fb;border-color:#e8ecf0;">
+方案：
+1. 分页同步：每页100条，记录当前页码到同步进度表
+2. 每页同步成功后更新进度（原子操作）
+3. 中断恢复时从进度表读取上次成功页码，继续同步
+4. 幂等保障：每条数据携带唯一业务ID，领星侧按ID去重
+
+同步进度表设计：
+sync_progress:
+  - id: 自增主键
+  - erp_code: LINGXING/MBANG/GUANYIYUN
+  - sync_type: PRODUCT/ORDER/INVENTORY
+  - last_sync_page: 上次成功页码
+  - last_sync_time: 上次同步时间
+  - status: RUNNING/COMPLETED/FAILED
+  - total_count: 总数据量
+  - synced_count: 已同步数量
+                </pre>
+            </div>
+            <div class="highlight-box gold">
+                <div class="label">💡 加分点</div>
+                <div class="content">"第三方 ERP 对接最容易被忽视的是<strong>数据映射</strong>。我们设计了<strong>双向映射配置表</strong>：每个 ERP 的每个数据类型都有独立的映射规则，支持<strong>正则匹配 + 枚举映射 + 自定义脚本</strong>三种映射方式。新增 ERP 时只需配置映射规则，不需要改代码。"</div>
+            </div>
+			
+            <!-- ========================================================= -->
+            <!-- 第六部分：跨境物流 -->
+            <!-- ========================================================= -->
+            <h2>跨境物流篇</h2>
+
+            <h3>Q：跨境物流状态机怎么设计的？</h3>
+
+            <div class="status-flow">
+                <span class="status"><span class="s-icon">📦</span> 已下单</span>
+                <span class="arrow-flow">→</span>
+                <span class="status"><span class="s-icon">📋</span> 待审核</span>
+                <span class="arrow-flow">→</span>
+                <span class="status"><span class="s-icon">🏭</span> 待发货</span>
+                <span class="arrow-flow">→</span>
+                <span class="status"><span class="s-icon">✈️</span> 已发货（头程）</span>
+                <span class="arrow-flow">→</span>
+                <span class="status"><span class="s-icon">🛃</span> 清关中</span>
+                <span class="arrow-flow">→</span>
+                <span class="status"><span class="s-icon">📦</span> 海外仓入库</span>
+                <span class="arrow-flow">→</span>
+                <span class="status"><span class="s-icon">🚚</span> 尾程配送</span>
+                <span class="arrow-flow">→</span>
+                <span class="status"><span class="s-icon">✅</span> 已签收</span>
+                <span class="arrow-flow">↕</span>
+                <span class="status" style="border-color:#c0392b;color:#c0392b;"><span class="s-icon">↩️</span> 拒收退回</span>
+            </div>
+
+            <h4>SN 码全链路追踪</h4>
+            <div class="lua-code light">
                 <pre style="margin:0;color:#1a1a2e;white-space:pre-wrap;word-break:break-all;">
-<span class="cmt" style="color:#6a7a8e;">-- sync_progress 表结构</span>
-- id             <span class="cmt" style="color:#6a7a8e;">-- 自增主键</span>
-- erp_code       <span class="cmt" style="color:#6a7a8e;">-- LINGXING / MBANG / GUANYIYUN</span>
-- sync_type      <span class="cmt" style="color:#6a7a8e;">-- PRODUCT / ORDER / INVENTORY</span>
-- last_sync_page <span class="cmt" style="color:#6a7a8e;">-- 上次成功页码</span>
-- last_sync_time <span class="cmt" style="color:#6a7a8e;">-- 上次同步时间</span>
-- status         <span class="cmt" style="color:#6a7a8e;">-- RUNNING / COMPLETED / FAILED</span>
-- total_count    <span class="cmt" style="color:#6a7a8e;">-- 总数据量</span>
-- synced_count   <span class="cmt" style="color:#6a7a8e;">-- 已同步数量</span>
+<span class="cmt" style="color:#6a7a8e;">// SN 码设计：(国家码)-(仓库码)-(年月日)-(序列号)</span>
+<span class="cmt" style="color:#6a7a8e;">// 示例：VN-HN-20260715-00001</span>
+
+<span class="cmt" style="color:#6a7a8e;">// SN 码绑定关系：</span>
+订单号 ↔ SN 码 ↔ 物流单号（头程）↔ 清关单号 ↔ 海外仓库位号 ↔ 物流单号（尾程）
+
+<span class="cmt" style="color:#6a7a8e;">// 全链路查询：用户输入订单号 → 查询 SN 码 → 查询所有绑定的物流单号</span>
+<span class="cmt" style="color:#6a7a8e;">// → 并行查询头程轨迹 + 尾程轨迹 + 清关状态 → 按时间线聚合</span>
                 </pre>
             </div>
 
             <div class="highlight-box gold">
                 <div class="label">💡 加分点</div>
-                <div class="content">
-                    "第三方 ERP 对接最容易被忽视的是<strong>数据映射</strong>。比如领星的 SKU 编码规则和我们的不同，马帮的订单状态和我们定义的 15 个状态不完全对应。我们设计了<strong>双向映射配置表</strong>：每个 ERP 的每个数据类型都有独立的映射规则，支持<strong>正则匹配 + 枚举映射 + 自定义脚本</strong>三种映射方式。新增 ERP 时只需配置映射规则，不需要改代码。"
+                <div class="content">"跨境物流最大的痛点是物流商 API 不稳定。我们设计了<strong>双保险机制</strong>：1）主动轮询（每 30min 查询一次物流状态）+ 2）被动回调（物流商状态变更推送），两者取最新状态。同时设计了<strong>状态回退保护</strong>：状态只能向前流转，不允许回退（避免物流商推送乱序导致状态倒退）。"</div>
+            </div>
+            <h3>Q：多物流商怎么对接？适配器模式具体怎么实现？</h3>
+            <h4>适配器模式设计</h4>
+            <div class="lua-code light">
+                <pre style="margin:0;white-space:pre-wrap;word-break:break-all;">
+// 统一物流接口
+public interface LogisticsAdapter {
+    String getProviderCode();                           // 物流商标识
+    LogisticsTraceResponse queryTrace(String trackingNo); // 查询轨迹
+    LogisticsPriceResponse queryPrice(LogisticsPriceRequest req); // 查询运费
+    LogisticsCreateResponse createOrder(LogisticsCreateRequest req); // 创建物流单
+}
+
+// 俄罗斯CDEK适配器
+@Component
+public class CdekLogisticsAdapter implements LogisticsAdapter {
+    
+    @Override
+    public String getProviderCode() { return "CDEK"; }
+    
+    @Override
+    public LogisticsTraceResponse queryTrace(String trackingNo) {
+        // 1. 调用CDEK API（REST + 签名认证）
+        CdekTraceResponse cdekResp = cdekClient.getTrace(trackingNo);
+        // 2. 转换为统一轨迹模型
+        return LogisticsTraceResponse.builder()
+            .trackingNo(trackingNo)
+            .status(mapStatus(cdekResp.getStatus()))  // CDEK状态 → 统一状态
+            .traces(cdekResp.getEvents().stream()
+                .map(this::mapTraceEvent)
+                .collect(Collectors.toList()))
+            .build();
+    }
+    
+    // CDEK状态码 → 统一物流状态映射
+    private LogisticsStatus mapStatus(String cdekStatus) {
+        switch (cdekStatus) {
+            case "CREATED": return LogisticsStatus.CREATED;
+            case "IN_TRANSIT": return LogisticsStatus.FIRST_MILE_TRANSIT;
+            case "CUSTOMS": return LogisticsStatus.CUSTOMS_CLEARANCE;
+            case "DELIVERING": return LogisticsStatus.LAST_MILE_DELIVERY;
+            case "DELIVERED": return LogisticsStatus.SIGNED;
+            default: return LogisticsStatus.UNKNOWN;
+        }
+    }
+}
+
+// 物流商工厂
+@Component
+public class LogisticsAdapterFactory {
+    
+    @Autowired
+    private List<LogisticsAdapter> adapters;
+    
+    private Map<String, LogisticsAdapter> adapterMap;
+    
+    @PostConstruct
+    public void init() {
+        adapterMap = adapters.stream()
+            .collect(Collectors.toMap(LogisticsAdapter::getProviderCode, a -> a));
+    }
+    
+    public LogisticsAdapter getAdapter(String providerCode) {
+        LogisticsAdapter adapter = adapterMap.get(providerCode);
+        if (adapter == null) {
+            throw new BusinessException("不支持的物流商: " + providerCode);
+        }
+        return adapter;
+    }
+}
+                </pre>
+            </div>
+            <div class="highlight-box gold">
+                <div class="label">💡 加分点</div>
+                <div class="content">"第三方 ERP 对接最容易被忽视的是<strong>数据映射</strong>。我们设计了<strong>双向映射配置表</strong>：每个 ERP 的每个数据类型都有独立的映射规则，支持<strong>正则匹配 + 枚举映射 + 自定义脚本</strong>三种映射方式。新增 ERP 时只需配置映射规则，不需要改代码。"</div>
+            </div>
+
+            <!-- ========================================================= -->
+            <!-- 第七部分：跨境支付 -->
+            <!-- ========================================================= -->
+            <h2>跨境支付篇</h2>
+
+            <h3>Q：多国本地支付怎么统一接入？COD 货到付款怎么处理拒收？</h3>
+			
+            <h4>统一支付网关架构</h4>
+            <div class="lua-code light">
+                <pre style="margin:0;color:#1a1a2e;white-space:pre-wrap;word-break:break-all;">
+┌──────────────────────────────────────────────┐
+│              统一支付网关 (Payment Gateway)      
+├──────────────────────────────────────────────┤
+│  统一支付状态机：                                
+│  PENDING → PAYING → SUCCESS / FAILED          
+│                    → REFUNDING → REFUNDED       
+├──────────────────────────────────────────────┤
+│  策略模式 + 工厂模式：                           
+│  PaymentStrategyFactory.getStrategy(channel)   
+├──────────┬──────────┬──────────┬──────────────┤
+│ Momo     │PromptPay │ OVO      │ Yandex Pay   │
+│ Adapter  │ Adapter  │ Adapter  │ Adapter      │
+├──────────┴──────────┴──────────┴──────────────┤
+│  公共能力层：                                    
+│  - 签名验签（RSA/AES）                          
+│  - 幂等控制（Redis去重）                         
+│  - 回调通知（异步回调统一处理）                    
+│  - 对账文件解析（各渠道格式统一）                   
+└──────────────────────────────────────────────┘
+                </pre>
+            </div>
+			
+            <h4>策略模式核心实现</h4>
+            <div class="lua-code light">
+                <pre style="margin:0;color:#1a1a2e;white-space:pre-wrap;word-break:break-all;">
+<span class="kw">public interface</span> <span class="fn">PaymentStrategy</span> {
+    PaymentResult <span class="fn">pay</span>(PaymentRequest request);
+    RefundResult <span class="fn">refund</span>(RefundRequest request);
+    PaymentStatus <span class="fn">query</span>(String paymentNo);
+}
+
+<span class="cls">@Component("MOMO")</span>
+<span class="kw">public class</span> <span class="fn">MomoPayStrategy</span> <span class="kw">implements</span> PaymentStrategy {
+    <span class="cls">@Override</span>
+    <span class="kw">public</span> PaymentResult <span class="fn">pay</span>(PaymentRequest request) {
+        String signature = MomoSignatureUtil.<span class="fn">sign</span>(request, momoConfig.getSecretKey());
+        MomoPayResponse response = momoClient.<span class="fn">createPayment</span>(...);
+        <span class="kw">return</span> PaymentResult.<span class="fn">build</span>()
+            .paymentNo(response.getTransId())
+            .payUrl(response.getPayUrl())
+            .status(PaymentStatus.PAYING)
+            .build();
+    }
+}
+                </pre>
+            </div>
+
+            <h4>COD 货到付款</h4>
+            <ul>
+                <li>东南亚最主流支付方式（越南占比 60%+），但拒收率高达 20-30%</li>
+                <li><strong>COD 订单特殊流程：</strong>下单 → 待确认 → 客服确认 → 发货 → 尾程配送 → 签收/拒收</li>
+                <li><strong>COD 拒收优化策略：</strong>首单用户 COD 限额、高拒收率用户降级、发货前电话/短信确认（确认率提升至 85%）</li>
+            </ul>
+
+            <div class="highlight-box gold">
+                <div class="label">💡 加分点</div>
+                <div class="content">"COD 是东南亚跨境电商绕不过去的支付方式。我们不是要消灭 COD，而是降低 COD 的拒收风险。核心策略是<strong>'前端筛选 + 后端管控'</strong>：前端通过订单确认 + 地址校验 + 在线支付激励降低拒收概率，后端通过黑名单 + 拒收费用扣除增加拒收成本。最终 COD 拒收率从 <strong>30% 降至 15%</strong>，同时在线支付占比从 40% 提升至 <strong>65%</strong>。"</div>
+            </div>
+
+            <!-- ========================================================= -->
+            <!-- 第八部分：业财一体 -->
+            <!-- ========================================================= -->
+            <h2>业财一体篇</h2>
+
+            <h3>Q：自动对账怎么设计？三层对账的具体匹配逻辑是什么？</h3>
+
+            <div class="three-col">
+                <div class="col"><div class="title">📊 第一层</div><div class="desc"><strong>平台账单对账</strong><br/>拉取平台结算账单<br/>与系统订单逐笔匹配</div></div>
+                <div class="col"><div class="title">💳 第二层</div><div class="desc"><strong>支付账单对账</strong><br/>拉取支付渠道账单<br/>与系统支付流水匹配</div></div>
+                <div class="col"><div class="title">📋 第三层</div><div class="desc"><strong>财务凭证生成</strong><br/>自动生成金蝶标准凭证<br/>科目体系映射</div></div>
+            </div>
+
+            <div class="lua-code light">
+                <pre style="margin:0;color:#1a1a2e;white-space:pre-wrap;word-break:break-all;">
+<span class="cmt" style="color:#6a7a8e;">// 业务事件：OrderSettled（订单结算完成）</span>
+<span class="cmt" style="color:#6a7a8e;">// 生成凭证：</span>
+<span class="kw">借</span>：1122-应收账款-平台（订单金额 × 结算汇率）
+<span class="kw">借</span>：6603-财务费用-汇兑损益（汇率差异）
+<span class="kw">贷</span>：6001-主营业务收入（商品金额 × 结算汇率）
+<span class="kw">贷</span>：2221-应交税费-增值税-销项税额（税额）
+<span class="kw">贷</span>：6603-财务费用-手续费（支付渠道手续费）
+                </pre>
+            </div>
+
+            <div class="highlight-box gold">
+                <div class="label">💡 加分点</div>
+                <div class="content">"自动对账最难的不是'匹配'，而是'差异处理'。跨境场景下差异来源特别多：① 平台佣金规则不同（Shopee 6%-8%，Lazada 2%-5%）；② 汇率差异；③ 退款差异；④ 手续费差异。我们的做法是：先按订单号精确匹配，匹配不上的按金额+时间模糊匹配，还是匹配不上的标记为'待人工核实'。经过 3 个月迭代，自动匹配率从 <strong>70% 提升至 95%</strong>，剩余 5% 走人工核实。"</div>
+            </div>
+            <h3>Q：金蝶财务系统怎么对接？凭证生成的映射规则是什么？</h3>
+			
+            <h4>金蝶对账架构</h4>
+            <div class="lua-code light">
+                <pre style="margin:0;color:#1a1a2e;white-space:pre-wrap;word-break:break-all;">
+┌──────────────┐    标准化财务事件    ┌──────────────┐    金蝶API     ┌──────────┐
+│  业务系统     │ ────────────────→ │ 财务中台      │ ────────────→ │  金蝶云    │
+│ (OMS/WMS/    │  (MQ领域事件)      │ (凭证映射引擎) │  (REST API)   │  星空     │
+│  TMS/FMS)    │                    │              │               │          │
+└──────────────┘                    └──────────────┘               └──────────┘
+
+凭证映射引擎核心逻辑：
+1. 接收业务事件（OrderSettled/RefundCompleted/InventoryOutbound等）
+2. 根据事件类型+业务规则，映射为金蝶标准凭证模板
+3. 填充凭证字段（科目代码、金额、币种、辅助核算项）
+4. 调用金蝶API创建凭证
+5. 记录凭证与业务单据的关联关系（便于追溯）
+                </pre>
+            </div>
+            <h4>凭证映射规则示例</h4>
+            <div class="lua-code light">
+                <pre style="margin:0;color:#1a1a2e;white-space:pre-wrap;word-break:break-all;">
+业务事件：OrderSettled（订单结算完成）
+触发条件：订单状态=已结算 AND 支付状态=已到账
+
+生成凭证：
+借：1122-应收账款-平台（订单金额×结算汇率）
+借：6603-财务费用-汇兑损益（汇率差异，可能为贷方）
+贷：6001-主营业务收入（商品金额×结算汇率）
+贷：2221-应交税费-增值税-销项税额（税额）
+贷：6603-财务费用-手续费（支付渠道手续费）
+
+辅助核算项：
+- 应收账款：按平台维度（Shopee/Lazada/自研站）
+- 主营业务收入：按国家站点+商品品类维度
+- 应交税费：按国家站点维度（不同国家税率不同）
+                </pre>
+            </div>
+            <div class="highlight-box gold">
+                <div class="label">💡 加分点</div>
+                <div class="content">"金蝶对接的核心难点是<strong>科目体系映射</strong>——不同国家站点的科目体系不同（俄罗斯用俄语科目、越南用越南语科目），但金蝶要求科目代码统一。我们设计了<strong>'业务语义→标准科目→本地科目'三级映射</strong>：业务事件先映射到标准科目（统一中文），再根据国家站点映射到本地科目。这样新增国家站点只需配置本地科目映射表，不需要改代码。"</div>
+            </div>
+
+            <!-- ========================================================= -->
+            <!-- 第九部分：订单履约篇（完整版） -->
+            <!-- ========================================================= -->
+            <h2>订单履约篇</h2>
+
+            <h3>Q：OMS 订单路由规则引擎如何设计？多仓智能调度策略？</h3>
+
+            <h4>订单路由决策树</h4>
+            <div style="
+                background: #f5f7fb;
+                border-radius: 12px;
+                padding: 1.5rem 1rem;
+                border: 1px solid #e8ecf0;
+                overflow-x: auto;
+                margin: 0.8rem 0;
+            ">
+                <!-- 第一层：识别收货国家 -->
+                <div style="text-align:center; margin-bottom:12px;">
+                    <div style="
+                        display:inline-block;
+                        background:#4f6ef7;
+                        color:#ffffff;
+                        padding:0.5rem 2rem;
+                        border-radius:30px;
+                        font-weight:600;
+                        font-size:0.95rem;
+                    ">
+                        🌍 ① 识别收货国家
+                    </div>
+                    <div style="color:#6a7a8e; font-size:0.8rem; margin-top:2px;">根据收货地址确定国家站点</div>
+                </div>
+
+                <!-- 箭头 -->
+                <div style="text-align:center; color:#b0c0d0; font-size:1.2rem; margin:2px 0;">↓</div>
+
+                <!-- 第二层：海外仓选择（三列） -->
+                <div style="text-align:center; margin-bottom:6px;">
+                    <div style="
+                        display:inline-block;
+                        background:#2a3a5e;
+                        color:#ffffff;
+                        padding:0.3rem 1.5rem;
+                        border-radius:20px;
+                        font-weight:500;
+                        font-size:0.85rem;
+                    ">
+                        🏭 ② 海外仓选择
+                    </div>
+                </div>
+                <div style="display:flex; flex-wrap:wrap; justify-content:center; gap:12px; margin-bottom:8px;">
+                    <div style="
+                        background:#ffffff;
+                        border-radius:10px;
+                        padding:0.6rem 1.5rem;
+                        border:1px solid #d0d6e0;
+                        min-width:100px;
+                        text-align:center;
+                        font-weight:500;
+                        color:#2a3a5e;
+                        font-size:0.9rem;
+                    ">
+                        📍 距离最近
+                    </div>
+                    <div style="
+                        background:#ffffff;
+                        border-radius:10px;
+                        padding:0.6rem 1.5rem;
+                        border:1px solid #d0d6e0;
+                        min-width:100px;
+                        text-align:center;
+                        font-weight:500;
+                        color:#2a3a5e;
+                        font-size:0.9rem;
+                    ">
+                        📦 库存充足
+                    </div>
+                    <div style="
+                        background:#ffffff;
+                        border-radius:10px;
+                        padding:0.6rem 1.5rem;
+                        border:1px solid #d0d6e0;
+                        min-width:100px;
+                        text-align:center;
+                        font-weight:500;
+                        color:#2a3a5e;
+                        font-size:0.9rem;
+                    ">
+                        💰 物流成本低
+                    </div>
+                </div>
+
+                <!-- 汇聚箭头 -->
+                <div style="text-align:center; color:#b0c0d0; font-size:1.2rem; margin:2px 0;">↓</div>
+
+                <!-- 集货仓选择 -->
+                <div style="text-align:center; margin-bottom:6px;">
+                    <div style="
+                        display:inline-block;
+                        background:#3a5a7e;
+                        color:#ffffff;
+                        padding:0.3rem 1.5rem;
+                        border-radius:20px;
+                        font-weight:500;
+                        font-size:0.85rem;
+                    ">
+                        📦 集货仓选择
+                    </div>
+                </div>
+                <div style="display:flex; flex-wrap:wrap; justify-content:center; gap:12px; margin-bottom:8px;">
+                    <div style="
+                        background:#ffffff;
+                        border-radius:10px;
+                        padding:0.5rem 1.2rem;
+                        border:1px solid #d0d6e0;
+                        min-width:80px;
+                        text-align:center;
+                        font-size:0.85rem;
+                        color:#2a2a3e;
+                    ">
+                        🏢 深圳仓
+                    </div>
+                    <div style="
+                        background:#ffffff;
+                        border-radius:10px;
+                        padding:0.5rem 1.2rem;
+                        border:1px solid #d0d6e0;
+                        min-width:80px;
+                        text-align:center;
+                        font-size:0.85rem;
+                        color:#2a2a3e;
+                    ">
+                        🏢 义乌仓
+                    </div>
+                    <div style="
+                        background:#ffffff;
+                        border-radius:10px;
+                        padding:0.5rem 1.2rem;
+                        border:1px solid #d0d6e0;
+                        min-width:80px;
+                        text-align:center;
+                        font-size:0.85rem;
+                        color:#2a2a3e;
+                    ">
+                        🏢 其他仓
+                    </div>
+                </div>
+
+                <!-- 箭头 -->
+                <div style="text-align:center; color:#b0c0d0; font-size:1.2rem; margin:2px 0;">↓</div>
+
+                <!-- 第三层：国内直发模式 -->
+                <div style="text-align:center; margin-bottom:6px;">
+                    <div style="
+                        display:inline-block;
+                        background:#2a5a4a;
+                        color:#ffffff;
+                        padding:0.3rem 1.5rem;
+                        border-radius:20px;
+                        font-weight:500;
+                        font-size:0.85rem;
+                    ">
+                        🚢 ③ 国内直发模式
+                    </div>
+                </div>
+                <div style="display:flex; flex-wrap:wrap; justify-content:center; gap:12px; margin-bottom:8px;">
+                    <div style="
+                        background:#ffffff;
+                        border-radius:10px;
+                        padding:0.5rem 1.2rem;
+                        border:1px solid #d0d6e0;
+                        min-width:80px;
+                        text-align:center;
+                        font-size:0.85rem;
+                        color:#2a2a3e;
+                    ">
+                        🏢 深圳仓
+                    </div>
+                    <div style="
+                        background:#ffffff;
+                        border-radius:10px;
+                        padding:0.5rem 1.2rem;
+                        border:1px solid #d0d6e0;
+                        min-width:80px;
+                        text-align:center;
+                        font-size:0.85rem;
+                        color:#2a2a3e;
+                    ">
+                        🏢 义乌仓
+                    </div>
+                    <div style="
+                        background:#ffffff;
+                        border-radius:10px;
+                        padding:0.5rem 1.2rem;
+                        border:1px solid #d0d6e0;
+                        min-width:80px;
+                        text-align:center;
+                        font-size:0.85rem;
+                        color:#2a2a3e;
+                    ">
+                        🏢 其他仓
+                    </div>
+                </div>
+
+                <!-- 箭头 -->
+                <div style="text-align:center; color:#b0c0d0; font-size:1.2rem; margin:2px 0;">↓</div>
+
+                <!-- 第四层：物流商选择 -->
+                <div style="text-align:center; margin-bottom:6px;">
+                    <div style="
+                        display:inline-block;
+                        background:#5a4a7e;
+                        color:#ffffff;
+                        padding:0.3rem 1.5rem;
+                        border-radius:20px;
+                        font-weight:500;
+                        font-size:0.85rem;
+                    ">
+                        🚚 ④ 物流商选择
+                    </div>
+                </div>
+                <div style="display:flex; flex-wrap:wrap; justify-content:center; gap:12px; margin-bottom:8px;">
+                    <div style="
+                        background:#ffffff;
+                        border-radius:10px;
+                        padding:0.5rem 1.2rem;
+                        border:1px solid #d0d6e0;
+                        min-width:100px;
+                        text-align:center;
+                        font-size:0.85rem;
+                        color:#2a2a3e;
+                    ">
+                        ⏱️ 时效优先
+                    </div>
+                    <div style="
+                        background:#ffffff;
+                        border-radius:10px;
+                        padding:0.5rem 1.2rem;
+                        border:1px solid #d0d6e0;
+                        min-width:100px;
+                        text-align:center;
+                        font-size:0.85rem;
+                        color:#2a2a3e;
+                    ">
+                        💰 成本优先
+                    </div>
+                    <div style="
+                        background:#ffffff;
+                        border-radius:10px;
+                        padding:0.5rem 1.2rem;
+                        border:1px solid #d0d6e0;
+                        min-width:100px;
+                        text-align:center;
+                        font-size:0.85rem;
+                        color:#2a2a3e;
+                    ">
+                        🛃 清关能力优先
+                    </div>
+                    <div style="
+                        background:#ffffff;
+                        border-radius:10px;
+                        padding:0.5rem 1.2rem;
+                        border:1px solid #4f6ef7;
+                        min-width:100px;
+                        text-align:center;
+                        font-size:0.85rem;
+                        color:#4f6ef7;
+                        font-weight:500;
+                    ">
+                        ⭐ 综合评分
+                    </div>
+                </div>
+
+                <!-- 箭头 -->
+                <div style="text-align:center; color:#b0c0d0; font-size:1.2rem; margin:2px 0;">↓</div>
+
+                <!-- 第五层：生成履约计划 -->
+                <div style="text-align:center;">
+                    <div style="
+                        display:inline-block;
+                        background:#1a8a5a;
+                        color:#ffffff;
+                        padding:0.6rem 2.5rem;
+                        border-radius:30px;
+                        font-weight:600;
+                        font-size:1rem;
+                    ">
+                        ✅ ⑤ 生成履约计划
+                    </div>
+                    <div style="display:flex; flex-wrap:wrap; justify-content:center; gap:10px 20px; margin-top:6px; font-size:0.85rem; color:#3a3a4e;">
+                        <span>📍 发货仓</span>
+                        <span style="color:#b0c0d0;">|</span>
+                        <span>🚚 物流商</span>
+                        <span style="color:#b0c0d0;">|</span>
+                        <span>⏱️ 预计到达时间</span>
+                        <span style="color:#b0c0d0;">|</span>
+                        <span>💰 预计物流成本</span>
+                    </div>
                 </div>
             </div>
 
-            <div style="margin-top:1.5rem;padding:1rem 0;border-top:2px solid #eef0f4;text-align:center;color:#8a9aaa;font-size:0.9rem;">
-                <i class="fas fa-graduation-cap" style="color:#4f6ef7;"></i>
-                跨境电商 &amp; 全渠道零售 · 行业技能沉淀
-                <i class="fas fa-graduation-cap" style="color:#4f6ef7;"></i>
+            <h4>拆单/合单规则</h4>
+
+            <div class="two-col">
+                <div class="highlight-box" style="border-left-color:#4f6ef7;">
+                    <div class="label">✂️ 拆单场景</div>
+                    <div class="content">
+                        <ol style="margin:4px 0 0 1.2rem;">
+                            <li><strong>跨仓拆单：</strong>SKU-A 在越南仓有货，SKU-B 只有国内仓有货 → 拆为 2 个子订单</li>
+                            <li><strong>预售拆单：</strong>SKU-A 现货，SKU-B 预售 → 拆为 2 个子订单（先发现货，预售到货后发）</li>
+                            <li><strong>超重拆单：</strong>订单总重 &gt; 物流商限重 → 按重量均分拆单</li>
+                        </ol>
+                    </div>
+                </div>
+                <div class="highlight-box" style="border-left-color:#1a8a5a;background:#f0f7f0;">
+                    <div class="label" style="color:#1a8a5a;">📦 合单场景</div>
+                    <div class="content">
+                        <ol style="margin:4px 0 0 1.2rem;">
+                            <li><strong>同仓合单：</strong>同一用户 30 分钟内多个订单，发货仓相同 → 合并为一个包裹发货</li>
+                            <li><strong>同物流商合单：</strong>不同订单但同一物流商同一批次 → 减少物流成本</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+
+            <div class="highlight-box gold">
+                <div class="label">📌 拆合单优先级</div>
+                <div class="content">
+                    <strong>合单优先 → 再按需拆单</strong>（优先合单减少包裹数，再按需拆单满足履约约束）
+                </div>
+            </div>
+
+            <!-- ========================================================= -->
+            <h3>Q：OMS+WMS+TMS 全链路履约的状态一致性如何保证？</h3>
+
+            <h4>全链路状态流转</h4>
+            <div class="status-flow" style="flex-direction: column; align-items: stretch; gap: 4px;">
+                <div style="display: flex; flex-wrap: wrap; gap: 6px 10px; justify-content: center; background: #eef2f7; padding: 0.4rem 0.8rem; border-radius: 8px; font-weight: 600; color: #1a1a2e;">
+                    <span>📋 OMS 状态</span>
+                    <span style="color:#b0c0d0;">→</span>
+                    <span>🏭 WMS 状态</span>
+                    <span style="color:#b0c0d0;">→</span>
+                    <span>🚚 TMS 状态</span>
+                </div>
+
+                <div style="display: flex; flex-wrap: wrap; gap: 4px 8px; justify-content: center; padding: 0.6rem; background: #f5f7fb; border-radius: 8px; border: 1px solid #e8ecf0;">
+                    <span class="status"><span class="s-icon">📦</span> 订单创建</span>
+                    <span class="arrow-flow">→</span>
+                    <span class="status"><span class="s-icon">📋</span> 待发货</span>
+                    <span class="arrow-flow">→</span>
+                    <span class="status"><span class="s-icon">📦</span> 创建出库单</span>
+                    <span class="arrow-flow">→</span>
+                    <span class="status"><span class="s-icon">📦</span> 波次分配</span>
+                    <span class="arrow-flow">→</span>
+                    <span class="status"><span class="s-icon">📋</span> 拣货</span>
+                </div>
+                <div style="display: flex; flex-wrap: wrap; gap: 4px 8px; justify-content: center; padding: 0.6rem; background: #f5f7fb; border-radius: 8px; border: 1px solid #e8ecf0;">
+                    <span class="status"><span class="s-icon">📦</span> 打包</span>
+                    <span class="arrow-flow">→</span>
+                    <span class="status"><span class="s-icon">📋</span> 称重</span>
+                    <span class="arrow-flow">→</span>
+                    <span class="status"><span class="s-icon">✅</span> 出库确认</span>
+                    <span class="arrow-flow">→</span>
+                    <span class="status"><span class="s-icon">📦</span> 创建运单</span>
+                    <span class="arrow-flow">→</span>
+                    <span class="status"><span class="s-icon">✈️</span> 头程揽收</span>
+                </div>
+                <div style="display: flex; flex-wrap: wrap; gap: 4px 8px; justify-content: center; padding: 0.6rem; background: #f5f7fb; border-radius: 8px; border: 1px solid #e8ecf0;">
+                    <span class="status"><span class="s-icon">🚚</span> 运输中</span>
+                    <span class="arrow-flow">→</span>
+                    <span class="status"><span class="s-icon">🛃</span> 清关中</span>
+                    <span class="arrow-flow">→</span>
+                    <span class="status"><span class="s-icon">✅</span> 清关通过</span>
+                    <span class="arrow-flow">→</span>
+                    <span class="status"><span class="s-icon">🚚</span> 尾程配送</span>
+                    <span class="arrow-flow">→</span>
+                    <span class="status"><span class="s-icon">✅</span> 已签收</span>
+                </div>
+            </div>
+
+            <h4>一致性保障机制</h4>
+            <table class="compare-table">
+                <thead>
+                    <tr><th>机制</th><th>实现方式</th><th>作用</th></tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>事件驱动</strong></td>
+                        <td>WMS/TMS 状态变更 → 发布领域事件 → OMS 订阅更新</td>
+                        <td>解耦系统间状态同步，异步实时更新</td>
+                    </tr>
+                    <tr>
+                        <td><strong>幂等消费</strong></td>
+                        <td>每个事件携带唯一 eventId，OMS 消费前检查是否已处理</td>
+                        <td>防止消息重复导致状态错乱</td>
+                    </tr>
+                    <tr>
+                        <td><strong>补偿机制</strong></td>
+                        <td>OMS 定时扫描"状态停滞"订单（如 OMS 已发货但 TMS 无运单超 2h），主动查询 WMS/TMS 补偿状态</td>
+                        <td>修复因消息丢失导致的状态不一致</td>
+                    </tr>
+                    <tr>
+                        <td><strong>对账机制</strong></td>
+                        <td>T+1 全链路状态对账：OMS 订单状态 vs WMS 出库状态 vs TMS 物流状态</td>
+                        <td>兜底保障，发现并修复不一致</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="highlight-box gold">
+                <div class="label">💡 加分点</div>
+                <div class="content">
+                    "OMS-WMS-TMS 全链路状态一致性最大的挑战是<strong>跨系统状态对齐</strong>。我们的设计原则是<strong>'OMS 为事实源，WMS/TMS 为执行源'</strong>：OMS 记录订单期望状态，WMS/TMS 反馈实际执行状态，通过事件驱动 + 定时对账双重保障。同时设计了<strong>状态停滞检测</strong>——OMS 定时扫描超过 2 小时未推进的订单，主动查询下游系统补偿状态，避免订单卡死在半路。"
+                </div>
             </div>
 
         </div>
@@ -980,7 +1808,7 @@
             <i class="fas fa-envelope"></i> <a href="#">me@example.com</a>
         </p>
         <p style="margin-top:6px; font-size:0.8rem; color:#8a9aaa;">
-            微服务架构 · 分布式事务 · 高并发库存 · 多仓调度 · 事件驱动 · ERP 对接
+            微服务架构 · 分布式事务 · 高并发库存 · 多仓调度 · 事件驱动 · ERP 对接 · 跨境物流 · 统一支付 · COD · 业财一体
         </p>
     </footer>
 
