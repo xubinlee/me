@@ -726,22 +726,27 @@
                 </pre>
             </div>
 
-            <h4>一致性保障三层机制</h4>
+            <h4>一致性保障四层机制</h4>
             <table class="compare-table">
                 <thead><tr><th>层级</th><th>机制</th><th>作用</th></tr></thead>
                 <tbody>
                     <tr>
                         <td><strong>第一层</strong></td>
+                        <td>Redis 消息</td>
+                        <td>扛并发流量</td>
+                    </tr>
+                    <tr>
+                        <td><strong>第二层</strong></td>
                         <td>RocketMQ 事务消息</td>
                         <td>Redis 扣减成功→发半消息→DB 扣减→消息确认；DB 扣减失败→消息回滚→Redis 归还</td>
                     </tr>
                     <tr>
-                        <td><strong>第二层</strong></td>
+                        <td><strong>第三层</strong></td>
                         <td>延迟消息补偿</td>
                         <td>下单后 30min 未支付→延迟消息触发→Redis 归还 + DB 归还（防止库存永久锁定）</td>
                     </tr>
                     <tr>
-                        <td><strong>第三层</strong></td>
+                        <td><strong>第四层</strong></td>
                         <td>T+1 库存对账</td>
                         <td>每日凌晨对比 Redis 与 DB 库存快照，差异自动告警 + 工单，兜底保障</td>
                     </tr>
@@ -750,8 +755,7 @@
 
             <div class="highlight-box gold">
                 <div class="label">💡 加分点</div>
-                <div class="content">
-                    "为什么不用 Redis + Lua + DB 事务的同步方案？因为 DB 行级锁（SELECT FOR UPDATE）在高并发下持有锁时间长，TPS 上不去。我们选择 <strong>Redis 异步预扣 + MQ 最终一致</strong>，Redis 层 TPS 可达 10W+，DB 层通过 MQ 削峰后 TPS 只需支撑 5000+，大促零超卖。"
+                <div class="content"> 		  "纯Redis方案最大的风险是数据丢失——Redis主从切换期间（哨兵选举约10-30s），这段时间内的库存扣减数据可能丢失。跨境大促场景下，10秒可能产生数千笔订单，如果这些库存扣减丢失，就会导致超卖。所以我们的设计原则是：<strong>Redis扛并发流量，DB保数据一致，MQ保最终一致，T+1对账兜底</strong>——四层保障，任何一层出问题都有下一层兜底。"
                 </div>
             </div>
 
