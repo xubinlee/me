@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Spring &amp; Spring Boot 核心原理</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <link rel="stylesheet" href="../assets/css/style.css" />
+    <style>
+        .doc-content {
+            padding: 1.5rem 2rem 2rem 2rem;
+            color: #1a1a2e;
+            font-size: 0.95rem;
+            line-height: 1.8;
+            background: #ffffff;
+            border-radius: 0 0 16px 16px;
+        }
+
+        .doc-content h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #1a1a2e;
+            margin-bottom: 0.3rem;
+            letter-spacing: -0.5px;
+        }
+
+        .doc-content h1 .subtitle {
+            font-size: 1rem;
+            font-weight: 400;
+            color: #5a6a7e;
+            display: block;
+            margin-top: 2px;
+        }
+
+        .doc-content h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #1a1a2e;
+            margin-top: 2rem;
+            margin-bottom: 0.8rem;
+            border-bottom: 2px solid #eef0f4;
+            padding-bottom: 0.4rem;
+        }
+
+        .doc-content h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #2a3a5e;
+            margin-top: 1.2rem;
+            margin-bottom: 0.4rem;
+        }
+
+        .doc-content h4 {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: #4f6ef7;
+            margin-top: 0.8rem;
+            margin-bottom: 0.2rem;
+        }
+
+        .doc-content p {
+            margin-bottom: 0.7rem;
+            color: #2a2a3e;
+        }
+
+        .doc-content ul,
+        .doc-content ol {
+            padding-left: 1.8rem;
+            margin-bottom: 0.7rem;
+        }
+
+        .doc-content li {
+            margin-bottom: 0.2rem;
+            color: #2a2a3e;
+        }
+
+        .doc-content strong {
+            color: #1a1a2e;
+            font-weight: 600;
+        }
+
+        .doc-content code {
+            background: #eef2f7;
+            padding: 0.1rem 0.4rem;
+            border-radius: 4px;
+            font-size: 0.82rem;
+            color: #4f6ef7;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .doc-content .highlight-box {
+            background: #f5f7fb;
+            border-left: 4px solid #4f6ef7;
+            padding: 1rem 1.2rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+        }
+
+        .doc-content .highlight-box .label {
+            font-weight: 600;
+            color: #4f6ef7;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .doc-content .highlight-box .content {
+            margin-top: 4px;
+        }
+
+        .doc-content .highlight-box.gold {
+            border-left-color: #e8a838;
+            background: #fdf8f0;
+        }
+
+        .doc-content .highlight-box.green {
+            border-left-color: #1a8a5a;
+            background: #f0f7f0;
+        }
+
+        .doc-content .highlight-box.purple {
+            border-left-color: #7c5cfc;
+            background: #f5f0ff;
+        }
+
+        .doc-content .compare-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+            margin: 0.8rem 0;
+        }
+
+        .doc-content .compare-table th {
+            background: #eef2f7;
+            text-align: left;
+            padding: 0.5rem 1rem;
+            font-weight: 600;
+            color: #1a1a2e;
+            border-bottom: 2px solid #d0d6e0;
+        }
+
+        .doc-content .compare-table td {
+            padding: 0.5rem 1rem;
+            border-bottom: 1px solid #e8ecf0;
+            color: #2a2a3e;
+        }
+
+        .doc-content .compare-table tr:hover td {
+            background: #f5f7fb;
+        }
+
+        .doc-content .compare-table .badge-spring {
+            display: inline-block;
+            background: #e6f0fa;
+            color: #2a5a8a;
+            padding: 0.05rem 0.5rem;
+            border-radius: 12px;
+            font-size: 0.7rem;
+        }
+
+        .doc-content .compare-table .badge-boot {
+            display: inline-block;
+            background: #e6f7ed;
+            color: #1a8a5a;
+            padding: 0.05rem 0.5rem;
+            border-radius: 12px;
+            font-size: 0.7rem;
+        }
+
+        .doc-content .two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin: 0.8rem 0;
+        }
+
+        .doc-content .two-col .col {
+            background: #f5f7fb;
+            border-radius: 12px;
+            padding: 1.2rem 1.5rem;
+            border: 1px solid #e8ecf0;
+            text-align: center;
+            transition: all 0.2s;
+        }
+
+        .doc-content .two-col .col:hover {
+            border-color: #4f6ef7;
+            background: #f0f4ff;
+        }
+
+        .doc-content .two-col .col .icon {
+            font-size: 2rem;
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .doc-content .two-col .col .name {
+            font-weight: 700;
+            color: #1a1a2e;
+            font-size: 1.1rem;
+        }
+
+        .doc-content .two-col .col .desc {
+            font-size: 0.9rem;
+            color: #5a6a7e;
+        }
+
+        .doc-content .lifecycle-flow {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px 10px;
+            margin: 0.8rem 0;
+            padding: 1rem;
+            background: #f5f7fb;
+            border-radius: 10px;
+            border: 1px solid #e8ecf0;
+            justify-content: center;
+        }
+
+        .doc-content .lifecycle-flow .step {
+            background: #ffffff;
+            border-radius: 20px;
+            padding: 0.3rem 1rem;
+            border: 1px solid #d0d6e0;
+            font-size: 0.8rem;
+            color: #2a2a3e;
+            transition: all 0.2s;
+        }
+
+        .doc-content .lifecycle-flow .step:hover {
+            border-color: #4f6ef7;
+            background: #f0f4ff;
+        }
+
+        .doc-content .lifecycle-flow .step .s-icon {
+            color: #4f6ef7;
+            margin-right: 4px;
+        }
+
+        .doc-content .lifecycle-flow .arrow-flow {
+            color: #b0c0d0;
+            font-size: 1rem;
+        }
+
+        .doc-content .code-block {
+            background: #0b0e14;
+            border-radius: 10px;
+            padding: 1.2rem 1.5rem;
+            overflow-x: auto;
+            font-family: 'JetBrains Mono', 'Fira Code', monospace;
+            font-size: 0.78rem;
+            line-height: 1.8;
+            color: #e8edf5;
+            border: 1px solid #252e3c;
+            margin: 0.8rem 0;
+        }
+
+        .doc-content .code-block .kw { color: #c792ea; }
+        .doc-content .code-block .str { color: #c3e88d; }
+        .doc-content .code-block .cmt { color: #546e7a; font-style: italic; }
+        .doc-content .code-block .fn { color: #82aaff; }
+        .doc-content .code-block .num { color: #f78c6c; }
+        .doc-content .code-block .op { color: #89ddff; }
+        .doc-content .code-block .var { color: #eeffff; }
+        .doc-content .code-block .cls { color: #ffcb6b; }
+        .doc-content .code-block .ann { color: #f07178; }
+
+        .doc-content .code-block.light {
+            color: #1a1a2e;
+            background: #f5f7fb;
+            border-color: #e8ecf0;
+        }
+
+        .doc-content .code-block.light .cmt { color: #6a7a8e; }
+        .doc-content .code-block.light .kw { color: #c792ea; }
+        .doc-content .code-block.light .str { color: #1a8a5a; }
+        .doc-content .code-block.light .fn { color: #4f6ef7; }
+        .doc-content .code-block.light .cls { color: #7c5cfc; }
+
+        .doc-content .request-chain {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px 12px;
+            margin: 0.8rem 0;
+            padding: 1rem;
+            background: #f5f7fb;
+            border-radius: 10px;
+            border: 1px solid #e8ecf0;
+            justify-content: center;
+            font-size: 0.9rem;
+            color: #2a2a3e;
+        }
+
+        .doc-content .request-chain .item {
+            background: #ffffff;
+            border-radius: 8px;
+            padding: 0.4rem 1rem;
+            border: 1px solid #d0d6e0;
+        }
+
+        .doc-content .request-chain .item.highlight {
+            border-color: #4f6ef7;
+            background: #f0f4ff;
+            font-weight: 600;
+        }
+
+        .doc-content .request-chain .arrow {
+            color: #b0c0d0;
+        }
+
+        .doc-content .three-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 0.8rem;
+            margin: 0.8rem 0;
+        }
+
+        .doc-content .three-col .col {
+            background: #f5f7fb;
+            border-radius: 10px;
+            padding: 0.8rem 1rem;
+            border: 1px solid #e8ecf0;
+            text-align: center;
+            transition: all 0.2s;
+        }
+
+        .doc-content .three-col .col:hover {
+            border-color: #4f6ef7;
+            background: #f0f4ff;
+        }
+
+        .doc-content .three-col .col .title {
+            font-weight: 600;
+            color: #4f6ef7;
+            font-size: 0.85rem;
+        }
+
+        .doc-content .three-col .col .desc {
+            font-size: 0.8rem;
+            color: #3a3a4e;
+        }
+
+        @media (max-width: 680px) {
+            .doc-content { padding: 1rem; font-size: 0.9rem; }
+            .doc-content h1 { font-size: 1.5rem; }
+            .doc-content h2 { font-size: 1.2rem; }
+            .doc-content .two-col { grid-template-columns: 1fr; }
+            .doc-content .three-col { grid-template-columns: 1fr; }
+            .doc-content .compare-table { font-size: 0.75rem; }
+            .doc-content .compare-table th,
+            .doc-content .compare-table td { padding: 0.3rem 0.5rem; }
+            .doc-content .lifecycle-flow { flex-direction: column; align-items: center; }
+            .doc-content .lifecycle-flow .arrow-flow { display: none; }
+            .doc-content .code-block { font-size: 0.6rem; padding: 0.8rem 1rem; }
+            .doc-content .request-chain { flex-direction: column; align-items: center; }
+            .doc-content .request-chain .arrow { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <!-- ===== HEADER ===== -->
+    <header class="header">
+        <div class="header-left">
+            <h1>🍃 Spring &amp; Spring Boot</h1>
+            <div class="sub">
+                <span><i class="fas fa-cube"></i> IoC 容器</span>
+                <span><i class="fas fa-magic"></i> 自动装配</span>
+                <span><i class="fas fa-code-branch"></i> 核心原理</span>
+                <span><i class="fas fa-rocket"></i> 源码深度</span>
+            </div>
+        </div>
+        <div class="header-right">
+            <a href="../index.html" title="返回首页"><i class="fas fa-home"></i></a>
+            <a href="#" title="GitHub"><i class="fab fa-github"></i></a>
+        </div>
+    </header>
+
+    <!-- ===== 返回链接 ===== -->
+    <a href="../index.html" class="back-link"><i class="fas fa-arrow-left"></i> 返回项目列表</a>
+
+    <!-- ===== 文档内容 ===== -->
+    <section class="card card-doc">
+        <div class="card-title">
+            <i class="fas fa-file-alt"></i> 核心原理文档
+            <span class="badge">Spring · Spring Boot · IoC · 自动装配</span>
+        </div>
+
+        <div class="doc-content">
+
+            <h1>
+                🍃 Spring &amp; Spring Boot 核心原理
+                <span class="subtitle">理清关系 · 深入 IoC · 解密自动装配 · 源码链路</span>
+            </h1>
+
+            <!-- ========================================================= -->
+            <!-- 第一部分：理清关系 -->
+            <!-- ========================================================= -->
+            <h2>理清关系：Spring Boot 是 Spring 的「一键启动器」</h2>
+
+            <div class="two-col">
+                <div class="col">
+                    <span class="icon">🧩</span>
+                    <span class="name">Spring Framework</span>
+                    <span class="desc">一套完整的乐高积木，什么都有，但你需要自己拼</span>
+                </div>
+                <div class="col" style="border-color:#4f6ef7; background:#f0f4ff;">
+                    <span class="icon">🤖</span>
+                    <span class="name">Spring Boot</span>
+                    <span class="desc">一个智能拼装机器人，按你的需求自动拼好积木</span>
+                </div>
+            </div>
+
+            <p>
+                Spring Framework 提供了 <strong>IoC 容器</strong>、<strong>AOP</strong>、<strong>事务管理</strong>、<strong>MVC</strong> 等底层能力，但你需要手动写大量 XML 配置或 <code>@Configuration</code> 类。Spring Boot 在此基础上做了 <strong>"约定大于配置"</strong> 的自动装配，帮你把常用的组件自动配置好。
+            </p>
+
+            <!-- ========================================================= -->
+            <!-- 第二部分：Spring Framework 核心 -->
+            <!-- ========================================================= -->
+            <h2>Spring Framework 的核心：IoC 容器</h2>
+
+            <h3>什么是 IoC 容器？</h3>
+            <p>
+                IoC（Inversion of Control，控制反转）容器本质上是一个<strong>巨大的 Map</strong>，key 是 Bean 的名字，value 是对象实例。它负责：
+            </p>
+            <ol>
+                <li>创建对象（而不是你 <code>new</code>）</li>
+                <li>管理对象之间的依赖关系（注入）</li>
+                <li>控制对象的生命周期（初始化、销毁）</li>
+            </ol>
+            <p>核心接口是 <code>BeanFactory</code> 和它的增强版 <code>ApplicationContext</code>。</p>
+
+            <h3>Bean 的生命周期</h3>
+            <p>当你写 <code>@Component</code>、<code>@Service</code> 或 <code>@Bean</code> 时，Spring 容器会经历以下流程：</p>
+
+            <div class="lifecycle-flow">
+                <span class="step"><span class="s-icon">🔍</span> 扫描类路径</span>
+                <span class="arrow-flow">→</span>
+                <span class="step"><span class="s-icon">📋</span> 解析 BeanDefinition</span>
+                <span class="arrow-flow">→</span>
+                <span class="step"><span class="s-icon">🏗️</span> 实例化</span>
+                <span class="arrow-flow">→</span>
+                <span class="step"><span class="s-icon">🔗</span> 属性填充</span>
+                <span class="arrow-flow">→</span>
+                <span class="step"><span class="s-icon">📢</span> Aware 回调</span>
+                <span class="arrow-flow">→</span>
+                <span class="step"><span class="s-icon">✅</span> @PostConstruct</span>
+                <span class="arrow-flow">→</span>
+                <span class="step" style="border-color:#4f6ef7; background:#f0f4ff;"><span class="s-icon">📦</span> 放入单例池</span>
+                <span class="arrow-flow">→</span>
+                <span class="step"><span class="s-icon">♻️</span> @PreDestroy</span>
+            </div>
+
+            <div class="highlight-box gold">
+                <div class="label">📌 源码入口</div>
+                <div class="content">
+                    这一切的核心入口是 <code>AbstractApplicationContext.refresh()</code> 方法，它内部有 <strong>12 个步骤</strong>，是整个 Spring 容器启动的"总导演"。
+                </div>
+            </div>
+
+            <h3>对象的创建和注入</h3>
+            <table class="compare-table">
+                <thead>
+                    <tr><th>注解</th><th>一句话</th><th>标注</th><th>告诉 Spring</th></tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>@Bean</code></td>
+                        <td><strong>往容器里放东西</strong></td>
+                        <td>标注在方法上</td>
+                        <td>这个方法的返回值，帮我创建并管理起来</td>
+                    </tr>
+                    <tr>
+                        <td><code>@Autowired</code></td>
+                        <td><strong>从容器里取东西</strong></td>
+                        <td>标注在字段、构造器、Setter 方法上</td>
+                        <td>我需要一个 Bean，请帮我找到并塞进来</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="highlight-box gold">
+                <div class="label">💡 直观对比</div>
+                <div class="content">
+                    <code>@Bean</code> 就像往仓库里放货品，<code>@Autowired</code> 就像从仓库里取货品。
+                </div>
+            </div>
+
+            <!-- ========================================================= -->
+            <!-- 第三部分：Spring Boot 自动装配 -->
+            <!-- ========================================================= -->
+            <h2>Spring Boot 的自动装配</h2>
+
+            <h3>启动入口</h3>
+            <p>
+                <code>SpringApplication.run()</code> 内部做了两件大事：
+            </p>
+            <ol>
+                <li><strong>推断应用类型：</strong>是 Servlet Web、Reactive Web 还是普通 Java 应用</li>
+                <li><strong>启动 Spring 容器：</strong>最终调用 <code>ApplicationContext.refresh()</code></li>
+            </ol>
+
+            <h3>@SpringBootApplication 的三合一</h3>
+            <div class="three-col">
+                <div class="col"><div class="title">@SpringBootConfiguration</div><div class="desc">本质是 @Configuration<br/>标注这是一个配置类</div></div>
+                <div class="col"><div class="title">@EnableAutoConfiguration</div><div class="desc">自动装配的<strong>灵魂</strong><br/>触发自动配置机制</div></div>
+                <div class="col"><div class="title">@ComponentScan</div><div class="desc">包扫描<br/>扫描当前包及其子包</div></div>
+            </div>
+
+            <h3>自动装配的核心机制（四步走）</h3>
+
+            <h4>第一步：@EnableAutoConfiguration 触发</h4>
+            <p>
+                <code>AutoConfigurationImportSelector</code> 是一个 <code>ImportSelector</code>，它会被 Spring 在解析 <code>@Import</code> 时回调。
+            </p>
+
+            <h4>第二步：读取 AutoConfiguration.imports</h4>
+            <div class="code-block light">
+                <pre style="margin:0;color:#1a1a2e;white-space:pre-wrap;word-break:break-all;">
+<span class="cmt" style="color:#6a7a8e;">// Spring Boot 3.x 自动配置类列表</span>
+<span class="cmt" style="color:#6a7a8e;">// resources/META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports</span>
+org.springframework.boot.autoconfigure.web.servlet.WebMvcAutoConfiguration
+org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration
+<span class="cmt" style="color:#6a7a8e;">// ... 更多自动配置类</span>
+                </pre>
+            </div>
+
+            <h4>第三步：条件注解过滤</h4>
+            <div class="code-block light">
+                <pre style="margin:0;color:#1a1a2e;white-space:pre-wrap;word-break:break-all;">
+<span class="cls">@Configuration</span>
+<span class="cls">@ConditionalOnClass</span>({ Servlet.class, DispatcherServlet.class })
+<span class="cls">@ConditionalOnWebApplication</span>(type = Type.SERVLET)
+<span class="cls">@ConditionalOnMissingBean</span>(DispatcherServlet.class)
+<span class="kw">public class</span> <span class="fn">DispatcherServletAutoConfiguration</span> {
+    <span class="cmt" style="color:#6a7a8e;">// 只有满足所有条件，这个配置才会生效</span>
+}
+                </pre>
+            </div>
+            <p>
+                条件注解的本质是实现了 <code>Condition</code> 接口，核心方法是 <code>matches()</code>，返回 true 才让配置生效。
+            </p>
+
+            <h4>第四步：生成 Bean 定义，注册到容器</h4>
+            <p>
+                通过条件过滤的配置类中，<code>@Bean</code> 方法会被解析成 <code>BeanDefinition</code>，最终注册到 <code>DefaultListableBeanFactory</code> 的 <code>beanDefinitionMap</code> 中。
+            </p>
+
+            <div class="highlight-box gold">
+                <div class="label">🌟 自动做了什么</div>
+                <div class="content">
+                    它只能自动配置"通用的、标准的"东西，比如：
+                    <ul style="margin:4px 0 0 1.2rem;">
+                        <li>类路径有 <code>spring-boot-starter-web</code> → 自动配置 Tomcat、DispatcherServlet、Jackson</li>
+                        <li>类路径有 <code>mybatis-spring-boot-starter</code> → 自动配置 SqlSessionFactory、MapperScanner</li>
+                        <li>类路径有 <code>DataSource</code> → 自动配置 DataSource、JdbcTemplate</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h3>为什么还需要手动 @Bean？</h3>
+            <div class="highlight-box purple">
+                <div class="label">🎯 场景 1：自定义业务逻辑</div>
+                <div class="content">Spring Boot 不可能知道你的业务需要什么拦截器，它只能配置通用的。</div>
+            </div>
+            <div class="highlight-box purple">
+                <div class="label">🎯 场景 2：修复版本兼容性问题</div>
+                <div class="content">Spring Boot 4 默认使用 Jackson 3.x，但项目可能使用 Jackson 2.x，必须显式配置。</div>
+            </div>
+            <div class="highlight-box purple">
+                <div class="label">🎯 场景 3：自定义第三方库参数</div>
+                <div class="content">Spring Boot 不知道你的 XXL-JOB 的 appName、port 是什么，必须在 @Bean 方法里手动组装。</div>
+            </div>
+
+            <div class="highlight-box gold">
+                <div class="label">📌 核心原则</div>
+                <div class="content">
+                    <strong>自动配置解决"通用"问题，手动 @Bean 解决"业务特殊"问题。</strong>
+                </div>
+            </div>
+
+            <!-- ========================================================= -->
+            <!-- 第四部分：两种发现机制 -->
+            <!-- ========================================================= -->
+            <h2>两种发现 @Configuration 的机制</h2>
+
+            <div class="two-col">
+                <div class="col" style="border-color:#4f6ef7; background:#f0f4ff;">
+                    <span class="icon">📂</span>
+                    <span class="name">@ComponentScan</span>
+                    <span class="desc" style="font-size:0.85rem;">
+                        主启动类所在包及其子包自动扫描
+                        <br/><br/>
+                        <strong>适用：</strong>有 @SpringBootApplication 的模块
+                        <br/>
+                        <code style="font-size:0.75rem;">com.isnowsoft.lxb.daemon</code>
+                    </span>
+                </div>
+                <div class="col" style="border-color:#7c5cfc; background:#f5f0ff;">
+                    <span class="icon">📦</span>
+                    <span class="name">AutoConfiguration.imports</span>
+                    <span class="desc" style="font-size:0.85rem;">
+                        SPI 机制，显式注册自动配置类
+                        <br/><br/>
+                        <strong>适用：</strong>公共模块（无启动类）
+                        <br/>
+                        <code style="font-size:0.75rem;">lxb-common-feign</code>
+                    </span>
+                </div>
+            </div>
+
+            <div class="highlight-box gold">
+                <div class="label">💡 为什么需要两种机制？</div>
+                <div class="content">
+                    <code>@ComponentScan</code> 扫不到依赖包里的类（包名不同），所以公共模块必须通过 <code>AutoConfiguration.imports</code> 显式注册。例如：<code>lxb-common-feign</code> 被 <code>lxb-gateway</code> 引入，如果不通过 SPI，<code>@ComponentScan</code> 根本扫不到它。
+                </div>
+            </div>
+
+            <!-- ========================================================= -->
+            <!-- 第五部分：请求链路 -->
+            <!-- ========================================================= -->
+            <h2>用一个完整的请求链路串联起来</h2>
+
+            <div class="request-chain">
+                <span class="item highlight">🌐 客户端请求</span>
+                <span class="arrow">→</span>
+                <span class="item">🔄 DispatcherServlet</span>
+                <span class="arrow">→</span>
+                <span class="item">🔀 HandlerMapping</span>
+                <span class="arrow">→</span>
+                <span class="item">🎯 HandlerAdapter</span>
+                <span class="arrow">→</span>
+                <span class="item highlight">⚡ Controller</span>
+                <span class="arrow">→</span>
+                <span class="item">📦 Service</span>
+                <span class="arrow">→</span>
+                <span class="item">🗄️ Repository</span>
+                <span class="arrow">→</span>
+                <span class="item">✅ 响应返回</span>
+            </div>
+
+            <p>
+                这一整条链路，<strong>没有任何地方需要你手动 new</strong>，全部由容器管理和注入。
+            </p>
+
+            <!-- ========================================================= -->
+            <!-- 第六部分：核心区别总结 -->
+            <!-- ========================================================= -->
+            <h2>Spring 和 Spring Boot 的核心区别总结</h2>
+
+            <table class="compare-table">
+                <thead>
+                    <tr><th>维度</th><th><span class="badge-spring">Spring Framework</span></th><th><span class="badge-boot">Spring Boot</span></th></tr>
+                </thead>
+                <tbody>
+                    <tr><td><strong>配置方式</strong></td><td>XML / @Configuration + 手动 @Bean</td><td>自动装配 + application.yml</td></tr>
+                    <tr><td><strong>启动方式</strong></td><td>手动创建 ApplicationContext</td><td>SpringApplication.run() 一键启动</td></tr>
+                    <tr><td><strong>依赖管理</strong></td><td>手动引入 jar，手动解决版本冲突</td><td>spring-boot-starter-* 一站搞定</td></tr>
+                    <tr><td><strong>内嵌服务器</strong></td><td>需要外部 Tomcat</td><td>内嵌 Tomcat/Jetty/Undertow</td></tr>
+                    <tr><td><strong>监控</strong></td><td>无</td><td>Actuator 端点开箱即用</td></tr>
+                    <tr><td><strong>源码入口</strong></td><td><code>AbstractApplicationContext.refresh()</code></td><td><code>SpringApplication.run()</code> → refresh()</td></tr>
+                    <tr><td><strong>核心注解</strong></td><td><code>@Configuration</code>, <code>@Bean</code>, <code>@ComponentScan</code></td><td><code>@SpringBootApplication</code>（三合一）</td></tr>
+                    <tr><td><strong>扩展机制</strong></td><td><code>@Import</code>, BeanPostProcessor</td><td>AutoConfiguration.imports + @Conditional</td></tr>
+                </tbody>
+            </table>
+
+            <div style="margin-top:1.5rem;padding:1rem 0;border-top:2px solid #eef0f4;text-align:center;color:#8a9aaa;font-size:0.9rem;">
+                <i class="fas fa-leaf" style="color:#4f6ef7;"></i>
+                Spring &amp; Spring Boot 核心原理 · 简洁版
+                <i class="fas fa-leaf" style="color:#4f6ef7;"></i>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="footer">
+        <p>
+            <i class="fas fa-code"></i> Spring &amp; Spring Boot 核心原理 &nbsp;|&nbsp;
+            <i class="fab fa-github"></i> <a href="#">GitHub</a> &nbsp;·&nbsp;
+            <i class="fas fa-envelope"></i> <a href="#">me@example.com</a>
+        </p>
+        <p style="margin-top:6px; font-size:0.8rem; color:#8a9aaa;">
+            IoC 容器 · Bean 生命周期 · 自动装配 · @SpringBootApplication · 源码深度
+        </p>
+    </footer>
+
+</div>
+
+</body>
+</html>
