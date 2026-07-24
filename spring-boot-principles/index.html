@@ -488,6 +488,531 @@
                     <code>@Bean</code> 就像往仓库里放货品，<code>@Autowired</code> 就像从仓库里取货品。
                 </div>
             </div>
+			
+            <!-- ========================================================= -->
+            <!-- 第三部分：Spring 三级缓存（新增） -->
+            <!-- ========================================================= -->
+            <h2>Spring 三级缓存（解决循环依赖 + AOP）</h2>
+
+            <h3>三级缓存的定义</h3>
+            <p>
+                Spring 三级缓存的源码在 <code>DefaultSingletonBeanRegistry</code> 中，就是三个 Map：
+            </p>
+            <div class="code-block light">
+                <pre style="margin:0;color:#1a1a2e;white-space:pre-wrap;word-break:break-all;">
+<span class="cmt" style="color:#6a7a8e;">// 一级缓存：成品 Bean（完全初始化好的）</span>
+<span class="kw">private final</span> Map&lt;String, Object&gt; <span class="fn">singletonObjects</span> = <span class="kw">new</span> ConcurrentHashMap&lt;&gt;(256);
+
+<span class="cmt" style="color:#6a7a8e;">// 二级缓存：半成品 Bean（已实例化，未填充属性）</span>
+<span class="kw">private final</span> Map&lt;String, Object&gt; <span class="fn">earlySingletonObjects</span> = <span class="kw">new</span> HashMap&lt;&gt;(16);
+
+<span class="cmt" style="color:#6a7a8e;">// 三级缓存：工厂函数（可以生成 Bean 的"图纸"）</span>
+<span class="kw">private final</span> Map&lt;String, ObjectFactory&lt;?&gt;&gt; <span class="fn">singletonFactories</span> = <span class="kw">new</span> HashMap&lt;&gt;(16);
+                </pre>
+            </div>
+
+            <h3>用生活比喻理解三级缓存</h3>
+            <table class="compare-table">
+                <thead>
+                    <tr><th>缓存</th><th>级别</th><th>比喻</th><th>存储内容</th></tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>singletonObjects</code></td>
+                        <td><span class="badge-good">一级</span></td>
+                        <td>🏠 精装房，可入住</td>
+                        <td>完全初始化好的 Bean（属性填充完毕，AOP 代理已生成）</td>
+                    </tr>
+                    <tr>
+                        <td><code>earlySingletonObjects</code></td>
+                        <td><span class="badge-bad" style="background:#fdf0a0;color:#8a7a00;">二级</span></td>
+                        <td>🏗️ 毛坯房，有框架但没装修</td>
+                        <td>已实例化但属性未填充的"半成品"Bean</td>
+                    </tr>
+                    <tr>
+                        <td><code>singletonFactories</code></td>
+                        <td><span class="badge-spring">三级</span></td>
+                        <td>📐 建筑图纸 + 施工队</td>
+                        <td>一个工厂函数，可以随时"按图纸造出毛坯房"</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>为什么需要三级缓存？—— 循环依赖场景</h3>
+            <p>
+                假设有两个 Bean 互相依赖：
+            </p>
+            <div class="code-block light">
+                <pre style="margin:0;color:#1a1a2e;white-space:pre-wrap;word-break:break-all;">
+<span class="cls">@Component</span>
+<span class="kw">public class</span> <span class="fn">A</span> {
+    <span class="cls">@Autowired</span>
+    <span class="kw">private</span> B b;
+}
+
+<span class="cls">@Component</span>
+<span class="kw">public class</span> <span class="fn">B</span> {
+    <span class="cls">@Autowired</span>
+    <span class="kw">private</span> A a;
+}
+                </pre>
+            </div>
+            <p>
+                如果没有三级缓存，Spring 会陷入死循环：创建 A → 发现需要 B → 创建 B → 发现需要 A → 创建 A → ...
+            </p>
+
+            <h3>三级缓存如何解决循环依赖（完整源码链路）</h3>
+            <p>
+                核心源码入口：<code>getBean()</code> → <code>doGetBean()</code> → <code>getSingleton()</code>
+            </p>
+
+            <h4>Step 1：创建 A 的"图纸"放入三级缓存</h4>
+            <div class="code-block light">
+                <pre style="margin:0;color:#1a1a2e;white-space:pre-wrap;word-break:break-all;">
+<span class="cmt" style="color:#6a7a8e;">// doCreateBean() 中，实例化 A 对象后</span>
+<span class="cmt" style="color:#6a7a8e;">// 将 A 的工厂函数放入三级缓存（singletonFactories）</span>
+<span class="fn">addSingletonFactory</span>(beanName, () -> <span class="fn">getEarlyBeanReference</span>(beanName, mbd, bean));
+                </pre>
+            </div>
+
+            <h4>Step 2：创建 B 时发现需要 A，从三级缓存中获取</h4>
+            <div class="code-block light">
+                <pre style="margin:0;color:#1a1a2e;white-space:pre-wrap;word-break:break-all;">
+<span class="cmt" style="color:#6a7a8e;">// getSingleton() 中，从三级缓存获取 A 的工厂函数</span>
+<span class="kw">protected</span> Object <span class="fn">getSingleton</span>(String beanName, <span class="kw">boolean</span> allowEarlyReference) {
+    Object singletonObject = <span class="kw">this</span>.singletonObjects.<span class="fn">get</span>(beanName);
+    <span class="kw">if</span> (singletonObject == <span class="kw">null</span> && isSingletonCurrentlyInCreation(beanName)) {
+        singletonObject = <span class="kw">this</span>.earlySingletonObjects.<span class="fn">get</span>(beanName);
+        <span class="kw">if</span> (singletonObject == <span class="kw">null</span> && allowEarlyReference) {
+            ObjectFactory&lt;?&gt; singletonFactory = <span class="kw">this</span>.singletonFactories.<span class="fn">get</span>(beanName);
+            <span class="kw">if</span> (singletonFactory != <span class="kw">null</span>) {
+                <span class="cmt" style="color:#6a7a8e;">// 通过工厂函数生成 A 的"毛坯房"（可能已代理）</span>
+                singletonObject = singletonFactory.<span class="fn">getObject</span>();
+                <span class="cmt" style="color:#6a7a8e;">// 放入二级缓存，同时从三级缓存移除</span>
+                <span class="kw">this</span>.earlySingletonObjects.<span class="fn">put</span>(beanName, singletonObject);
+                <span class="kw">this</span>.singletonFactories.<span class="fn">remove</span>(beanName);
+            }
+        }
+    }
+    <span class="kw">return</span> singletonObject;
+}
+                </pre>
+            </div>
+
+            <h4>Step 3：B 拿到 A 的半成品，完成自己的初始化，A 继续完成初始化</h4>
+            <div class="highlight-box green">
+                <div class="label">✅ 完整流程</div>
+                <div class="content">
+                    <ol style="margin:4px 0 0 1.2rem;">
+                        <li>创建 A → 实例化 A → 放入三级缓存</li>
+                        <li>填充 A 的属性 → 发现需要 B → 创建 B</li>
+                        <li>实例化 B → 放入三级缓存</li>
+                        <li>填充 B 的属性 → 发现需要 A → 从三级缓存获取 A（获得 A 的半成品，可能已代理）</li>
+                        <li>B 完成初始化 → 放入一级缓存</li>
+                        <li>A 拿到 B 的成品 → 完成初始化 → 放入一级缓存</li>
+                    </ol>
+                </div>
+            </div>
+
+            <h3>一张图走完完整流程</h3>
+            <div class="highlight-box" style="font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; line-height: 2.2;">
+            <h3>一张图走完完整流程</h3>
+            <div style="
+                background: #f5f7fb;
+                border-radius: 12px;
+                padding: 1.5rem 1rem;
+                border: 1px solid #e8ecf0;
+                overflow-x: auto;
+                margin: 0.8rem 0;
+            ">
+                <!-- ===== 顶部标题 ===== -->
+                <div style="text-align:center; margin-bottom:16px;">
+                    <div style="
+                        display:inline-block;
+                        background: #4f6ef7;
+                        color: #ffffff;
+                        padding: 0.4rem 2rem;
+                        border-radius: 30px;
+                        font-weight: 600;
+                        font-size: 0.95rem;
+                    ">
+                        🚀 Spring 三级缓存 · 循环依赖解决全流程
+                    </div>
+                </div>
+
+                <!-- ========================================================= -->
+                <!-- Step 1：创建 A -->
+                <!-- ========================================================= -->
+                <div style="display:flex; flex-wrap:wrap; align-items:center; gap:10px; margin-bottom:6px; padding:10px 14px; background:#ffffff; border-radius:10px; border:1px solid #d0d6e0; border-left:4px solid #4f6ef7;">
+                    <div style="display:flex; align-items:center; gap:8px; flex:1; min-width:200px;">
+                        <span style="
+                            background:#4f6ef7;
+                            color:#fff;
+                            border-radius:50%;
+                            width:28px;
+                            height:28px;
+                            display:inline-flex;
+                            align-items:center;
+                            justify-content:center;
+                            font-size:0.75rem;
+                            font-weight:700;
+                            flex-shrink:0;
+                        ">1</span>
+                        <span style="font-weight:600; color:#1a1a2e;">实例化 A</span>
+                        <span style="font-size:0.85rem; color:#5a6a7e;">→ 原始对象 <code style="background:#eef2f7;padding:0.1rem 0.4rem;border-radius:4px;">A_raw</code></span>
+                    </div>
+                    <div style="display:flex; align-items:center; gap:6px; flex-wrap:wrap;">
+                        <span style="
+                            background:#fdf8f0;
+                            border:1px solid #e8a838;
+                            color:#8a6a00;
+                            padding:0.15rem 0.8rem;
+                            border-radius:20px;
+                            font-size:0.75rem;
+                            font-weight:500;
+                        ">
+                            📐 放入三级缓存
+                        </span>
+                        <span style="font-size:0.8rem; color:#4f6ef7; font-family:'JetBrains Mono',monospace;">
+                            singletonFactories[A] = λ 工厂
+                        </span>
+                    </div>
+                </div>
+
+                <!-- 箭头 -->
+                <div style="text-align:center; color:#b0c0d0; font-size:1.2rem; margin:2px 0;">↓</div>
+
+                <!-- ========================================================= -->
+                <!-- Step 2：填充 A → 发现需要 B -->
+                <!-- ========================================================= -->
+                <div style="display:flex; flex-wrap:wrap; align-items:center; gap:10px; margin-bottom:6px; padding:10px 14px; background:#ffffff; border-radius:10px; border:1px solid #d0d6e0; border-left:4px solid #e8a838;">
+                    <div style="display:flex; align-items:center; gap:8px; flex:1; min-width:200px;">
+                        <span style="
+                            background:#e8a838;
+                            color:#fff;
+                            border-radius:50%;
+                            width:28px;
+                            height:28px;
+                            display:inline-flex;
+                            align-items:center;
+                            justify-content:center;
+                            font-size:0.75rem;
+                            font-weight:700;
+                            flex-shrink:0;
+                        ">2</span>
+                        <span style="font-weight:600; color:#1a1a2e;">填充 A 的属性</span>
+                        <span style="font-size:0.85rem; color:#5a6a7e;">→ 发现需要 <strong style="color:#4f6ef7;">B</strong></span>
+                    </div>
+                    <div style="display:flex; align-items:center; gap:6px; flex-wrap:wrap;">
+                        <span style="
+                            background:#f0f4ff;
+                            border:1px solid #4f6ef7;
+                            color:#4f6ef7;
+                            padding:0.15rem 0.8rem;
+                            border-radius:20px;
+                            font-size:0.75rem;
+                            font-weight:500;
+                        ">
+                            🔄 触发创建 B
+                        </span>
+                    </div>
+                </div>
+
+                <!-- 箭头 -->
+                <div style="text-align:center; color:#b0c0d0; font-size:1.2rem; margin:2px 0;">↓</div>
+
+                <!-- ========================================================= -->
+                <!-- Step 3：创建 B -->
+                <!-- ========================================================= -->
+                <div style="display:flex; flex-wrap:wrap; align-items:center; gap:10px; margin-bottom:6px; padding:10px 14px; background:#ffffff; border-radius:10px; border:1px solid #d0d6e0; border-left:4px solid #7c5cfc;">
+                    <div style="display:flex; align-items:center; gap:8px; flex:1; min-width:200px;">
+                        <span style="
+                            background:#7c5cfc;
+                            color:#fff;
+                            border-radius:50%;
+                            width:28px;
+                            height:28px;
+                            display:inline-flex;
+                            align-items:center;
+                            justify-content:center;
+                            font-size:0.75rem;
+                            font-weight:700;
+                            flex-shrink:0;
+                        ">3</span>
+                        <span style="font-weight:600; color:#1a1a2e;">实例化 B</span>
+                        <span style="font-size:0.85rem; color:#5a6a7e;">→ 原始对象 <code style="background:#eef2f7;padding:0.1rem 0.4rem;border-radius:4px;">B_raw</code></span>
+                    </div>
+                    <div style="display:flex; align-items:center; gap:6px; flex-wrap:wrap;">
+                        <span style="
+                            background:#fdf8f0;
+                            border:1px solid #e8a838;
+                            color:#8a6a00;
+                            padding:0.15rem 0.8rem;
+                            border-radius:20px;
+                            font-size:0.75rem;
+                            font-weight:500;
+                        ">
+                            📐 放入三级缓存
+                        </span>
+                        <span style="font-size:0.8rem; color:#7c5cfc; font-family:'JetBrains Mono',monospace;">
+                            singletonFactories[B] = λ 工厂
+                        </span>
+                    </div>
+                </div>
+
+                <!-- 箭头 -->
+                <div style="text-align:center; color:#b0c0d0; font-size:1.2rem; margin:2px 0;">↓</div>
+
+                <!-- ========================================================= -->
+                <!-- Step 4：填充 B → 发现需要 A → 从三级缓存获取 A -->
+                <!-- ========================================================= -->
+                <div style="display:flex; flex-wrap:wrap; align-items:center; gap:10px; margin-bottom:6px; padding:10px 14px; background:#f0f7f0; border-radius:10px; border:1px solid #b8dcc8; border-left:4px solid #1a8a5a;">
+                    <div style="display:flex; align-items:center; gap:8px; flex:1; min-width:200px;">
+                        <span style="
+                            background:#1a8a5a;
+                            color:#fff;
+                            border-radius:50%;
+                            width:28px;
+                            height:28px;
+                            display:inline-flex;
+                            align-items:center;
+                            justify-content:center;
+                            font-size:0.75rem;
+                            font-weight:700;
+                            flex-shrink:0;
+                        ">4</span>
+                        <span style="font-weight:600; color:#1a1a2e;">填充 B 的属性</span>
+                        <span style="font-size:0.85rem; color:#5a6a7e;">→ 发现需要 <strong style="color:#1a8a5a;">A</strong></span>
+                    </div>
+                    <div style="display:flex; align-items:center; gap:6px; flex-wrap:wrap;">
+                        <span style="
+                            background:#e6f7ed;
+                            border:1px solid #1a8a5a;
+                            color:#1a8a5a;
+                            padding:0.15rem 0.8rem;
+                            border-radius:20px;
+                            font-size:0.75rem;
+                            font-weight:500;
+                        ">
+                            🔍 从三级缓存获取 A
+                        </span>
+                        <span style="font-size:0.8rem; color:#1a8a5a; font-family:'JetBrains Mono',monospace;">
+                            singletonFactories[A].getObject()
+                        </span>
+                    </div>
+                </div>
+
+                <!-- 子步骤：A 的升级 -->
+                <div style="display:flex; flex-wrap:wrap; align-items:center; gap:10px; margin-bottom:6px; margin-left:20px; padding:8px 14px; background:#fafbfc; border-radius:8px; border:1px dashed #d0d6e0;">
+                    <div style="display:flex; align-items:center; gap:8px; flex:1; min-width:150px;">
+                        <span style="
+                            background:#b0c0d0;
+                            color:#fff;
+                            border-radius:50%;
+                            width:22px;
+                            height:22px;
+                            display:inline-flex;
+                            align-items:center;
+                            justify-content:center;
+                            font-size:0.6rem;
+                            font-weight:700;
+                            flex-shrink:0;
+                        ">↳</span>
+                        <span style="font-size:0.85rem; color:#2a2a3e;">得到 <strong>A 半成品</strong></span>
+                        <span style="font-size:0.8rem; color:#7c5cfc; font-family:'JetBrains Mono',monospace;">（可能已 AOP 代理）</span>
+                    </div>
+                    <div style="display:flex; align-items:center; gap:4px; flex-wrap:wrap;">
+                        <span style="
+                            background:#fdf8f0;
+                            border:1px solid #e8a838;
+                            color:#8a6a00;
+                            padding:0.1rem 0.6rem;
+                            border-radius:20px;
+                            font-size:0.7rem;
+                        ">
+                            ⬆ 升级到二级缓存
+                        </span>
+                        <span style="font-size:0.75rem; color:#5a6a7e; font-family:'JetBrains Mono',monospace;">
+                            earlySingletonObjects[A] = A_半成品
+                        </span>
+                        <span style="font-size:0.75rem; color:#c0392b; font-family:'JetBrains Mono',monospace;">
+                            ✕ 移除三级缓存
+                        </span>
+                    </div>
+                </div>
+
+                <!-- 箭头 -->
+                <div style="text-align:center; color:#b0c0d0; font-size:1.2rem; margin:2px 0;">↓</div>
+
+                <!-- ========================================================= -->
+                <!-- Step 5：B 完成初始化 -->
+                <!-- ========================================================= -->
+                <div style="display:flex; flex-wrap:wrap; align-items:center; gap:10px; margin-bottom:6px; padding:10px 14px; background:#ffffff; border-radius:10px; border:1px solid #d0d6e0; border-left:4px solid #1a8a5a;">
+                    <div style="display:flex; align-items:center; gap:8px; flex:1; min-width:200px;">
+                        <span style="
+                            background:#1a8a5a;
+                            color:#fff;
+                            border-radius:50%;
+                            width:28px;
+                            height:28px;
+                            display:inline-flex;
+                            align-items:center;
+                            justify-content:center;
+                            font-size:0.75rem;
+                            font-weight:700;
+                            flex-shrink:0;
+                        ">5</span>
+                        <span style="font-weight:600; color:#1a1a2e;">B 完成初始化</span>
+                        <span style="font-size:0.85rem; color:#5a6a7e;">→ 拿到 A 半成品，填充完毕</span>
+                    </div>
+                    <div style="display:flex; align-items:center; gap:6px; flex-wrap:wrap;">
+                        <span style="
+                            background:#e6f7ed;
+                            border:1px solid #1a8a5a;
+                            color:#1a8a5a;
+                            padding:0.15rem 0.8rem;
+                            border-radius:20px;
+                            font-size:0.75rem;
+                            font-weight:500;
+                        ">
+                            ✅ 放入一级缓存
+                        </span>
+                        <span style="font-size:0.8rem; color:#1a8a5a; font-family:'JetBrains Mono',monospace;">
+                            singletonObjects[B] = B_成品
+                        </span>
+                    </div>
+                </div>
+
+                <!-- 箭头 -->
+                <div style="text-align:center; color:#b0c0d0; font-size:1.2rem; margin:2px 0;">↓</div>
+
+                <!-- ========================================================= -->
+                <!-- Step 6：A 完成初始化 -->
+                <!-- ========================================================= -->
+                <div style="display:flex; flex-wrap:wrap; align-items:center; gap:10px; margin-bottom:6px; padding:10px 14px; background:#f0f4ff; border-radius:10px; border:1px solid #b0c8e8; border-left:4px solid #4f6ef7;">
+                    <div style="display:flex; align-items:center; gap:8px; flex:1; min-width:200px;">
+                        <span style="
+                            background:#4f6ef7;
+                            color:#fff;
+                            border-radius:50%;
+                            width:28px;
+                            height:28px;
+                            display:inline-flex;
+                            align-items:center;
+                            justify-content:center;
+                            font-size:0.75rem;
+                            font-weight:700;
+                            flex-shrink:0;
+                        ">6</span>
+                        <span style="font-weight:600; color:#1a1a2e;">A 继续完成初始化</span>
+                        <span style="font-size:0.85rem; color:#5a6a7e;">→ 拿到 B 成品，填充完毕</span>
+                    </div>
+                    <div style="display:flex; align-items:center; gap:6px; flex-wrap:wrap;">
+                        <span style="
+                            background:#e6f0fa;
+                            border:1px solid #4f6ef7;
+                            color:#4f6ef7;
+                            padding:0.15rem 0.8rem;
+                            border-radius:20px;
+                            font-size:0.75rem;
+                            font-weight:500;
+                        ">
+                            ✅ 放入一级缓存
+                        </span>
+                        <span style="font-size:0.8rem; color:#4f6ef7; font-family:'JetBrains Mono',monospace;">
+                            singletonObjects[A] = A_成品
+                        </span>
+                        <span style="font-size:0.75rem; color:#5a6a7e; font-family:'JetBrains Mono',monospace;">
+                            ✕ 清理二级缓存
+                        </span>
+                    </div>
+                </div>
+
+                <!-- ===== 底部总结 ===== -->
+                <div style="
+                    margin-top:16px;
+                    padding:12px 16px;
+                    background: #eef2f7;
+                    border-radius:10px;
+                    border:1px solid #d0d6e0;
+                    display:flex;
+                    flex-wrap:wrap;
+                    align-items:center;
+                    justify-content:center;
+                    gap:12px 24px;
+                    font-size:0.85rem;
+                    color:#2a2a3e;
+                ">
+                    <span>🏁 <strong>最终结果</strong></span>
+                    <span style="color:#b0c0d0;">|</span>
+                    <span>✅ <span style="color:#1a8a5a;font-weight:600;">A 成品</span> 在一级缓存</span>
+                    <span style="color:#b0c0d0;">|</span>
+                    <span>✅ <span style="color:#1a8a5a;font-weight:600;">B 成品</span> 在一级缓存</span>
+                    <span style="color:#b0c0d0;">|</span>
+                    <span>🔗 A 和 B 持有的是 <strong style="color:#4f6ef7;">同一个代理对象</strong></span>
+                    <span style="color:#b0c0d0;">|</span>
+                    <span style="
+                        background:#4f6ef7;
+                        color:#fff;
+                        padding:0.1rem 1rem;
+                        border-radius:20px;
+                        font-size:0.75rem;
+                        font-weight:600;
+                    ">🎉 循环依赖解决</span>
+                </div>
+            </div>
+            </div>
+
+            <h3>为什么是三级？二级够不够？</h3>
+            <p>
+                这是一个经典追问。答案是：如果只有普通 Bean，二级缓存就够了；但 Spring 有 <strong>AOP 代理</strong>，必须有三级缓存。
+            </p>
+
+            <div class="highlight-box purple">
+                <div class="label">🎯 场景：A 需要被 AOP 代理</div>
+                <div class="content">
+                    <p>如果只有二级缓存（直接存原始对象）：</p>
+                    <ul style="margin:4px 0 0 1.2rem;">
+                        <li>B 从二级缓存拿到的是 A 的<strong>原始对象</strong></li>
+                        <li>但 A 最终需要的是<strong>AOP 代理对象</strong></li>
+                        <li>B 持有的原始对象和最终代理对象<strong>不是同一个对象</strong> → 出 Bug！</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="highlight-box gold">
+                <div class="label">💡 三级缓存的精妙之处</div>
+                <div class="content">
+                    <ul style="margin:4px 0 0 1.2rem;">
+                        <li>三级缓存存的是 <strong>Lambda 工厂函数</strong>，而不是对象本身</li>
+                        <li>工厂函数内部调用了 <code>getEarlyBeanReference()</code>，会触发 <code>BeanPostProcessor</code> 提前生成 AOP 代理</li>
+                        <li>所以 B 拿到的是 <strong>已经代理过的 A 半成品</strong>，和最终 A 是<strong>同一个对象</strong></li>
+                        <li>这就是三级缓存存在的<strong>唯一原因</strong>——延迟执行 <code>BeanPostProcessor</code></li>
+                    </ul>
+                </div>
+            </div>
+
+            <h3>总结</h3>
+            <table class="compare-table">
+                <thead>
+                    <tr><th>问题</th><th>答案</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td><strong>一级缓存</strong></td><td>存成品 Bean，对外提供 <code>getBean()</code></td></tr>
+                    <tr><td><strong>二级缓存</strong></td><td>存半成品 Bean（可能已代理），解决循环依赖中"引用同一个对象"的问题</td></tr>
+                    <tr><td><strong>三级缓存</strong></td><td>存 Lambda 工厂，解决 AOP 代理场景下"提前暴露代理对象"的问题</td></tr>
+                    <tr><td><strong>为什么不能只用二级？</strong></td><td>普通对象可以，但 AOP 代理对象必须在 Bean 初始化完成前就提前生成代理，三级缓存的 Lambda 做到了<strong>"延迟执行 BeanPostProcessor"</strong></td></tr>
+                    <tr><td><strong>核心源码类</strong></td><td><code>DefaultSingletonBeanRegistry</code></td></tr>
+                    <tr><td><strong>核心方法</strong></td><td><code>getSingleton(String, boolean)</code> 和 <code>doCreateBean()</code></td></tr>
+                </tbody>
+            </table>
+
+            <div class="highlight-box green">
+                <div class="label">📌 一句话总结</div>
+                <div class="content">
+                    <strong>三级缓存是为了在"对象还没完全初始化好"的时候，就能提前生成一个正确的代理引用给别人用，确保循环依赖 + AOP 同时存在时不出 Bug。</strong>
+                </div>
+            </div>
 
             <!-- ========================================================= -->
             <!-- 第三部分：Spring Boot 自动装配 -->
